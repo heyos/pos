@@ -4,7 +4,7 @@ require_once "../controladores/productos.controlador.php";
 require_once "../modelos/productos.modelo.php";
 
 
-class TablaProductosVentas{
+class TablaProductosCompras{
 
  	/*=============================================
  	 MOSTRAR LA TABLA DE PRODUCTOS
@@ -67,7 +67,7 @@ class TablaProductosVentas{
 			      "'.$productos[$i]["descripcion"].'",
 			      "'.$stock.'",
 			      "'.$botones.'"
-			    ],';
+                ],';
 
 		  }
 
@@ -88,6 +88,9 @@ class TablaProductosVentas{
 /*=============================================
 ACTIVAR TABLA DE PRODUCTOS
 =============================================*/ 
-$activarProductosVentas = new TablaProductosVentas();
-$activarProductosVentas -> mostrarTablaProductosVentas();
+$activarProductosVentas = new TablaProductosCompras();
+$activarProductosVentas -> mostrarTablaProductosCompras();
 
+// $request = $_GET;
+
+// echo json_encode($request);

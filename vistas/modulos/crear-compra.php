@@ -339,7 +339,7 @@ if($_SESSION["perfil"] == "Especial"){
 
           <div class="box-body">
             
-            <table class="table table-bordered table-striped dt-responsive tablaVentas">
+            <table class="table table-bordered table-striped dt-responsive tablaCompras">
               
                <thead>
 
@@ -350,6 +350,7 @@ if($_SESSION["perfil"] == "Especial"){
                   <th>Descripcion</th>
                   <th>Stock</th>
                   <th>Acciones</th>
+                  
                 </tr>
 
               </thead>

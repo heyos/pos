@@ -119,7 +119,7 @@ CUERPO DOCUMENTO
  
   <?php
 
-  // if(isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok"){
+  if(isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok"){
 
    echo '<div class="wrapper">';
 
@@ -177,11 +177,11 @@ CUERPO DOCUMENTO
 
     echo '</div>';
 
-  // }else{
+  }else{
 
-  //   include "modulos/login.php";
+    include "modulos/login.php";
 
-  // }
+  }
 
   ?>
 
@@ -192,6 +192,7 @@ CUERPO DOCUMENTO
 <script src="vistas/js/productos.js"></script>
 <script src="vistas/js/clientes.js"></script>
 <script src="vistas/js/ventas.js"></script>
+<script src="vistas/js/compras.js"></script>
 <script src="vistas/js/reportes.js"></script>
 
 </body>
