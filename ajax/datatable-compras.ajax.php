@@ -6,6 +6,12 @@ require_once "../modelos/productos.modelo.php";
 
 class TablaProductosCompras{
 
+    public $params;
+    
+    public function showDataTable(){
+
+    }
+
  	/*=============================================
  	 MOSTRAR LA TABLA DE PRODUCTOS
   	=============================================*/ 

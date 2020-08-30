@@ -2,15 +2,9 @@
 
 class Controller {
 
-    static public function dataTable($req,$columns,$table,$join,$where,$action){
+    static public function dataTable($req,$params,$action){
 
-        $params = [
-            'table'=>$table
-        ];
-
-        if($where !=''){
-            $params['where'] = $where;
-        }
+        
 
 
 
