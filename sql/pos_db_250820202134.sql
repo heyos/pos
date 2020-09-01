@@ -16,6 +16,24 @@ Date: 2020-08-25 21:34:55
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
+-- Table structure for `proveedor`
+-- ----------------------------
+DROP TABLE IF EXISTS `proveedor`;
+CREATE TABLE `proveedor` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `razon_social` varchar(100) NOT NULL,
+  `representante_detalle` text NOT NULL,
+  `estado` int(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of proveedor
+-- ----------------------------
+INSERT INTO `proveedor` VALUES ('1', 'Alvarez Bolt - Nestle', '[{\"id\":\"1\",\"nombre\":\"Clever\",\"telefono\":\"914680398\"}]', '1');
+INSERT INTO `proveedor` VALUES ('2', 'Despensa Peruana', '[{\"id\":\"2\",\"nombre\":\"Dispensa Gloria\",\"telefono\":\"992283090\"},{\"id\":\"3\",\"nombre\":\"Iveth\",\"telefono\":\"925904597\"}]', '1');
+
+-- ----------------------------
 -- Table structure for `categorias`
 -- ----------------------------
 DROP TABLE IF EXISTS `categorias`;
@@ -138,23 +156,7 @@ CREATE TABLE `productos` (
 -- ----------------------------
 INSERT INTO `productos` VALUES ('172', '20', '2001', 'Test', 'vistas/img/productos/default/anonymous.png', '24', '10', '0.5', '15', '1', '', '2020-08-25 04:44:08');
 
--- ----------------------------
--- Table structure for `proveedor`
--- ----------------------------
-DROP TABLE IF EXISTS `proveedor`;
-CREATE TABLE `proveedor` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `razon_social` varchar(100) NOT NULL,
-  `representante_detalle` text NOT NULL,
-  `estado` int(1) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of proveedor
--- ----------------------------
-INSERT INTO `proveedor` VALUES ('1', 'Alvarez Bolt - Nestle', '[{\"id\":\"1\",\"nombre\":\"Clever\",\"telefono\":\"914680398\"}]', '1');
-INSERT INTO `proveedor` VALUES ('2', 'Despensa Peruana', '[{\"id\":\"2\",\"nombre\":\"Dispensa Gloria\",\"telefono\":\"992283090\"},{\"id\":\"3\",\"nombre\":\"Iveth\",\"telefono\":\"925904597\"}]', '1');
 
 -- ----------------------------
 -- Table structure for `usuarios`

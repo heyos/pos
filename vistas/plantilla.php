@@ -151,7 +151,8 @@ CUERPO DOCUMENTO
          $_GET["ruta"] == "crear-compra" ||
          $_GET["ruta"] == "editar-venta" ||
          $_GET["ruta"] == "reportes" ||
-         $_GET["ruta"] == "salir"){
+         $_GET["ruta"] == "salir" ||
+         $_GET["ruta"] == "compras"){
 
         echo "<input type='hidden' value='".$_GET["ruta"]."' id='ruta'>";
 

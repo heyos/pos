@@ -30,7 +30,8 @@ var table = $('.tablaCompras').DataTable( {
     "deferRender": true,
 	"retrieve": true,
 	"processing": true,
-	 "language": {
+    "serverSide":true,
+	"language": {
 
 			"sProcessing":     "Procesando...",
 			"sLengthMenu":     "Mostrar _MENU_ registros",

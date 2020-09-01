@@ -2,13 +2,28 @@
 
 require_once "../controladores/productos.controlador.php";
 require_once "../modelos/productos.modelo.php";
+require_once "../controladores/controller.php";
+require_once "../modelos/model.php";
 
 
 class TablaProductosCompras{
 
-    public $params;
-    
+    public $request;
+
     public function showDataTable(){
+
+      $columns = ['id','codigo','descripcion','stock']; //optional
+
+      $searchColumns = ['codigo','descripcion']; //require
+
+      $params = array(
+              "table"=>"productos",
+              "columns"=>$columns,
+              "searchColumns"=>$searchColumns
+      );
+
+      $options = Controller::dataTable($this->request,$params,'options');
+      $data = Controller::dataTable($this->request,$params,'data');
 
     }
 
@@ -97,6 +112,12 @@ ACTIVAR TABLA DE PRODUCTOS
 $activarProductosVentas = new TablaProductosCompras();
 $activarProductosVentas -> mostrarTablaProductosCompras();
 
+
+if(isset($_GET)){
+    $data = new TablaProductosCompras();
+    $data -> request = $_GET;
+    $data -> showDataTable();
+}
 // $request = $_GET;
 
 // echo json_encode($request);
