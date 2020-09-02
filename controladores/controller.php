@@ -5,7 +5,14 @@ class Controller {
     static public function dataTable($req,$params,$action){
 
         $like = "";
-        $where = array_key_exists("where", $params) ? $params['where']:"";
+        $concat = "";
+        $val = "";
+        $start = $req['start'];
+        $length = $req['length'];
+        $order = $req['order'][0]['column'];
+        $orderDir = $req['order'][0]['dir'];
+        $orderColumn = $params['orderColumns'][$order];
+        
 
         if(!empty($req['search']['value'])){
 
@@ -13,8 +20,17 @@ class Controller {
                 if(count($params['searchColumns']) > 0){
                     
                     foreach ($params['searchColumns'] as $column) {
-                        $like .= $column." LIKE '%".$req['search']['value']."%' OR";
+                        $concat .= $column.",' ',";
                     }
+                    $concat =  substr($concat, 0,-5);
+
+                    $arr = explode(' ',$req['search']['value']);
+
+                    foreach ($arr as $value) {
+                        $val .= $value.' ';
+                        $like .= " CONCAT(".$concat.") LIKE '%".$val."%' OR";
+                    }
+
                     $like =  substr($like, 0,-2);
                     
                     $params['search'] = sprintf(" (%s) ",$like);
@@ -24,18 +40,36 @@ class Controller {
                 
         }
 
+        $qTotal = Model::all($params);
+        $totalRecords = count($qTotal);
 
+        $params['start'] = $start;
+        $params['length'] = $length;
+        $params['order'] = $orderColumn;
+        $params['dir'] = $orderDir;
+
+        $qRecords = Model::all($params);
 
         switch ($action) {
             case 'data':
+
+                return $qRecords;
                 
                 break;
             
             case 'options':
+
+                $options = [
+                    "draw" => intval( $req['draw'] ),   
+                    "recordsTotal" => intval( $totalRecords ),  
+                    "recordsFiltered" => intval($totalRecords)
+                ];
+
+                return $options;
                 
                 break;
             default:
-                # code...
+                return $like;
                 break;
         }
     }

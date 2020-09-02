@@ -24,13 +24,23 @@ var table = $('.tablaCompras').DataTable( {
     "ajax": {
         url:"ajax/datatable-compras.ajax.php",
         complete: function(res){
-            console.log(res);
+            
         }
     },
     "deferRender": true,
 	"retrieve": true,
 	"processing": true,
     "serverSide":true,
+    columns: [
+
+        {data: 'DT_RowIndex', name: 'DT_RowIndex',className:'text-center'},
+        {data: 'imagen', name: 'imagen',className:'text-center',orderable: false, searchable: false},
+        {data: 'codigo', name: 'codigo',className:'text-center'},
+        {data: 'descripcion', name: 'descripcion', className:'text-center'},
+        {data: 'stock', name: 'stock', className:'text-center',searchable: false},
+        {data: 'action', name: 'action', className:'text-center',orderable: false, searchable: false},
+
+    ],
 	"language": {
 
 			"sProcessing":     "Procesando...",
@@ -64,7 +74,7 @@ var table = $('.tablaCompras').DataTable( {
 AGREGANDO PRODUCTOS A LA VENTA DESDE LA TABLA
 =============================================*/
 
-$(".tablaVentas tbody").on("click", "button.agregarProducto", function(){
+$(".tablaCompras tbody").on("click", "button.agregarProducto", function(){
 
 	var idProducto = $(this).attr("idProducto");
 
@@ -143,7 +153,7 @@ $(".tablaVentas tbody").on("click", "button.agregarProducto", function(){
 
 	              '<span class="input-group-addon"><i class="ion ion-social-usd"></i></span>'+
 	                 
-	              '<input type="text" data-num="'+idProducto+'" id="nuevoPrecio'+idProducto+'" class="form-control nuevoPrecioProducto" precioReal="'+precio+'" precioCompraReal="'+precioCompra+'" name="nuevoPrecioProducto" value="'+precio+'"  required>'+
+	              '<input type="text" data-num="'+idProducto+'" id="nuevoPrecio'+idProducto+'" class="form-control nuevoPrecioProducto"  precioCompraOld="'+precioCompra+'" name="nuevoPrecioProducto" value="'+precioCompra+'"  required>'+
 	 
 	            '</div>'+
 	             

@@ -12,6 +12,8 @@ class Model {
         $column = "";
         $value = "";
         $signo = "";
+        $limit = "";
+        $orderBy = "";
 
         if(array_key_exists('where', $params) || array_key_exists('join', $params)){
 
@@ -67,7 +69,19 @@ class Model {
             
         }
 
-        $sql = sprintf("SELECT * FROM %s %s",$params['tabla'],$where);
+        // if(array_key_exists("order",$params) && array_key_exists("dir",$params)){
+        if (!empty($params['order']) && !empty($params['dir'])) {
+            $orderBy = sprintf(" ORDER BY %s %s",$params['order'],$params['dir']);
+        }
+        // }
+
+        if(array_key_exists("start",$params) && array_key_exists("length",$params)){
+            $limit = sprintf(" LIMIT %d,%d ",$params['start'],$params['length']);
+        }
+
+        $sql = sprintf("SELECT * FROM %s %s %s %s",
+                        $params['table'],$where,$orderBy,$limit);
+
         $query = Conexion::conectar()->prepare($sql);
 
         $query -> execute();

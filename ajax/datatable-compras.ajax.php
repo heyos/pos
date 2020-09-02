@@ -8,109 +8,93 @@ require_once "../modelos/model.php";
 
 class TablaProductosCompras{
 
-    public $request;
+  public $request;
 
-    public function showDataTable(){
+  public function showDataTable(){
 
-      $columns = ['id','codigo','descripcion','stock']; //optional
+    $columns = ['id','imagen','codigo','descripcion','stock']; //columnas
+    $searchColumns = ['codigo','descripcion']; //columnas donde generar la busqueda
+    $orderColumns = [
+      0 => 'id',
+      2 => 'codigo',
+      3 => 'descripcion',
+      4 => 'stock'
+    ]; //columnas para ordenar
 
-      $searchColumns = ['codigo','descripcion']; //require
+    $params = array(
+            "table"=>"productos",
+            "columns"=>$columns,
+            "searchColumns"=>$searchColumns,
+            "orderColumns" => $orderColumns
+    );
 
-      $params = array(
-              "table"=>"productos",
-              "columns"=>$columns,
-              "searchColumns"=>$searchColumns
-      );
+    $options = Controller::dataTable($this->request,$params,'options');
+    $records = Controller::dataTable($this->request,$params,'data');
+    // $records = array();
+    $test = Controller::dataTable($this->request,$params,'');
+    $data = [];
 
-      $options = Controller::dataTable($this->request,$params,'options');
-      $data = Controller::dataTable($this->request,$params,'data');
+    if(count($records) > 0){
 
+      $i =0;
+
+      // procesando la data para mostrarla en el front
+      foreach ($records as $row) {
+
+        $i++;
+        $imagen = "<img src='".$row["imagen"]."' width='40px'>";
+
+        if($row["stock"] <= 10){
+
+          $stock = "<button class='btn btn-danger'>".$row["stock"]."</button>";
+
+        }else if($row["stock"] > 11 && $row["stock"] <= 15){
+
+          $stock = "<button class='btn btn-warning'>".$row["stock"]."</button>";
+
+        }else{
+
+          $stock = "<button class='btn btn-success'>".$row["stock"]."</button>";
+
+        }
+
+        $button =  "<div class='btn-group'><button class='btn btn-primary agregarProducto recuperarBoton' idProducto='".$row["id"]."'>Agregar</button></div>";
+
+        $data[] = array(
+          "DT_RowIndex" => $i,
+          "codigo" => $row['codigo'],
+          "imagen" => $imagen,
+          "descripcion" =>$row['descripcion'],
+          "stock" => $stock,
+          "action" => $button
+        );
+
+      }
+
+    }else{
+      // $data[] = array(
+      //     "DT_RowIndex" => 1,
+      //     "codigo" => '',
+      //     "imagen" => '',
+      //     "descripcion" =>$test,
+      //     "stock" => '',
+      //     "action" => ''
+      // );
     }
 
- 	/*=============================================
- 	 MOSTRAR LA TABLA DE PRODUCTOS
-  	=============================================*/ 
+    $options['data'] = $data;
 
-	public function mostrarTablaProductosCompras(){
+    echo json_encode($options);
 
-		$item = null;
-    	$valor = null;
-    	$orden = "id";
-
-  		$productos = ControladorProductos::ctrMostrarProductos($item, $valor, $orden);
- 		
-  		if(count($productos) == 0){
-
-  			echo '{"data": []}';
-
-		  	return;
-  		}	
-		
-  		$datosJson = '{
-		  "data": [';
-
-		  for($i = 0; $i < count($productos); $i++){
-
-		  	/*=============================================
- 	 		TRAEMOS LA IMAGEN
-  			=============================================*/ 
-
-		  	$imagen = "<img src='".$productos[$i]["imagen"]."' width='40px'>";
-
-		  	/*=============================================
- 	 		STOCK
-  			=============================================*/ 
-
-  			if($productos[$i]["stock"] <= 10){
-
-  				$stock = "<button class='btn btn-danger'>".$productos[$i]["stock"]."</button>";
-
-  			}else if($productos[$i]["stock"] > 11 && $productos[$i]["stock"] <= 15){
-
-  				$stock = "<button class='btn btn-warning'>".$productos[$i]["stock"]."</button>";
-
-  			}else{
-
-  				$stock = "<button class='btn btn-success'>".$productos[$i]["stock"]."</button>";
-
-  			}
-
-		  	/*=============================================
- 	 		TRAEMOS LAS ACCIONES
-  			=============================================*/ 
-
-		  	$botones =  "<div class='btn-group'><button class='btn btn-primary agregarProducto recuperarBoton' idProducto='".$productos[$i]["id"]."'>Agregar</button></div>"; 
-
-		  	$datosJson .='[
-			      "'.($i+1).'",
-			      "'.$imagen.'",
-			      "'.$productos[$i]["codigo"].'",
-			      "'.$productos[$i]["descripcion"].'",
-			      "'.$stock.'",
-			      "'.$botones.'"
-                ],';
-
-		  }
-
-		  $datosJson = substr($datosJson, 0, -1);
-
-		 $datosJson .=   '] 
-
-		 }';
-		
-		echo $datosJson;
-
-
-	}
-
+  }
 
 }
 
 /*=============================================
 ACTIVAR TABLA DE PRODUCTOS
 =============================================*/ 
-$activarProductosVentas = new TablaProductosCompras();
-$activarProductosVentas -> mostrarTablaProductosCompras();
+// $activarProductosVentas = new TablaProductosCompras();
+// $activarProductosVentas -> mostrarTablaProductosCompras();
 
 
 if(isset($_GET)){
