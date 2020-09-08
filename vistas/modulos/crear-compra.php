@@ -94,7 +94,7 @@ if($_SESSION["perfil"] == "Especial"){
                 ENTRADA DEL VENDEDOR
                 ======================================-->
             
-                <div class="form-group">
+                <!-- <div class="form-group">
                 
                   <div class="input-group">
                     
@@ -106,8 +106,8 @@ if($_SESSION["perfil"] == "Especial"){
 
                   </div>
 
-                </div> 
-
+                </div>  -->
+                <input type="hidden" name="idVendedor" value="<?php echo $_SESSION["id"]; ?>">
                 <!--=====================================
                 ENTRADA DEL CÓDIGO
                 ======================================--> 
@@ -164,26 +164,27 @@ if($_SESSION["perfil"] == "Especial"){
                     
                     <span class="input-group-addon"><i class="fa fa-users"></i></span>
                     
-                    <select class="form-control" id="seleccionarCliente" name="seleccionarCliente" required>
+                    <select class="form-control" id="seleccionarProveedor" name="proveedor_id" required>
 
                     <?php
 
-                      $item = null;
-                      $valor = null;
+                      $params = [
+                        'show' => 'any',
+                        'data' =>'all'
+                      ];
 
-                      $categorias = ControladorClientes::ctrMostrarClientes($item, $valor);
+                      $proveedores = ProveedorController::ctrMostrarProveedor($params);
+                      foreach ($proveedores as $value) {
 
-                       foreach ($categorias as $key => $value) {
+                       echo '<option value="'.$value["id"].'">'.$value["razon_social"].'</option>';
 
-                         echo '<option value="'.$value["id"].'">'.$value["nombre"].'</option>';
-
-                       }
+                      }
 
                     ?>
 
                     </select>
                                         
-                    <span class="input-group-addon"><button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#modalAgregarCliente" data-dismiss="modal">Agregar cliente</button></span>
+                    <span class="input-group-addon"><button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#modalAgregarProveedor" data-dismiss="modal">Agregar proveedor</button></span>
                   
                   </div>
                 
@@ -191,16 +192,30 @@ if($_SESSION["perfil"] == "Especial"){
 
                 <!--=====================================
                 ENTRADA PARA AGREGAR PRODUCTO
-                ======================================--> 
-
+                ======================================-->
+                <hr>
+                <div class="form-group row text-center">
+                  <div class="col-sm-5">
+                    <strong>Descripcion</strong>
+                  </div>
+                  <div class="col-sm-2">
+                    <strong>Cantidad</strong>
+                  </div>
+                  <div class="col-sm-2">
+                    <strong>P.U</strong>
+                  </div>
+                  <div class="col-sm-3">
+                    <strong>P. Total</strong>
+                  </div>
+                </div>
                 <div class="form-group row nuevoProducto">
 
                 
 
                 </div>
 
-                <input type="hidden" id="listaProductos" name="listaProductos">
-
+                <input type="" id="listaProductos" name="listaProductos">
+                <input type="" id="listaId" name="listaId">
                 <!--=====================================
                 BOTÓN PARA AGREGAR PRODUCTO
                 ======================================-->
@@ -222,7 +237,7 @@ if($_SESSION["perfil"] == "Especial"){
                       <thead>
 
                         <tr>
-                          <th>Impuesto</th>
+                          <th></th>
                           <th>Total</th>      
                         </tr>
 
@@ -231,42 +246,17 @@ if($_SESSION["perfil"] == "Especial"){
                       <tbody>
                       
                         <tr>
-                          
+                          <td style="width: 50%"></td>
                           <td style="width: 50%">
-                            
                             <div class="input-group">
-                           
-                              <input type="number" class="form-control input-lg" min="0" id="nuevoImpuestoVenta" name="nuevoImpuestoVenta" placeholder="0" required>
-
-                               <input type="hidden" name="nuevoPrecioImpuesto" id="nuevoPrecioImpuesto" required>
-
-                               <input type="hidden" name="nuevoPrecioNeto" id="nuevoPrecioNeto" required>
-
-                              <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-                        
-                            </div>
-
-                          </td>
-
-                           <td style="width: 50%">
-                            
-                            <div class="input-group">
-                           
                               <span class="input-group-addon"><i class="ion ion-social-usd"></i></span>
-
-                              <input type="text" class="form-control input-lg" id="nuevoTotalVenta" name="nuevoTotalVenta" total="" placeholder="00000" readonly required>
-
-                              <input type="hidden" name="totalVenta" id="totalVenta">
-                              
-                        
+                              <input type="text" class="form-control input-lg" id="nuevoTotalCompra" name="nuevoTotalCompra" total="" placeholder="00000" readonly required>
+                              <input type="hidden" name="totalCompra" id="totalCompra">
                             </div>
-
                           </td>
-
                         </tr>
 
                       </tbody>
-
                     </table>
 
                   </div>
@@ -309,9 +299,7 @@ if($_SESSION["perfil"] == "Especial"){
             </div>
 
             <div class="box-footer">
-
-              <button type="submit" class="btn btn-primary pull-right">Guardar venta</button>
-
+              <button type="submit" class="btn btn-primary pull-right">Guardar Compra</button>
             </div>
 
         </form>
@@ -374,7 +362,7 @@ if($_SESSION["perfil"] == "Especial"){
 MODAL AGREGAR CLIENTE
 ======================================-->
 
-<div id="modalAgregarCliente" class="modal fade" role="dialog">
+<div id="modalAgregarProveedor" class="modal fade" role="dialog">
   
   <div class="modal-dialog">
 

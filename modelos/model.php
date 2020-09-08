@@ -15,10 +15,10 @@ class Model {
         $limit = "";
         $orderBy = "";
 
-        if(array_key_exists('where', $params) || array_key_exists('join', $params)){
+        if(array_key_exists('where', $params)){
 
             if(count($params['where']) > 0){
-                foreach ($params['where'] as $str => $val) {
+                foreach ($params['where'] as $val) {
 
                     $str = "";
                     $column = "";
@@ -69,11 +69,11 @@ class Model {
             
         }
 
-        // if(array_key_exists("order",$params) && array_key_exists("dir",$params)){
-        if (!empty($params['order']) && !empty($params['dir'])) {
-            $orderBy = sprintf(" ORDER BY %s %s",$params['order'],$params['dir']);
+        if(array_key_exists("order",$params) && array_key_exists("dir",$params)){
+            if (!empty($params['order']) && !empty($params['dir'])) {
+                $orderBy = sprintf(" ORDER BY %s %s",$params['order'],$params['dir']);
+            }
         }
-        // }
 
         if(array_key_exists("start",$params) && array_key_exists("length",$params)){
             $limit = sprintf(" LIMIT %d,%d ",$params['start'],$params['length']);
@@ -91,7 +91,82 @@ class Model {
         $query -> close();
     }
 
-    static public function filtered($params){
+    static public function firstOrAll($table, $params){
+
+        $where = "";
+
+        if(array_key_exists("where",$params)){
+
+            if(count($params['where']) > 0){
+                
+                foreach ($params['where'] as $val) {
+
+                    $str = "";
+                    $column = "";
+                    $signo = "";
+                    $value = "";
+
+                    switch (count($val)) {
+                        case 3:
+                            $column = $val[0];
+                            $signo = $val[1];
+                            $value = $val[2];
+                            
+                            $str = sprintf(" %s %s '%s'",$column,$signo,$value);
+                            
+                            break;
+                            
+                        case 2:
+                            $column = $val[0];
+                            $value = $val[1];
+                            
+                            $str = sprintf(" %s = '%s'",$column,$value);
+                            break;
+                    }
+                    
+                    $where .= sprintf(" %s AND",$str);
+                }
+
+                $where = substr($where, 0,-3);
+                $where = sprintf(" WHERE %s ",$where);
+
+            }
+
+        }
+
+        $sql = sprintf("SELECT * FROM %s %s",$table,$where);
+
+        if(array_key_exists('order',$params) && array_key_exists('dir',$params)){
+            $sql .= sprintf(" ORDER BY %s %s ",$params['order'],$params['dir']);
+        }
+
+        $stmt = Conexion::conectar()->prepare($sql);
+
+        if($stmt -> execute()){
+            
+            switch ($params['data']) {
+                case 'first':
+                    return $stmt -> fetch();
+                    break;
+                
+                default://all
+                    return $stmt -> fetchAll();
+                    break;
+            }
+            
+            
+        }else{
+            echo Conexion::conectar()->errorInfo();
+        }
+
+        $stmt -> close();
+
+        $stmt = null;
 
     }
+
+    static public function create($table,$params){
+
+    }
+
 }

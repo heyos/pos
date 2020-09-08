@@ -16,6 +16,66 @@ class ControladorProductos{
 
 	}
 
+	static public function ctrShowProducto($item, $valor, $orden){
+
+		$out = "";
+		
+		$tabla = "productos";
+		$producto = ModeloProductos::mdlMostrarProductos($tabla, $item, $valor, $orden);
+
+		$idProducto = 0;
+		$descripcion = "";
+		$stock = 0;
+		$precioCompra = 0;
+
+		if(!empty($producto)){
+
+			$idProducto = $producto['id'];
+			$descripcion = $producto['descripcion'];
+			$stock = $producto['stock'];
+			$precioCompra = $producto['precio_compra'];
+
+			$out ='
+				<div class="row rowProducto" id="'.$idProducto.'" style="padding:5px 15px">
+					<div class="col-xs-5" style="padding-right:0px">
+		          		<div class="input-group">
+			              	<span class="input-group-addon">
+			              	<button type="button" class="btn btn-danger btn-xs quitarProducto" idProducto="'.$idProducto.'"><i class="fa fa-times"></i></button>
+			              	</span>
+			              	<input type="text" class="form-control nuevaDescripcionProducto" idProducto="'.$idProducto.'" 
+			              	name="agregarProducto" value="'.$descripcion.'" readonly required>
+			            </div>
+			        </div>
+
+		          	<div class="col-xs-2">
+		            	<input type="number" class="form-control nuevaCantidadProducto" name="nuevaCantidadProducto" step="any" idProducto = "'.$idProducto.'"
+		             	value="1" required>
+		            </div>
+
+		            <div class="col-xs-2" style="padding-left:0px">
+		            	<input type="text" class="form-control nuevoPrecioProducto" name="nuevoPrecioProducto"  idProducto = "'.$idProducto.'"
+		             	value="'.$precioCompra.'" required>
+		            </div>
+
+		        	<div class="col-xs-3 ingresoPrecio" style="padding-left:0px">
+		        		<div class="input-group">
+		        			<span class="input-group-addon"><i class="ion ion-social-usd"></i></span>
+			                <input type="text" idProducto="'.$idProducto.'" class="form-control nuevoTotalProducto" value="'.$precioCompra.'"  name="nuevoTotalProducto" required>
+			 			</div>
+		            </div>
+		        </div>';
+			
+		}
+
+		$respuesta = [
+			"stock"=> $stock,
+			"contenido"=>$out
+		] ;
+
+		return $respuesta;
+
+	}
+
 	/*=============================================
 	CREAR PRODUCTO
 	=============================================*/

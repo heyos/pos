@@ -27,7 +27,13 @@ class Controller {
                     $arr = explode(' ',$req['search']['value']);
 
                     foreach ($arr as $value) {
-                        $val .= $value.' ';
+
+                        if(count($arr) == 1){
+                            $val .= $value;
+                        }else{
+                            $val .= $value.' ';
+                        }
+                        
                         $like .= " CONCAT(".$concat.") LIKE '%".$val."%' OR";
                     }
 
@@ -69,7 +75,7 @@ class Controller {
                 
                 break;
             default:
-                return $like;
+                return $qTotal;
                 break;
         }
     }
