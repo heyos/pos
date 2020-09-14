@@ -1,18 +1,25 @@
 <?php
 
+require_once "../controladores/globales.php";
 require_once "../controladores/compras.controlador.php";
 require_once "../modelos/compras.modelo.php";
 
 class AjaxCompras{
 
-    public $idCliente;
+    public $params;
+    
 
-    public function ajaxEditarCliente(){
+    public function ajaxAddEditCompras(){
 
-        $item = "id";
-        $valor = $this->idCliente;
+        $id = "id";
+        $params = $this->params;
+        $accion = $params['accion'];
+        $params['tabla'] = 'compras';
+        unset($params['accion']);
 
-        $respuesta = ControladorClientes::ctrMostrarClientes($item, $valor);
+        if($accion=='add'){
+            $respuesta = ComprasController::nuevaCompra($item, $valor);
+        }
 
         echo json_encode($respuesta);
 
@@ -25,10 +32,10 @@ class AjaxCompras{
 EDITAR CLIENTE
 =============================================*/ 
 
-if(isset($_POST["idCliente"])){
+if(isset($_POST["accion"])){
 
-    $cliente = new AjaxClientes();
-    $cliente -> idCliente = $_POST["idCliente"];
-    $cliente -> ajaxEditarCliente();
+    $compras = new AjaxCompras();
+    $compras -> params = $_POST;
+    $compras -> ajaxAddEditCompras();
 
 }

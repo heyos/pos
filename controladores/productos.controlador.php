@@ -42,7 +42,7 @@ class ControladorProductos{
 			              	<span class="input-group-addon">
 			              	<button type="button" class="btn btn-danger btn-xs quitarProducto" idProducto="'.$idProducto.'"><i class="fa fa-times"></i></button>
 			              	</span>
-			              	<input type="text" class="form-control nuevaDescripcionProducto" idProducto="'.$idProducto.'" 
+			              	<input type="text" class="form-control nuevaDescripcionProducto" idProducto="'.$idProducto.'" idDetalle="0"
 			              	name="agregarProducto" value="'.$descripcion.'" readonly required>
 			            </div>
 			        </div>
@@ -53,14 +53,14 @@ class ControladorProductos{
 		            </div>
 
 		            <div class="col-xs-2" style="padding-left:0px">
-		            	<input type="text" class="form-control nuevoPrecioProducto" name="nuevoPrecioProducto"  idProducto = "'.$idProducto.'"
+		            	<input type="text" class="form-control nuevoPrecioProducto" name="nuevoPrecioProducto" oldPrecio="'.$precioCompra.'"  idProducto = "'.$idProducto.'"
 		             	value="'.$precioCompra.'" required>
 		            </div>
 
 		        	<div class="col-xs-3 ingresoPrecio" style="padding-left:0px">
 		        		<div class="input-group">
 		        			<span class="input-group-addon"><i class="ion ion-social-usd"></i></span>
-			                <input type="text" idProducto="'.$idProducto.'" class="form-control nuevoTotalProducto" value="'.$precioCompra.'"  name="nuevoTotalProducto" required>
+			                <input type="text" idProducto="'.$idProducto.'" class="form-control  nuevoTotalProducto" value="'.$precioCompra.'"  name="nuevoTotalProducto" required>
 			 			</div>
 		            </div>
 		        </div>';

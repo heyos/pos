@@ -167,6 +167,46 @@ class Model {
 
     static public function create($table,$params){
 
+        $columns = '';
+        $values = '';
+        $id = 0;
+        
+        if(count($params) > 0){
+            foreach ($params as $key => $item) {
+
+                if($item == ''){
+                    $item = 'null';
+                    $values .= sprintf(" %s, ",$item);
+                }else{
+                    $item = Globales::sanearData($item);
+                    $values .= sprintf(" '%s', ",$item);
+                }
+
+                $columns .= $key.', ';
+                
+            }
+
+            $columns = substr($columns, 0,-2);
+            $values = substr($values, 0,-2);
+        }
+
+        $con = Conexion::conectar();
+
+        $sql = sprintf("INSERT INTO %s (%s) VALUES (%s) ",$table,$columns,$values);
+        $query = $con -> prepare($sql);
+
+        if($query->execute()) {
+
+            $id = $con->lastInsertId();
+
+        }else {
+            return $query -> errorInfo()[2];
+        }
+
+        $con->close();
+
+        return $id;
+
     }
 
 }

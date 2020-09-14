@@ -106,7 +106,7 @@ session_start();
 
   <!-- ChartJS http://www.chartjs.org/-->
   <script src="vistas/bower_components/chart.js/Chart.js"></script>
-
+  <!-- <script src="https://www.4identity.eu/smartengine/bit4id-sign.min.js"></script> -->
 
 
 </head>

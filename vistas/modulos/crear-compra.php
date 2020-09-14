@@ -66,7 +66,7 @@ if($_SESSION["perfil"] == "Especial"){
                         
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
 
-                        <input type="text" class="form-control" id="nuevaFecha" name="nuevaFecha" value="<?php echo date("Y-m-d"); ?>" required>
+                        <input type="text" class="form-control" id="fecha" name="fecha" value="<?php echo date("Y-m-d"); ?>" required>
 
                       </div>
 
@@ -78,7 +78,7 @@ if($_SESSION["perfil"] == "Especial"){
                         
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
 
-                        <input type="text" class="form-control" id="nuevaHora" name="nuevaHora" value="<?php echo date("H:i:s"); ?>" readonly>
+                        <input type="text" class="form-control" id="hora" name="hora" value="<?php echo date("H:i:s"); ?>" readonly>
 
                       </div>
 
@@ -107,7 +107,7 @@ if($_SESSION["perfil"] == "Especial"){
                   </div>
 
                 </div>  -->
-                <input type="hidden" name="idVendedor" value="<?php echo $_SESSION["id"]; ?>">
+
                 <!--=====================================
                 ENTRADA DEL CÓDIGO
                 ======================================--> 
@@ -124,36 +124,27 @@ if($_SESSION["perfil"] == "Especial"){
                     $valor = null;
 
                     $ventas = ControladorVentas::ctrMostrarVentas($item, $valor);
+                    $codigo = "10001";
+                    $accion = "add";
 
-                    if(!$ventas){
+                    if($ventas){
 
-                      echo '<input type="text" class="form-control" id="nuevaVenta" name="nuevaVenta" value="10001" readonly>';
-                  
-
-                    }else{
-
-                      foreach ($ventas as $key => $value) {
-                        
-                        
-                      
-                      }
+                      foreach ($ventas as $key => $value) {}
 
                       $codigo = $value["codigo"] + 1;
-
-
-
-                      echo '<input type="text" class="form-control" id="nuevaVenta" name="nuevaVenta" value="'.$codigo.'" readonly>';
-                  
+                      // $accion = 'edit';
 
                     }
 
+                    echo '<input type="text" class="form-control" id="codigo" name="codigo" value="'.$codigo.'" readonly>';
+
                     ?>
-                    
-                    
+                  
                   </div>
                 
                 </div>
-
+                <input type="hidden" name="accion" value="<?php echo $accion; ?>">
+                <input type="hidden" name="usuario_id" value="<?php echo $_SESSION["id"]; ?>">
                 <!--=====================================
                 ENTRADA DEL CLIENTE
                 ======================================--> 
@@ -504,3 +495,5 @@ MODAL AGREGAR CLIENTE
   </div>
 
 </div>
+
+

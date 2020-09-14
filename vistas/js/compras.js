@@ -326,9 +326,7 @@ $(".formularioVenta").on("change", "select.nuevaDescripcionProducto", function()
       	    $(nuevoPrecioProducto).attr("precioReal", respuesta["precio_venta"]);
             $(nuevoPrecioProducto).attr("precioCompraReal", respuesta["precio_compra"]);
 
-  	      // AGRUPAR PRODUCTOS EN FORMATO JSON
-
-	        listarProductos()
+  	        listarProductos()
 
       	}
 
@@ -372,12 +370,7 @@ $(".formularioCompra").on("keyup", "input.nuevaCantidadProducto, input.nuevoPrec
 
 	}
 
-	// SUMAR TOTAL DE PRECIOS
-
 	sumarTotalPrecios()
-
-	// AGRUPAR PRODUCTOS EN FORMATO JSON
-
     listarProductos();
 
 });
@@ -419,6 +412,24 @@ $(".formularioCompra").on("keyup", "input.nuevoTotalProducto", function(){
     listarProductos();
 
 });
+
+/*=============================================
+GUARDAR COMPRA
+=============================================*/
+
+$(".formularioCompra").on("submit", function(e){
+
+    e.preventDefault();
+
+    var str = $(this).serialize();
+
+    console.log(str);
+
+
+    return false;
+
+});
+
 
 
 /*=============================================
@@ -594,11 +605,13 @@ function listarProductos(){
 
 	for(var i = 0; i < descripcion.length; i++){
 
-        listaProductos.push({ "id" : $(descripcion[i]).attr("idProducto"), 
+        listaProductos.push({ "id" : $(descripcion[i]).attr("idDetalle"), 
+                              "producto_id" : $(descripcion[i]).attr("idProducto"), 
 							  "descripcion" : $(descripcion[i]).val(),
 							  "cantidad" : $(cantidad[i]).val(),
-							  "precio" : $(precio[i]).val(),
-                              "total" : $(total[i]).val()});
+							  "precio_compra" : $(precio[i]).val(),
+                              "old_precio" : $(precio[i]).attr("oldPrecio"),
+                              "sub_total" : $(total[i]).val()});
 
         listaId.push($(descripcion[i]).attr("idProducto"));
 
