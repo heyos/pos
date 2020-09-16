@@ -88,7 +88,6 @@ class Controller {
 
         $id = 0;
 
-        unset($datos['accion']);
         unset($datos['id']);
 
         if(count($datos) > 1){

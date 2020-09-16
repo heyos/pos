@@ -205,8 +205,8 @@ if($_SESSION["perfil"] == "Especial"){
 
                 </div>
 
-                <input type="" id="listaProductos" name="listaProductos">
-                <input type="" id="listaId" name="listaId">
+                <input type="" id="listaProductos" name="listaProductos" required>
+                <input type="" id="listaId" name="listaId" required>
                 <!--=====================================
                 BOTÓN PARA AGREGAR PRODUCTO
                 ======================================-->
@@ -241,7 +241,7 @@ if($_SESSION["perfil"] == "Especial"){
                           <td style="width: 50%">
                             <div class="input-group">
                               <span class="input-group-addon"><i class="ion ion-social-usd"></i></span>
-                              <input type="text" class="form-control input-lg" id="nuevoTotalCompra" name="nuevoTotalCompra" total="" placeholder="00000" readonly required>
+                              <input type="text" class="form-control input-lg" id="nuevoTotalCompra" name="nuevoTotalCompra" total="" placeholder="00000" readonly>
                               <input type="hidden" name="totalCompra" id="totalCompra">
                             </div>
                           </td>

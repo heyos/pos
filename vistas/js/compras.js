@@ -423,8 +423,26 @@ $(".formularioCompra").on("submit", function(e){
 
     var str = $(this).serialize();
 
-    console.log(str);
+    $.ajax({
+        cache: false,
+        dataType: 'json',
+        url: 'ajax/compras.ajax.php',
+        type: "POST",
+        data: str,
+        success: function(response){
 
+            if(response.respuesta == false){
+
+            }else{
+
+            }
+
+            console.log(response);
+        },
+        error: function(e){
+            console.log(e);
+        }
+    });
 
     return false;
 

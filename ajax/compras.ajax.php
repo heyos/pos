@@ -14,11 +14,12 @@ class AjaxCompras{
         $id = "id";
         $params = $this->params;
         $accion = $params['accion'];
-        $params['tabla'] = 'compras';
+        
         unset($params['accion']);
+        unset($params['listaId']);
 
         if($accion=='add'){
-            $respuesta = ComprasController::nuevaCompra($item, $valor);
+            $respuesta = ComprasController::nuevaCompra($params);
         }
 
         echo json_encode($respuesta);
