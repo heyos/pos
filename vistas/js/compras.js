@@ -16,7 +16,7 @@ var table = $('.tablaCompras').DataTable( {
             // d.productos = '5'; //enviar parametros personalizados
         },
         complete: function(res){
-            console.log(res);
+            // console.log(res);
         }
     },
     "deferRender": true,

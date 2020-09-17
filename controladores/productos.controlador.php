@@ -27,43 +27,26 @@ class ControladorProductos{
 		$descripcion = "";
 		$stock = 0;
 		$precioCompra = 0;
+		$params = [];
 
 		if(!empty($producto)){
 
 			$idProducto = $producto['id'];
 			$descripcion = $producto['descripcion'];
-			$stock = $producto['stock'];
+			$cantidad = 1;
 			$precioCompra = $producto['precio_compra'];
 
-			$out ='
-				<div class="row rowProducto" id="'.$idProducto.'" style="padding:5px 15px">
-					<div class="col-xs-5" style="padding-right:0px">
-		          		<div class="input-group">
-			              	<span class="input-group-addon">
-			              	<button type="button" class="btn btn-danger btn-xs quitarProducto" idProducto="'.$idProducto.'"><i class="fa fa-times"></i></button>
-			              	</span>
-			              	<input type="text" class="form-control nuevaDescripcionProducto" idProducto="'.$idProducto.'" idDetalle="0"
-			              	name="agregarProducto" value="'.$descripcion.'" readonly required>
-			            </div>
-			        </div>
+			$params = [
+					'id' => '0',
+					'producto_id' => $idProducto,
+					'descripcion' => $descripcion,
+					'cantidad' => 1,
+					'precio_compra' => $precioCompra,
+					'old_precio' => $precioCompra,
+					'sub_total' => $precioCompra
+			];
 
-		          	<div class="col-xs-2">
-		            	<input type="number" class="form-control nuevaCantidadProducto" name="nuevaCantidadProducto" step="any" idProducto = "'.$idProducto.'"
-		             	value="1" required>
-		            </div>
-
-		            <div class="col-xs-2" style="padding-left:0px">
-		            	<input type="text" class="form-control nuevoPrecioProducto" name="nuevoPrecioProducto" oldPrecio="'.$precioCompra.'"  idProducto = "'.$idProducto.'"
-		             	value="'.$precioCompra.'" required>
-		            </div>
-
-		        	<div class="col-xs-3 ingresoPrecio" style="padding-left:0px">
-		        		<div class="input-group">
-		        			<span class="input-group-addon"><i class="ion ion-social-usd"></i></span>
-			                <input type="text" idProducto="'.$idProducto.'" class="form-control  nuevoTotalProducto" value="'.$precioCompra.'"  name="nuevoTotalProducto" required>
-			 			</div>
-		            </div>
-		        </div>';
+			$out = self::ctrViewProducto($params);
 			
 		}
 
@@ -74,6 +57,62 @@ class ControladorProductos{
 
 		return $respuesta;
 
+	}
+
+	public static function ctrViewProducto($proDetalle){
+
+		$idDetalle = $proDetalle['id'];
+		$idProducto = $proDetalle['producto_id'];
+		$cantidad = $proDetalle['cantidad'];
+		$precioCompra = $proDetalle['precio_compra'];
+		$oldPrecio = $proDetalle['old_precio'];
+		$subTotal = $proDetalle['sub_total'];
+
+		if(!array_key_exists('descripcion',$proDetalle)){
+
+			$tabla = "productos";
+			$item = 'id';
+			$valor = $idProducto;
+			$orden = 'id';
+			$producto = ModeloProductos::mdlMostrarProductos($tabla, $item, $valor, $orden);
+			$descripcion = $producto['descripcion'];
+
+		}else{
+			$descripcion = $proDetalle['descripcion'];
+		}
+
+		$respuesta = '
+			<div class="row rowProducto" id="'.$idProducto.'" style="padding:5px 15px">
+				<div class="col-xs-5" style="padding-right:0px">
+	          		<div class="input-group">
+		              	<span class="input-group-addon">
+		              	<button type="button" class="btn btn-danger btn-xs quitarProducto" idProducto="'.$idProducto.'"><i class="fa fa-times"></i></button>
+		              	</span>
+		              	<input type="text" class="form-control nuevaDescripcionProducto" idProducto="'.$idProducto.'" idDetalle="'.$idDetalle.'"
+		              	 value="'.$descripcion.'" readonly required>
+		            </div>
+		        </div>
+
+	          	<div class="col-xs-2">
+	            	<input type="number" class="form-control nuevaCantidadProducto" step="any" idProducto = "'.$idProducto.'"
+	             	value="'.$cantidad.'" required>
+	            </div>
+
+	            <div class="col-xs-2" style="padding-left:0px">
+	            	<input type="text" class="form-control nuevoPrecioProducto" oldPrecio="'.$oldPrecio.'"  idProducto = "'.$idProducto.'"
+	             	value="'.$precioCompra.'" required>
+	            </div>
+
+	        	<div class="col-xs-3 ingresoPrecio" style="padding-left:0px">
+	        		<div class="input-group">
+	        			<span class="input-group-addon"><i class="ion ion-social-usd"></i></span>
+		                <input type="text" idProducto="'.$idProducto.'" class="form-control  nuevoTotalProducto" value="'.$precioCompra.'" required>
+		 			</div>
+	            </div>
+	        </div>
+		';
+
+		return $respuesta;
 	}
 
 	/*=============================================

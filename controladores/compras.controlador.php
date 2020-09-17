@@ -10,18 +10,29 @@ class ComprasController extends Controller {
         $respuestaOk = false;
         $contenidoOk = "";
 
-        $tabla = 'compras';
-        $params['tabla'] = $tabla;
-
         $detalle = $params['listaProductos'];
         $arrDetalle = json_decode($detalle,true);
         $contenidoOk = $arrDetalle;
+
+        unset($params['listaProductos']);
 
         if(is_array($arrDetalle)){
 
             if(count($arrDetalle) > 0){
 
-                $contenidoOk = $arrDetalle;
+                $contenidoOk = $params;
+                //CREAMOS UN REGISTRO DE COMPRA
+                $tabla = 'compra';
+                $idCompra = ComprasModel::create($tabla,$params);
+
+                if($idCompra != 0){
+                    $contenidoOk = $idCompra;
+
+                    //GUARDAR DETALLE
+                }else{
+                    $mensajeError = "Error al crear la compra";
+                }
+
 
             }else{
                 $mensajeError = "Debe registrar almenos un producto.";

@@ -241,8 +241,8 @@ if($_SESSION["perfil"] == "Especial"){
                           <td style="width: 50%">
                             <div class="input-group">
                               <span class="input-group-addon"><i class="ion ion-social-usd"></i></span>
-                              <input type="text" class="form-control input-lg" id="nuevoTotalCompra" name="nuevoTotalCompra" total="" placeholder="00000" readonly>
-                              <input type="hidden" name="totalCompra" id="totalCompra">
+                              <input type="text" class="form-control input-lg" id="nuevoTotalCompra"  total="" placeholder="00000" readonly>
+                              <input type="hidden" name="total" id="totalCompra">
                             </div>
                           </td>
                         </tr>
@@ -266,9 +266,9 @@ if($_SESSION["perfil"] == "Especial"){
                     
                      <div class="input-group">
                   
-                      <select class="form-control" id="nuevoMetodoPago" name="nuevoMetodoPago" required>
-                        <option value="">Seleccionar Metodo</option>
-                        <option value="Efectivo">Efectivo</option>
+                      <select class="form-control" id="nuevoMetodoPago" name="metodo_pago" required>
+                        <option value="contado">Contado</option>
+                        <option value="credito">Credito</option>
                         <option value="TC">Tarjeta Crédito</option>
                         <option value="TD">Tarjeta Débito</option>                  
                       </select>    
@@ -279,7 +279,7 @@ if($_SESSION["perfil"] == "Especial"){
 
                   <div class="cajasMetodoPago"></div>
 
-                  <input type="hidden" id="listaMetodoPago" name="listaMetodoPago">
+                  <input type="hidden" id="listaMetodoPago">
 
                 </div>
 

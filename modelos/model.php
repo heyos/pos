@@ -159,8 +159,6 @@ class Model {
             echo Conexion::conectar()->errorInfo();
         }
 
-        $stmt -> close();
-
         $stmt = null;
 
     }
@@ -200,10 +198,11 @@ class Model {
             $id = $con->lastInsertId();
 
         }else {
-            return $query -> errorInfo()[2];
+            echo $query -> errorInfo()[2];
         }
 
-        $con->close();
+        $con = null;
+        $query = null;
 
         return $id;
 

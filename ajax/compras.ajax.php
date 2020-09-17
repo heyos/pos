@@ -17,6 +17,7 @@ class AjaxCompras{
         
         unset($params['accion']);
         unset($params['listaId']);
+        unset($params['agregarProducto']);
 
         if($accion=='add'){
             $respuesta = ComprasController::nuevaCompra($params);

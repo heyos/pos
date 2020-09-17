@@ -87,8 +87,11 @@ class Controller {
         $contenidoOk = '';
 
         $id = 0;
+        $table = "";
 
-        unset($datos['id']);
+        if(array_key_exists('id',$datos)){
+            unset($datos['id']);
+        }
 
         if(count($datos) > 1){
 
@@ -100,7 +103,7 @@ class Controller {
 
                 $salida = Model::create($table,$datos);
 
-                if($id != 0){
+                if($salida != 0){
                     $respuestaOk = true;
                     $mensajeError = "Registro creado exitosamente";
                     $id = $salida;
@@ -116,12 +119,12 @@ class Controller {
             $mensajeError = "No contiene parametros validos para terminar la consulta";
         }
 
-        $salidaJson = array('respuesta'=>$respuestaOk,
+        $return = array('respuesta'=>$respuestaOk,
                             'mensaje'=>$mensajeError,
                             'contenido'=>$contenidoOk,
                             'id'=>$id);
 
-        return $salidaJson;
+        return $return;
 
     }
 
