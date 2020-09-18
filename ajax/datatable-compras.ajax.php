@@ -2,9 +2,6 @@
 
 require_once "../controladores/productos.controlador.php";
 require_once "../modelos/productos.modelo.php";
-require_once "../controladores/controller.php";
-require_once "../modelos/model.php";
-
 
 class TablaProductosCompras{
 

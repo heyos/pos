@@ -1,8 +1,11 @@
 <?php
 
+
 require_once "../controladores/globales.php";
 require_once "../controladores/compras.controlador.php";
+
 require_once "../modelos/compras.modelo.php";
+require_once "../modelos/productos.modelo.php";
 
 class AjaxCompras{
 

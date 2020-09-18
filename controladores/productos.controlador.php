@@ -1,6 +1,8 @@
 <?php
 
-class ControladorProductos{
+require_once "controller.php";
+
+class ControladorProductos extends Controller{
 
 	/*=============================================
 	MOSTRAR PRODUCTOS
