@@ -170,6 +170,7 @@ class Model {
         $id = 0;
         
         if(count($params) > 0){
+            
             foreach ($params as $key => $item) {
 
                 if($item == ''){
@@ -186,26 +187,93 @@ class Model {
 
             $columns = substr($columns, 0,-2);
             $values = substr($values, 0,-2);
+
+            $con = Conexion::conectar();
+
+            $sql = sprintf("INSERT INTO %s (%s) VALUES (%s) ",$table,$columns,$values);
+            $query = $con -> prepare($sql);
+
+            if($query->execute()) {
+
+                $id = $con->lastInsertId();
+
+            }else {
+                echo $query -> errorInfo()[2];
+            }
+        
+        }else{
+            echo "DB :>> Parametros invalidos";
         }
 
-        $con = Conexion::conectar();
-
-        $sql = sprintf("INSERT INTO %s (%s) VALUES (%s) ",$table,$columns,$values);
-        $query = $con -> prepare($sql);
-
-        if($query->execute()) {
-
-            $id = $con->lastInsertId();
-
-        }else {
-            echo $query -> errorInfo()[2];
-        }
 
         $con = null;
         $query = null;
 
         return $id;
 
+    }
+
+    static public function update($table,$params){
+
+        $columns = '';
+        $values = '';
+       
+        $id = 0;
+
+        $response = 0;
+
+        if(array_key_exists('id',$params)){
+            
+            $id = $params['id'];
+
+            unset($params['id']);
+
+            if($id != 0){
+
+                if(count($params) > 0){
+                    foreach ($params as $key => $item) {
+
+                        if($item == ''){
+                            $item = 'null';
+                            $values .= sprintf(" %s=%s, ",$key,$item);
+                        }else{
+                            $item = Globales::sanearData($item);
+                            $values .= sprintf(" %s='%s', ",$key,$item);
+                        }
+
+                    }
+
+                    $values = substr($values, 0,-2);
+
+                    $con = Conexion::conectar();
+
+                    $sql = sprintf("UPDATE %s SET %s WHERE id = '%d' ",$table,$values,$id);
+                    $query = $con -> prepare($sql);
+
+                    if($query->execute()) {
+
+                        $response = 1;
+
+                    }else {
+                        echo $query -> errorInfo()[2];
+                    }
+                }
+
+                    
+
+            }else{
+                echo "ID no puede ser 0";
+            }
+        
+        }else{
+            echo "DB >> no existe un ID";
+        }
+        
+        
+        $con = null;
+        $query = null;
+
+        return $response;
     }
 
 }
