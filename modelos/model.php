@@ -163,6 +163,45 @@ class Model {
 
     }
 
+    static public function createOrUpdate($table,$params){
+
+        if(array_key_exists('where',$params)){
+
+            $response = self::firstOrAll($table,$params,'first');
+
+            unset($params['where']);
+
+            if(!empty($response)){
+                $id = $response['id'];
+                $params['id'] = $id;
+
+                return self::update($table,$params);
+
+            }elseif(array_key_exists('id',$params)){
+                
+                unset($params['id']);
+                
+                return self::create($table,$params);
+                 
+            }else{
+                return self::create($table,$params);
+            }
+
+        }elseif(array_key_exists('id',$params)){
+
+            if($params['id'] == 0){
+                unset($params['id']);
+                return self::create($table,$params);
+            }else{
+                return self::update($table,$params);
+            }
+
+        }else{
+            return self::create($table,$params);
+        }
+
+    }
+
     static public function create($table,$params){
 
         $columns = '';
