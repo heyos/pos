@@ -15,7 +15,7 @@ class ProveedorController extends Controller {
             ];
         }
 
-        $data = ProveedorModel::firstOrAll($tabla,$params);
+        $data = ProveedorModel::firstOrAll($tabla,$params,'all');
 
         if($params['show'] == 'ajax'){
             // return ;

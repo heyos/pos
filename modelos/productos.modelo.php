@@ -100,6 +100,7 @@ class ModeloProductos extends Model{
 		$stmt->bindParam(":stock", $datos["stock"], PDO::PARAM_STR);
 		$stmt->bindParam(":precio_compra", $datos["precio_compra"], PDO::PARAM_STR);
 		$stmt->bindParam(":precio_venta", $datos["precio_venta"], PDO::PARAM_STR);
+		$stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
 		if($stmt->execute()){
 
@@ -131,7 +132,7 @@ class ModeloProductos extends Model{
 			return "ok";
 		
 		}else{
-
+			echo $stmt -> errorInfo()[2];
 			return "error";	
 
 		}

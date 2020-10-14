@@ -8,6 +8,7 @@ require_once "../controladores/compras.controlador.php";
 require_once "../modelos/compras.modelo.php";
 require_once "../modelos/productos.modelo.php";
 require_once "../modelos/compra_detalle.modelo.php";
+require_once "../modelos/producto_proveedor.php";
 
 class AjaxCompras{
 

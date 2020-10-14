@@ -91,45 +91,52 @@ class Model {
         $query -> close();
     }
 
-    static public function firstOrAll($table, $params){
+    static public function firstOrAll($table, $params, $data){
 
         $where = "";
 
         if(array_key_exists("where",$params)){
 
-            if(count($params['where']) > 0){
-                
-                foreach ($params['where'] as $val) {
+            if(is_array($params['where'])){
 
-                    $str = "";
-                    $column = "";
-                    $signo = "";
-                    $value = "";
-
-                    switch (count($val)) {
-                        case 3:
-                            $column = $val[0];
-                            $signo = $val[1];
-                            $value = $val[2];
-                            
-                            $str = sprintf(" %s %s '%s'",$column,$signo,$value);
-                            
-                            break;
-                            
-                        case 2:
-                            $column = $val[0];
-                            $value = $val[1];
-                            
-                            $str = sprintf(" %s = '%s'",$column,$value);
-                            break;
-                    }
+                if(count($params['where']) > 0){
                     
-                    $where .= sprintf(" %s AND",$str);
+                    foreach ($params['where'] as $val) {
+
+                        $str = "";
+                        $column = "";
+                        $signo = "";
+                        $value = "";
+
+                        switch (count($val)) {
+                            case 3:
+                                $column = $val[0];
+                                $signo = $val[1];
+                                $value = $val[2];
+                                
+                                $str = sprintf(" %s %s '%s'",$column,$signo,$value);
+                                
+                                break;
+                                
+                            case 2:
+                                $column = $val[0];
+                                $value = $val[1];
+                                
+                                $str = sprintf(" %s = '%s'",$column,$value);
+                                break;
+                        }
+                        
+                        $where .= sprintf(" %s AND",$str);
+                    }
+
+                    $where = substr($where, 0,-3);
+                    $where = sprintf(" WHERE %s ",$where);
+
                 }
 
-                $where = substr($where, 0,-3);
-                $where = sprintf(" WHERE %s ",$where);
+            }elseif($data=='first'){
 
+                $where = " LIMIT 1";
             }
 
         }
@@ -144,7 +151,7 @@ class Model {
 
         if($stmt -> execute()){
             
-            switch ($params['data']) {
+            switch ($data) {
                 case 'first':
                     return $stmt -> fetch();
                     break;
@@ -156,7 +163,7 @@ class Model {
             
             
         }else{
-            echo Conexion::conectar()->errorInfo();
+            echo $stmt->errorInfo()[2];
         }
 
         $stmt = null;
@@ -291,17 +298,15 @@ class Model {
 
                     if($query->execute()) {
 
-                        $response = 1;
+                        $response = $id;
 
                     }else {
                         echo $query -> errorInfo()[2];
                     }
                 }
 
-                    
-
             }else{
-                echo "ID no puede ser 0";
+                echo "DB >> ID no puede ser 0";
             }
         
         }else{

@@ -432,15 +432,29 @@ $(".formularioCompra").on("submit", function(e){
         success: function(response){
 
             if(response.respuesta == false){
-
+            	swal({
+		          title: "Error de operacion",
+		          text: response.mensaje,
+		          type: "error",
+		          confirmButtonText: "¡Cerrar!"
+		        });
             }else{
-
+            	swal({
+		          title: "Operacion Exitosa",
+		          text: response.mensaje,
+		          type: "success",
+		          confirmButtonText: "¡Cerrar!"
+		        }).then(function(result){
+		        	if(result.value){
+		        		//window.location = "compras";
+		        	}
+		        });
             }
 
-            console.log(response);
         },
         error: function(e){
             console.log(e);
+            alert(e.responseText);
         }
     });
 

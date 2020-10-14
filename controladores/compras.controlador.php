@@ -21,12 +21,10 @@ class ComprasController extends Controller {
 
             if(count($arrDetalle) > 0){
 
-                $contenidoOk = $params;
                 //CREAMOS UN REGISTRO DE COMPRA
                 $tabla = 'compra';
-                //$idCompra = ComprasModel::create($tabla,$params);
-                $idCompra = 4;
-
+                $idCompra = ComprasModel::create($tabla,$params);
+                
                 if($idCompra != 0){
                     
                     //GUARDAR DETALLE
@@ -40,10 +38,12 @@ class ComprasController extends Controller {
                     $nuevoStock = 0;
                     $nuevoPrecioVenta = 0;
                     $oldPrecio = 0;
+                    $descripcion = "";
 
                     foreach ($arrDetalle as $item) {
 
                         $item['compra_id'] = $idCompra; //AGREGAMOS SU COMPRA_ID
+                        $descripcion = $item['descripcion'];
                         unset($item['descripcion']);//PARAMETRO QUE NO ESTA EN COMPRA DETALLE
                         
                         $idProducto = $item['producto_id'];
@@ -62,9 +62,8 @@ class ComprasController extends Controller {
                             $oldPrecio = $producto['precio_compra'];
 
                             //GUARDAMOS DETALLE
-                            //$detalle = CompraDetalle::create('compras_detalle',$item);
-                            $detalle=1;
-
+                            $detalle = CompraDetalle::create('compra_detalle',$item);
+                            
                             if($detalle != 0){
 
                                 $nuevoStock = $stock+$cantidad;
@@ -73,31 +72,51 @@ class ComprasController extends Controller {
                                 $producto['stock'] = $nuevoStock;
 
                                 //ACTUALIZAMOS PRODUCTO CON NUEVO STOCK
-                                //$resPro = ModeloProductos::mdlEditarProducto('productos',$producto);
-                                $resPro = 'ok';
-
+                                $resPro = ModeloProductos::mdlEditarProducto('productos',$producto);
+                                
                                 if($resPro == 'ok'){
 
-                                    
+                                    $mensajeError = "Se guardo la compra exitosamente";
+                                    $respuestaOk = true;
 
+                                    $productoProveedor = [];
 
-                                }else{
-                                    $mensajeError .= "Error al guardar este producto <b>".$item['descripcion']."<b> en el detalle<br>";
-                                }
+                                    $productoProveedor = array(
+                                        'producto_id' => $idProducto,
+                                        'proveedor_id' => $params['proveedor_id'],
+                                        'old_precio' => $oldPrecio,
+                                        'ultimo_precio' => $precioCompra,
+                                        'ultima_compra' => $params['fecha'],
+                                        'compras' => $cantidad,
+                                        'where' => array(
+                                            array('producto_id',$idProducto),
+                                            array('proveedor_id',$params['proveedor_id'])
+                                        )
+                                    );
+
+                                    $productoProveedorResponse = ProductoProveedor::createOrUpdate('producto_proveedor',$productoProveedor);
+
+                                    if($productoProveedorResponse == 0){
+                                        $mensajeError .='<br> Error en el almacenamiento de producto_proveedor';
+                                    }
                                 
-                                $test[] = $item;
-
+                                    
+                                }else{
+                                    $mensajeError .= "Error al guardar este producto <b>".$descripcion."<b> en el detalle<br>";
+                                }
+                                $contenidoOk = $producto;
+                                
                             }else{
-                                $mensajeError .= "Error al guardar este producto <b>".$item['descripcion']."<b><br>";
+                                $mensajeError .= "Error al guardar este producto <b>".$descripcion."<b><br>";
                             }
                             
                         }else{
-                            $mensajeError .= "Error al guardar producto <b>".$item['descripcion']."<b> no existe<br>";
+                            $mensajeError .= "Error al guardar producto <b>".$descripcion."<b> no existe<br>";
                         }
 
                     }
-                    $contenidoOk = $test;
-                }else{
+
+                } else {
                     $mensajeError = "Error al crear la compra";
                 }
 
@@ -105,7 +124,7 @@ class ComprasController extends Controller {
                 $mensajeError = "Debe registrar almenos un producto.";
             }
 
-        }else{
+        } else{
             $mensajeError = 'Detalle de productos invalido.';
         }
 
