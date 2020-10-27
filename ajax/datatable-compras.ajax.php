@@ -28,8 +28,18 @@ class TablaProductosCompras{
     $options = Controller::dataTable($this->request,$params,'options');
     $records = Controller::dataTable($this->request,$params,'data');
     // $records = array();
-    $test = Controller::dataTable($this->request,$params,'');
+    // $test = Controller::dataTable($this->request,$params,'');
     $data = [];
+
+    //PARA VERIFICAR SI YA SE UTILIZO EL PRODUCTO
+    //-------------------------------------------------
+    $lista = [];
+    $class = '';
+    $test = $this->request['productos'];
+    if(array_key_exists('productos',$this->request)){
+      $lista = json_decode($this->request['productos'],true);
+    }
+    //-------------------------------------------------
 
     if(count($records) > 0){
 
@@ -55,7 +65,9 @@ class TablaProductosCompras{
 
         }
 
-        $button =  "<div class='btn-group'><button class='btn btn-primary agregarProducto recuperarBoton' idProducto='".$row["id"]."'>Agregar</button></div>";
+        $class = in_array($row["id"], $lista) ? 'btn-default' : 'btn-primary agregarProducto' ;
+
+        $button =  "<div class='btn-group'><button class='btn ".$class." recuperarBoton' idProducto='".$row["id"]."'>Agregar</button></div>";
 
         $data[] = array(
           "DT_RowIndex" => $i,

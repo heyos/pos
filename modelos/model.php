@@ -131,7 +131,7 @@ class Model {
 
                     $where = substr($where, 0,-3);
                     $where = sprintf(" WHERE %s ",$where);
-
+                   
                 }
 
             }elseif($data=='first'){
@@ -140,7 +140,7 @@ class Model {
             }
 
         }
-
+        
         $sql = sprintf("SELECT * FROM %s %s",$table,$where);
 
         if(array_key_exists('order',$params) && array_key_exists('dir',$params)){
@@ -318,6 +318,29 @@ class Model {
         $query = null;
 
         return $response;
+    }
+
+    static public function lastRow($table){
+
+        $salida = [];
+        $con = Conexion::conectar();
+        $sql = sprintf("SELECT * FROM %s ORDER BY id DESC LIMIT 1",$table);
+        $query = $con->prepare($sql);
+
+        if($query->execute()){
+
+            $salida = $query->fetch(PDO::FETCH_ASSOC);
+
+        }else{
+            echo $query -> errorInfo()[2];
+        }
+
+        $con = null;
+        $query = null;
+        $sql = null;
+
+        return $salida;
+
     }
 
 }

@@ -14,6 +14,31 @@ if($_SESSION["perfil"] == "Especial"){
 
 }
 
+
+$datos = ComprasController::mostrarCompra(13);
+$compra = [];
+$detalle  = [];
+$codigo = "";
+$fecha = "";
+$hora = "";
+$total = "";
+$proveedor_id = 0;
+$metodo_pago = "";
+
+$accion = "edit";
+
+if(!empty($datos['compra'])){
+
+  $compra = $datos['compra'];
+
+  $codigo = $compra["codigo"];
+  $fecha = $compra['fecha'];
+  $hora = $compra['hora'];
+  $total = $compra['total'];
+  $proveedor_id = $compra['proveedor_id'];
+  $metodo_pago = $compra['metodo_pago'];
+  
+
 ?>
 
 <div class="content-wrapper">
@@ -22,7 +47,7 @@ if($_SESSION["perfil"] == "Especial"){
     
     <h1>
       
-      Crear compra
+      Editar compra
     
     </h1>
 
@@ -30,7 +55,7 @@ if($_SESSION["perfil"] == "Especial"){
       
       <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
       
-      <li class="active">Crear compra</li>
+      <li class="active">Editar compra</li>
     
     </ol>
 
@@ -59,17 +84,11 @@ if($_SESSION["perfil"] == "Especial"){
                 <div class="form-group">
 
                   <div class="row">
-
                     <div class="col-sm-6">
-
                       <div class="input-group">
-                        
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
-
                         <input type="text" class="form-control" id="fecha" name="fecha" value="<?php echo date("Y-m-d"); ?>" required>
-
                       </div>
-
                     </div>
 
                     <div class="col-sm-6">
@@ -86,9 +105,11 @@ if($_SESSION["perfil"] == "Especial"){
 
                   </div>
                 
-                      
-
                 </div> 
+
+                <!--=====================================
+                ENTRADA DEL CÓDIGO
+                ======================================--> 
 
                 <div class="form-group">
                   
@@ -97,11 +118,7 @@ if($_SESSION["perfil"] == "Especial"){
                     <span class="input-group-addon"><i class="fa fa-key"></i></span>
 
                     <?php
-
-                    $compras = ComprasController::codigo();
-                    $codigo = $compras['contenido'];
-                    $accion = "add";
-
+                    
                     echo '<input type="text" class="form-control" id="codigo" name="codigo" value="'.$codigo.'" readonly>';
 
                     ?>
@@ -110,7 +127,7 @@ if($_SESSION["perfil"] == "Especial"){
                 
                 </div>
                 <input type="hidden" name="accion" value="<?php echo $accion; ?>">
-                <input type="hidden" name="usuario_id" value="<?php echo $_SESSION["id"]; ?>">
+                <input type="hidden" name="usuario_u_id" value="<?php echo $_SESSION["id"]; ?>">
                 <!--=====================================
                 ENTRADA DEL CLIENTE
                 ======================================--> 
@@ -130,10 +147,11 @@ if($_SESSION["perfil"] == "Especial"){
                         'data' =>'all'
                       ];
 
+                      $selected = '';
                       $proveedores = ProveedorController::ctrMostrarProveedor($params);
                       foreach ($proveedores as $value) {
-
-                       echo '<option value="'.$value["id"].'">'.$value["razon_social"].'</option>';
+                        $selected = $proveedor_id == $value["id"] ? 'selected':'';
+                        echo '<option value="'.$value["id"].'" '.$selected.'>'.$value["razon_social"].'</option>';
 
                       }
 
@@ -167,7 +185,23 @@ if($_SESSION["perfil"] == "Especial"){
                 </div>
                 <div class="form-group row nuevoProducto">
 
-                
+                  <?php
+
+                  $detalle = $datos['detalle'];
+                  $pro_detalle = "";
+
+                  if(count($detalle) > 0){
+
+                    foreach ($detalle as $key => $producto) {
+
+                      $pro_detalle = ControladorProductos::ctrViewProducto($producto);
+                      echo $pro_detalle;
+                      
+                    }
+
+                  }
+
+                  ?>
 
                 </div>
 
@@ -463,3 +497,10 @@ MODAL AGREGAR CLIENTE
 </div>
 
 
+<?php
+
+}else{
+  echo "Error en codigo de compra";
+}
+
+?>

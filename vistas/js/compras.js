@@ -2,6 +2,9 @@
 CARGAR LA TABLA DINÁMICA DE VENTAS
 =============================================*/
 
+sumarTotalPrecios();
+listarProductos();
+
 $("#nuevaFecha").datepicker({ 
     dateFormat: 'yy-mm-dd',
     maxDate: "+0D"
@@ -13,7 +16,7 @@ var table = $('.tablaCompras').DataTable( {
     "ajax": {
         url:"ajax/datatable-compras.ajax.php",
         data: function(d){
-            // d.productos = '5'; //enviar parametros personalizados
+            d.productos = $('#listaId').val(); //enviar parametros personalizados
         },
         complete: function(res){
             // console.log(res);

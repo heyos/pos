@@ -138,4 +138,77 @@ class ComprasController extends Controller {
         return $salidaJson;
         
     }
+
+    static public function codigo(){
+
+        $response = false;
+        $mensajeError = "";
+        $contenidoOk = "";
+
+        $compra = ComprasModel::lastRow('compra');
+        $codigo = 1000;
+        $band = true;
+
+        if(!empty($compra)){
+            $codigo = $compra['codigo'] + 1;
+
+            while ($band) {
+
+                $params = array(
+                    'where'=> array(['codigo',$codigo])
+                );
+
+                $datos = ComprasModel::firstOrAll('compra',$params,'first');
+
+                if(!empty($datos)){
+                    $codigo ++;
+                }else{
+                    $band = false;
+                }
+            }
+        }
+
+        $salida = array(
+            'respuesta'=>$response,
+            'mensaje'=>$mensajeError,
+            'contenido'=>$codigo
+        );
+
+        return $salida;
+    }
+
+    static public function mostrarCompra($id){
+
+        $response = [];
+        $compra = [];
+        $detalle = [];
+        $compra_id = 0;
+
+        if(is_numeric($id)){
+
+            $params = array(
+                'where'=> array(['id',$id])
+            );
+            $datos = ComprasModel::firstOrAll('compra',$params,'first');
+            
+            if(!empty($datos)){
+                $compra = $datos;
+                $compra_id = $datos['id'];
+                $params_det = array(
+                    'table' => 'compra_detalle',
+                    'where' => array(['id',$compra_id])
+                );
+
+                $detalle = CompraDetalle::all($params_det);
+            }
+        }
+
+        $response = array(
+            'compra'=> $compra,
+            'detalle' => $detalle
+        );
+            
+
+        return $response;
+    }
 }
