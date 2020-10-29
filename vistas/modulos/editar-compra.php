@@ -14,8 +14,9 @@ if($_SESSION["perfil"] == "Especial"){
 
 }
 
-
-$datos = ComprasController::mostrarCompra(13);
+//$id = $_GET['term'];
+$id = 13;
+$datos = ComprasController::mostrarCompra($id);
 $compra = [];
 $detalle  = [];
 $codigo = "";
@@ -126,6 +127,7 @@ if(!empty($datos['compra'])){
                   </div>
                 
                 </div>
+                <input type="hidden" name="id" value="<?php echo $id; ?>">
                 <input type="hidden" name="accion" value="<?php echo $accion; ?>">
                 <input type="hidden" name="usuario_u_id" value="<?php echo $_SESSION["id"]; ?>">
                 <!--=====================================
@@ -189,6 +191,7 @@ if(!empty($datos['compra'])){
 
                   $detalle = $datos['detalle'];
                   $pro_detalle = "";
+                  //print_r($detalle);
 
                   if(count($detalle) > 0){
 

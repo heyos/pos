@@ -640,16 +640,17 @@ function listarProductos(){
 
 	for(var i = 0; i < descripcion.length; i++){
 
-        listaProductos.push({ "id" : $(descripcion[i]).attr("idDetalle"), 
+		listaProductos.push({ "id" : $(descripcion[i]).attr("idDetalle"), 
                               "producto_id" : $(descripcion[i]).attr("idProducto"), 
 							  "descripcion" : $(descripcion[i]).val(),
 							  "cantidad" : $(cantidad[i]).val(),
 							  "precio_compra" : $(precio[i]).val(),
                               "old_precio" : $(precio[i]).attr("oldPrecio"),
                               "sub_total" : $(total[i]).val()});
+		
 
         listaId.push($(descripcion[i]).attr("idProducto"));
-
+		
 	}
 
 	$("#listaProductos").val(JSON.stringify(listaProductos));

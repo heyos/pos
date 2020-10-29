@@ -22,11 +22,13 @@ class AjaxCompras{
         $accion = $params['accion'];
         
         unset($params['accion']);
-        unset($params['listaId']);
         unset($params['agregarProducto']);
 
         if($accion=='add'){
+            unset($params['listaId']);
             $respuesta = ComprasController::nuevaCompra($params);
+        }else{
+            $respuesta = ComprasController::editarCompra($params);
         }
 
         echo json_encode($respuesta);

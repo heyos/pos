@@ -320,6 +320,25 @@ class Model {
         return $response;
     }
 
+    static public function delete($table,$id,$type){
+
+        $sql = "";
+
+        switch ($type) {
+            case 'logic':
+                $sql = "UPDATE :table SET deleted = '1' WHERE id = :id ";
+                break;
+            case 'force':
+                $sql = "DELETE FROM :table WHERE id = :id ";
+                break;
+            default:
+                
+                break;
+        }
+
+        //$sql = "";
+    }
+
     static public function lastRow($table){
 
         $salida = [];

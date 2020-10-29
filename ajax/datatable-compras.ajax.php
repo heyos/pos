@@ -35,7 +35,7 @@ class TablaProductosCompras{
     //-------------------------------------------------
     $lista = [];
     $class = '';
-    $test = $this->request['productos'];
+    
     if(array_key_exists('productos',$this->request)){
       $lista = json_decode($this->request['productos'],true);
     }

@@ -108,7 +108,7 @@ class ControladorProductos extends Controller{
 	        	<div class="col-xs-3 ingresoPrecio" style="padding-left:0px">
 	        		<div class="input-group">
 	        			<span class="input-group-addon"><i class="ion ion-social-usd"></i></span>
-		                <input type="text" idProducto="'.$idProducto.'" class="form-control  nuevoTotalProducto" value="'.$precioCompra.'" required>
+		                <input type="text" idProducto="'.$idProducto.'" class="form-control  nuevoTotalProducto" value="'.$subTotal.'" required>
 		 			</div>
 	            </div>
 	        </div>
