@@ -180,8 +180,43 @@ class ComprasController extends Controller {
                     $oldPrecio = 0;
                     $descripcion = "";
 
+                    //OLD
+                    $oldCantidad = 0;
+
                     //PROCESO PARA QUITAR EL STOCK ANTERIORMENTE GUARDADO
                     foreach ($arrOldDetalle as $oldItem) {
+
+                        $oldCantidad = $oldItem['cantidad'];
+                        $idProducto = $oldItem['producto_id'];
+                        //VERIFICAMOS QUE PRODUCTO EXISTA
+                        $producto = ModeloProductos::mdlMostrarProductos('productos', 'id', $idProducto, '');
+
+                        if(!empty($producto)){
+                            $descripcion = $producto['descripcion'];
+                            $stock = $producto['stock'];
+                            $stock -= $oldCantidad;
+                            $producto['stock'] = $stock;
+                            $resPro = ModeloProductos::mdlEditarProducto('productos',$producto);
+
+                            if($resPro == 'ok'){
+
+                                if(!in_array($idProducto, $arrValidar)){
+
+                                    $delete = CompraDetalle::delete('compra_detalle',$idProducto,'logic');
+                                    echo $delete;
+
+                                    if($detele == 0){
+                                        $mensajeError .= "Error al eliminar este producto <b>".$descripcion."<b> del detalle<br>";
+                                    }
+                                }
+
+                            }else{
+                                $mensajeError .= "Error al actualizar este producto <b>".$descripcion."<b><br>";
+                            }
+                        }
+
+                        $stock = 0;
+                        $descripcion ='';
                         
                     }
 
@@ -222,7 +257,7 @@ class ComprasController extends Controller {
                                 
                                 if($resPro == 'ok'){
 
-                                    $mensajeError = "Se guardo la compra exitosamente";
+                                    $mensajeError = "Se actualizo la compra exitosamente";
                                     $respuestaOk = true;
 
                                     $productoProveedor = [];

@@ -323,6 +323,7 @@ class Model {
     static public function delete($table,$id,$type){
 
         $sql = "";
+        $response = 0;
 
         switch ($type) {
             case 'logic':
@@ -336,7 +337,24 @@ class Model {
                 break;
         }
 
-        //$sql = "";
+        $con = Conexion::conectar();
+        $query = $con->prepare($sql);
+
+        $query -> bindParam(':table',$table,PDO::PARAM_STR);
+        $query -> bindParam(':id',$id,PDO::PARAM_INT);
+
+        if($query->execute()){
+            $response = 1;
+        }else{
+            echo $query -> errorInfo()[2];
+        }
+
+        $sql = null;
+        $query = null;
+        $con = null;
+
+        return $response;
+
     }
 
     static public function lastRow($table){
