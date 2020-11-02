@@ -5,7 +5,7 @@ CARGAR LA TABLA DINÁMICA DE VENTAS
 sumarTotalPrecios();
 listarProductos();
 
-$("#nuevaFecha").datepicker({ 
+$(".nuevaFecha").datepicker({ 
     dateFormat: 'yy-mm-dd',
     maxDate: "+0D"
 });
@@ -476,6 +476,7 @@ function sumarTotalPrecios(){
 	var precioItem = $(".nuevoTotalProducto");
 	
 	var arraySumaPrecio = [];
+	var sumaTotalPrecio = 0;
 
     const sumaArrayPrecios = (total,numero) => total + numero; //funcion flecha
 
@@ -490,27 +491,19 @@ function sumarTotalPrecios(){
 	// 	return total + numero;
 
 	// }
-
-	var sumaTotalPrecio = arraySumaPrecio.reduce(sumaArrayPrecios);
+	if(arraySumaPrecio.length > 0){
+		sumaTotalPrecio = arraySumaPrecio.reduce(sumaArrayPrecios);
+	}
+	
     	
 	$("#nuevoTotalCompra").val(sumaTotalPrecio);
 	$("#totalCompra").val(sumaTotalPrecio);
 	$("#nuevoTotalCompra").attr("total",sumaTotalPrecio);
+	$('.totalCompra').val(sumaTotalPrecio);
 
 
 }
 
-
-
-/*=============================================
-CUANDO CAMBIA EL IMPUESTO
-=============================================*/
-
-$("#nuevoImpuestoVenta").change(function(){
-
-	agregarImpuesto();
-
-});
 
 /*=============================================
 FORMATO AL PRECIO FINAL
@@ -655,7 +648,6 @@ function listarProductos(){
 
 	$("#listaProductos").val(JSON.stringify(listaProductos));
     $("#listaId").val(JSON.stringify(listaId));
-    console.log(JSON.stringify(listaId));
 }
 
 /*=============================================
@@ -681,14 +673,14 @@ function listarMetodos(){
 /*=============================================
 BOTON EDITAR VENTA
 =============================================*/
-$(".tablas").on("click", ".btnEditarVenta", function(){
+$(".tablas").on("click", ".btnEditarCompra", function(){
 
-	var idVenta = $(this).attr("idVenta");
+	var idCompra = $(this).attr("idCompra");
 
-	window.location = "index.php?ruta=editar-venta&idVenta="+idVenta;
+	window.location = "index.php?ruta=editar-compra&term="+idCompra;
 
 
-})
+});
 
 /*=============================================
 FUNCIÓN PARA DESACTIVAR LOS BOTONES AGREGAR CUANDO EL PRODUCTO YA HABÍA SIDO SELECCIONADO EN LA CARPETA

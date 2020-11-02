@@ -20,5 +20,7 @@ require_once "modelos/proveedor.modelo.php";
 require_once "modelos/compras.modelo.php";
 require_once "modelos/compra_detalle.modelo.php";
 
+ControladorPlantilla::baseUrl();
+
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();

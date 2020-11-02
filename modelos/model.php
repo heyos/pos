@@ -50,7 +50,7 @@ class Model {
                 }
 
                 $where = substr($where, 0,-3);
-                $where = sprintf(" WHERE %s ",$where);
+                $where = sprintf(" %s ",$where);
 
                 if(array_key_exists("search",$params)){
                     $where .= " AND ";
@@ -64,7 +64,7 @@ class Model {
             if(!empty($where)){
                 $where .= sprintf(" %s ",$params['search']);
             }else{
-                $where .= sprintf(" WHERE %s ",$params['search']);
+                $where .= sprintf(" %s ",$params['search']);
             }
             
         }
@@ -79,7 +79,11 @@ class Model {
             $limit = sprintf(" LIMIT %d,%d ",$params['start'],$params['length']);
         }
 
-        $sql = sprintf("SELECT * FROM %s %s %s %s",
+        if(!empty($where)){
+            $where = ' AND '.$where;
+        }
+
+        $sql = sprintf("SELECT * FROM %s WHERE deleted = '0' %s %s %s",
                         $params['table'],$where,$orderBy,$limit);
 
         $query = Conexion::conectar()->prepare($sql);
@@ -130,8 +134,11 @@ class Model {
                     }
 
                     $where = substr($where, 0,-3);
-                    $where = sprintf(" WHERE %s ",$where);
-                   
+                                      
+                }
+
+                if(!empty($where)){
+                    $where = ' AND '.$where;
                 }
 
             }elseif($data=='first'){
@@ -141,7 +148,7 @@ class Model {
 
         }
         
-        $sql = sprintf("SELECT * FROM %s %s",$table,$where);
+        $sql = sprintf("SELECT * FROM %s WHERE deleted = '0' %s",$table,$where);
 
         if(array_key_exists('order',$params) && array_key_exists('dir',$params)){
             $sql .= sprintf(" ORDER BY %s %s ",$params['order'],$params['dir']);
@@ -327,10 +334,10 @@ class Model {
 
         switch ($type) {
             case 'logic':
-                $sql = "UPDATE :table SET deleted = '1' WHERE id = :id ";
+                $sql = sprintf("UPDATE %s SET deleted = '1' WHERE id = :id ",$table);
                 break;
             case 'force':
-                $sql = "DELETE FROM :table WHERE id = :id ";
+                $sql = sprintf("DELETE FROM %s WHERE id = :id ",$table);
                 break;
             default:
                 
@@ -340,7 +347,6 @@ class Model {
         $con = Conexion::conectar();
         $query = $con->prepare($sql);
 
-        $query -> bindParam(':table',$table,PDO::PARAM_STR);
         $query -> bindParam(':id',$id,PDO::PARAM_INT);
 
         if($query->execute()){

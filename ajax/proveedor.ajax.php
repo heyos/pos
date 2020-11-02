@@ -5,16 +5,18 @@ require_once "../modelos/proveedor.modelo.php";
 
 class AjaxProveedor{
 
-    /*=============================================
-    EDITAR CLIENTE
-    =============================================*/ 
+    public $params;
+    
+    public function ajaxAddEditProveedor(){
 
-    public $idCliente;
+        $params = $this->params;
+        $accion = $params['accion'];
 
-    public function ajaxEditarCliente(){
+        if($accion == 'add'){
 
-        $item = "id";
-        $valor = $this->idCliente;
+        }elseif ($accion == 'edit') {
+           
+        }
 
         $respuesta = ControladorClientes::ctrMostrarClientes($item, $valor);
 
@@ -29,10 +31,10 @@ class AjaxProveedor{
 EDITAR CLIENTE
 =============================================*/ 
 
-if(isset($_POST["idCliente"])){
+if(isset($_POST["accion"])){
 
-    $cliente = new AjaxClientes();
-    $cliente -> idCliente = $_POST["idCliente"];
-    $cliente -> ajaxEditarCliente();
+    $proveedor = new AjaxProveedor();
+    $cliente -> params = $_POST;
+    $cliente -> ajaxAddEditProveedor();
 
 }

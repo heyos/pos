@@ -88,7 +88,7 @@ if(!empty($datos['compra'])){
                     <div class="col-sm-6">
                       <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
-                        <input type="text" class="form-control" id="fecha" name="fecha" value="<?php echo date("Y-m-d"); ?>" required>
+                        <input type="text" class="form-control" id="fecha" name="fecha" value="<?php echo $fecha; ?>" readonly required>
                       </div>
                     </div>
 
@@ -98,7 +98,7 @@ if(!empty($datos['compra'])){
                         
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
 
-                        <input type="text" class="form-control" id="hora" name="hora" value="<?php echo date("H:i:s"); ?>" readonly>
+                        <input type="text" class="form-control" id="hora" name="hora" value="<?php echo $hora; ?>" readonly>
 
                       </div>
 
@@ -192,7 +192,7 @@ if(!empty($datos['compra'])){
                   $detalle = $datos['detalle'];
                   $pro_detalle = "";
                   //print_r($detalle);
-
+                  
                   if(count($detalle) > 0){
 
                     foreach ($detalle as $key => $producto) {
@@ -208,8 +208,8 @@ if(!empty($datos['compra'])){
 
                 </div>
 
-                <input type="" id="listaProductos" name="listaProductos" required>
-                <input type="" id="listaId" name="listaId" required>
+                <input type="hidden" id="listaProductos" name="listaProductos" required>
+                <input type="hidden" id="listaId" name="listaId" required>
                 <!--=====================================
                 BOTÓN PARA AGREGAR PRODUCTO
                 ======================================-->
@@ -245,7 +245,7 @@ if(!empty($datos['compra'])){
                             <div class="input-group">
                               <span class="input-group-addon"><i class="ion ion-social-usd"></i></span>
                               <input type="text" class="form-control input-lg" id="nuevoTotalCompra"  total="" placeholder="00000" readonly>
-                              <input type="hidden" name="total" id="totalCompra">
+                              <input type="hidden" name="total" class="totalCompra" id="totalCompra">
                             </div>
                           </td>
                         </tr>
@@ -257,8 +257,7 @@ if(!empty($datos['compra'])){
 
                 </div>
 
-                <hr>
-
+                
                 <!--=====================================
                 ENTRADA MÉTODO DE PAGO
                 ======================================-->
@@ -272,38 +271,25 @@ if(!empty($datos['compra'])){
                       <select class="form-control" id="nuevoMetodoPago" name="metodo_pago" required>
                         <option value="contado">Contado</option>
                         <option value="credito">Credito</option>
-                        <option value="TC">Tarjeta Crédito</option>
-                        <option value="TD">Tarjeta Débito</option>                  
                       </select>    
 
                     </div>
 
                   </div>
 
-                  <div class="cajasMetodoPago"></div>
-
-                  <input type="hidden" id="listaMetodoPago">
-
                 </div>
 
-                <br>
-      
               </div>
 
             </div>
 
-            <div class="box-footer">
+            <div class="box-footer ">
               <button type="submit" class="btn btn-primary pull-right">Guardar Compra</button>
             </div>
 
         </form>
 
-        <?php
-
-          $guardarVenta = new ControladorVentas();
-          $guardarVenta -> ctrCrearVenta();
-          
-        ?>
+      
 
         </div>
             
@@ -351,6 +337,26 @@ if(!empty($datos['compra'])){
   </section>
 
 </div>
+
+<!-- <footer class="main-footer navbar-fixed-bottom">
+  
+  <div class="row ">
+    <div class="col-md-5 col-xs-12">
+      <div class="row">
+        <div class="col-md-7">
+          <label>Total</label>
+          <input type="text" class="totalCompra form-control input-lg" disabled>
+        </div>
+        <div class="col-md-5 col-xs-12 ">
+          <button type="button" class="btn btn-primary btn-block pull-right">Guardar Compra</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-7"></div>
+  </div>
+
+
+</footer> -->
 
 <!--=====================================
 MODAL AGREGAR CLIENTE
@@ -488,8 +494,8 @@ MODAL AGREGAR CLIENTE
 
       <?php
 
-        $crearCliente = new ControladorClientes();
-        $crearCliente -> ctrCrearCliente();
+        // $crearCliente = new ControladorClientes();
+        // $crearCliente -> ctrCrearCliente();
 
       ?>
 

@@ -155,9 +155,9 @@ class ComprasController extends Controller {
 
         unset($params['listaProductos']);
         unset($params['listaId']);
-
+        
         if(is_array($arrDetalle)){
-
+        
             if(count($arrDetalle) > 0){
 
                 //ACTUALIZMOS REGISTRO DE COMPRA
@@ -202,10 +202,10 @@ class ComprasController extends Controller {
 
                                 if(!in_array($idProducto, $arrValidar)){
 
-                                    $delete = CompraDetalle::delete('compra_detalle',$idProducto,'logic');
-                                    echo $delete;
-
-                                    if($detele == 0){
+                                    $idDetalle = $oldItem['id'];
+                                    $delete = CompraDetalle::delete('compra_detalle',$idDetalle,'logic');
+                                    
+                                    if($delete == 0){
                                         $mensajeError .= "Error al eliminar este producto <b>".$descripcion."<b> del detalle<br>";
                                     }
                                 }
@@ -219,7 +219,7 @@ class ComprasController extends Controller {
                         $descripcion ='';
                         
                     }
-
+                
                     //PROCESO PARA ACTUALIZAR CON EL NUEVO STOCK EDITADO
                     foreach ($arrDetalle as $item) {
 
@@ -233,7 +233,7 @@ class ComprasController extends Controller {
 
                         //VERIFICAMOS QUE PRODUCTO EXISTA
                         $producto = ModeloProductos::mdlMostrarProductos('productos', 'id', $idProducto, '');
-                        
+                       
                         if(!empty($producto)){
 
                             //obtenemos datos del producto
@@ -244,7 +244,7 @@ class ComprasController extends Controller {
 
                             //GUARDAMOS O ACTUALIZAMOS DETALLE
                             $detalle = CompraDetalle::createOrUpdate('compra_detalle',$item);
-                            
+                           
                             if($detalle != 0){
 
                                 $nuevoStock = $stock+$cantidad;
@@ -285,30 +285,29 @@ class ComprasController extends Controller {
                                     $mensajeError .= "Error al guardar este producto <b>".$descripcion."<b> en el detalle<br>";
                                 }
 
-                                $contenidoOk = $producto;
-                                
                             }else{
                                 $mensajeError .= "Error al guardar este producto <b>".$descripcion."<b><br>";
                             }
-                            
+                           
                         }else{
                             $mensajeError .= "Error al guardar producto <b>".$descripcion."<b> no existe<br>";
                         }
-
+                    
                     }
-
+                
                 } else {
                     $mensajeError = "Error al crear la compra";
                 }
-
+            
             }else{
                 $mensajeError = "Debe registrar almenos un producto.";
             }
-
+        
+        
         } else{
             $mensajeError = 'Detalle de productos invalido.';
         }
-
+        
         $salidaJson = [
             'mensaje'=>$mensajeError,
             'respuesta'=>$respuestaOk,
@@ -377,7 +376,7 @@ class ComprasController extends Controller {
                 $compra_id = $datos['id'];
                 $params_det = array(
                     'table' => 'compra_detalle',
-                    'where' => array(['id',$compra_id])
+                    'where' => array(['compra_id',$compra_id])
                 );
 
                 $detalle = CompraDetalle::all($params_det);

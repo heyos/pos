@@ -38,10 +38,6 @@ class AjaxCompras{
 
 }
 
-/*=============================================
-EDITAR CLIENTE
-=============================================*/ 
-
 if(isset($_POST["accion"])){
 
     $compras = new AjaxCompras();

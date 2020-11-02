@@ -76,3 +76,5 @@ var ruta = $('#ruta').val();
 
 $('a[href='+ruta+']').parent().addClass('active');
 $('a[href='+ruta+']').parent().parent().parent().addClass('active');
+
+console.log('ruta',ruta);
