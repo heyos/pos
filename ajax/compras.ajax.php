@@ -36,6 +36,8 @@ class AjaxCompras{
 
     }
 
+    
+
 }
 
 if(isset($_POST["accion"])){

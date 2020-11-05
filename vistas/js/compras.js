@@ -100,34 +100,9 @@ $(".tablaCompras tbody").on("click", "button.agregarProducto", function(){
 
       	}
 
-     })
+     });
 
 });
-
-            
-
-/*=============================================
-CUANDO CARGUE LA TABLA CADA VEZ QUE NAVEGUE EN ELLA
-=============================================*/
-
-$(".tablaCompras").on("draw.dt", function(){
-
-	if(localStorage.getItem("quitarProducto") != null){
-
-		var listaIdProductos = JSON.parse(localStorage.getItem("quitarProducto"));
-
-		for(var i = 0; i < listaIdProductos.length; i++){
-
-			$("button.recuperarBoton[idProducto='"+listaIdProductos[i]["idProducto"]+"']").removeClass('btn-default');
-			$("button.recuperarBoton[idProducto='"+listaIdProductos[i]["idProducto"]+"']").addClass('btn-primary agregarProducto');
-
-		}
-
-
-	}
-
-
-})
 
 
 /*=============================================
@@ -181,7 +156,58 @@ $(".formularioCompra").on("click", "button.quitarProducto", function(){
 
 	}
 
-})
+});
+
+/*=============================================
+BUSCAR PRODUCTOS EN LA LISTA
+=============================================*/
+
+$('.search').keyup(function(e){
+
+	var value = $(this).val()
+	var lista = $("#listaProductos").val() != '' ? JSON.parse($("#listaProductos").val()): [] ;
+	var listaFiltrada = [];
+
+	if(lista.length > 0){
+
+		listaFiltrada = value == '' ? lista : lista.filter((producto) => {
+			
+			var pro = producto.descripcion.toUpperCase();
+			
+			if(pro.includes(value.toUpperCase())){
+				return pro;
+			}else{
+				$('#'+producto.producto_id).hide();
+			}
+			
+		});
+
+		if(value == ''){
+
+			datos = 'accion=filterCompra&lista='+JSON.stringify(lista);
+
+			$.ajax({
+				cache: false,
+				type:'POST',
+				dataType: 'json',
+				url: "ajax/productos.ajax.php",
+				data: datos,
+				success: function(response){
+
+					$('.nuevoProducto').html('').append(response.data);
+
+				},
+				error: function(e){
+					console.log(e);
+		            alert(e.responseText);
+				}
+			});
+
+		}
+
+	}
+
+});
 
 /*=============================================
 AGREGANDO PRODUCTOS DESDE EL BOTÓN PARA DISPOSITIVOS

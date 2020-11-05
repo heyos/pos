@@ -85,14 +85,14 @@ if(!empty($datos['compra'])){
                 <div class="form-group">
 
                   <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                       <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
                         <input type="text" class="form-control" id="fecha" name="fecha" value="<?php echo $fecha; ?>" readonly required>
                       </div>
                     </div>
 
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                       
                       <div class="input-group">
                         
@@ -104,29 +104,22 @@ if(!empty($datos['compra'])){
 
                     </div>
 
+                    <div class="col-sm-4">
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                        <?php
+                        
+                          echo '<input type="text" class="form-control" id="codigo" name="codigo" value="'.$codigo.'" readonly>';
+
+                        ?>
+                      
+                      </div>
+                    </div>
+
                   </div>
                 
                 </div> 
 
-                <!--=====================================
-                ENTRADA DEL CÓDIGO
-                ======================================--> 
-
-                <div class="form-group">
-                  
-                  <div class="input-group">
-                    
-                    <span class="input-group-addon"><i class="fa fa-key"></i></span>
-
-                    <?php
-                    
-                    echo '<input type="text" class="form-control" id="codigo" name="codigo" value="'.$codigo.'" readonly>';
-
-                    ?>
-                  
-                  </div>
-                
-                </div>
                 <input type="hidden" name="id" value="<?php echo $id; ?>">
                 <input type="hidden" name="accion" value="<?php echo $accion; ?>">
                 <input type="hidden" name="usuario_u_id" value="<?php echo $_SESSION["id"]; ?>">
@@ -135,9 +128,7 @@ if(!empty($datos['compra'])){
                 ======================================--> 
 
                 <div class="form-group">
-                  
                   <div class="input-group">
-                    
                     <span class="input-group-addon"><i class="fa fa-users"></i></span>
                     
                     <select class="form-control" id="seleccionarProveedor" name="proveedor_id" required>
@@ -161,10 +152,21 @@ if(!empty($datos['compra'])){
 
                     </select>
                                         
-                    <span class="input-group-addon"><button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#modalAgregarProveedor" data-dismiss="modal">Agregar proveedor</button></span>
+                    <span class="input-group-addon">
+                      <button type="button" class="btn btn-default btn-xs" data-toggle="modal" 
+                        data-target="#modalAgregarProveedor" data-dismiss="modal"> 
+                        Agregar proveedor
+                      </button>
+                    </span>
                   
                   </div>
-                
+                </div>
+
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input type="text" class="form-control search" placeholder="Buscar productos ingresados en la lista">
+                  </div>
                 </div>
 
                 <!--=====================================
@@ -300,6 +302,23 @@ if(!empty($datos['compra'])){
       ======================================-->
 
       <div class="col-lg-7 hidden-md hidden-sm hidden-xs">
+
+        <div class="box box-warning">
+          <div class="box-header with-border"></div>
+          <div class="box-body">
+            <div class="form-group has-success">
+              <label>Ingrese codigo de barras</label>
+              <div class="input-group">
+                <input type="text" class="codigoProducto form-control">
+                <span class="input-group-addon">
+                  <i class="fa fa-barcode"></i>
+                </span>
+              </div>
+              
+            </div>
+            
+          </div>
+        </div>
         
         <div class="box box-warning">
 
