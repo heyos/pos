@@ -76,222 +76,192 @@ if(!empty($datos['compra'])){
           
           <div class="box-header with-border"></div>
 
-        <form role="form" method="post" class="formularioCompra">
+            <form role="form" method="post" class="formularioCompra">
 
-            <div class="box-body">
-  
-              <div class="box">
+              <div class="box-body">
+    
+                <div class="box">
 
-                <div class="form-group">
+                  <div class="form-group">
 
-                  <div class="row">
-                    <div class="col-sm-4">
-                      <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
-                        <input type="text" class="form-control" id="fecha" name="fecha" value="<?php echo $fecha; ?>" readonly required>
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="input-group">
+                          <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
+                          <input type="text" class="form-control" id="fecha" name="fecha" value="<?php echo $fecha; ?>" readonly required>
+                        </div>
                       </div>
-                    </div>
 
-                    <div class="col-sm-4">
-                      
-                      <div class="input-group">
+                      <div class="col-sm-4">
                         
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
+                        <div class="input-group">
+                          
+                          <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
 
-                        <input type="text" class="form-control" id="hora" name="hora" value="<?php echo $hora; ?>" readonly>
+                          <input type="text" class="form-control" id="hora" name="hora" value="<?php echo $hora; ?>" readonly>
+
+                        </div>
 
                       </div>
 
-                    </div>
+                      <div class="col-sm-4">
+                        <div class="input-group">
+                          <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                          <?php
+                          
+                            echo '<input type="text" class="form-control" id="codigo" name="codigo" value="'.$codigo.'" readonly>';
 
-                    <div class="col-sm-4">
-                      <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                        <?php
+                          ?>
                         
-                          echo '<input type="text" class="form-control" id="codigo" name="codigo" value="'.$codigo.'" readonly>';
-
-                        ?>
-                      
+                        </div>
                       </div>
+
                     </div>
+                  
+                  </div> 
 
-                  </div>
-                
-                </div> 
+                  <input type="hidden" name="id" value="<?php echo $id; ?>">
+                  <input type="hidden" name="accion" value="<?php echo $accion; ?>">
+                  <input type="hidden" name="usuario_u_id" value="<?php echo $_SESSION["id"]; ?>">
+                  <!--=====================================
+                  ENTRADA DEL CLIENTE
+                  ======================================--> 
 
-                <input type="hidden" name="id" value="<?php echo $id; ?>">
-                <input type="hidden" name="accion" value="<?php echo $accion; ?>">
-                <input type="hidden" name="usuario_u_id" value="<?php echo $_SESSION["id"]; ?>">
-                <!--=====================================
-                ENTRADA DEL CLIENTE
-                ======================================--> 
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                      
+                      <select class="form-control" id="seleccionarProveedor" name="proveedor_id" required>
 
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                      <?php
+
+                        $params = [
+                          'show' => 'any',
+                          'data' =>'all'
+                        ];
+
+                        $selected = '';
+                        $proveedores = ProveedorController::ctrMostrarProveedor($params);
+                        foreach ($proveedores as $value) {
+                          $selected = $proveedor_id == $value["id"] ? 'selected':'';
+                          echo '<option value="'.$value["id"].'" '.$selected.'>'.$value["razon_social"].'</option>';
+
+                        }
+
+                      ?>
+
+                      </select>
+                                          
+                      <span class="input-group-addon">
+                        <button type="button" class="btn btn-default btn-xs" data-toggle="modal" 
+                          data-target="#modalAgregarProveedor" data-dismiss="modal"> 
+                          Agregar proveedor
+                        </button>
+                      </span>
                     
-                    <select class="form-control" id="seleccionarProveedor" name="proveedor_id" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                      <input type="text" class="form-control search" placeholder="Buscar productos ingresados en la lista">
+                    </div>
+                  </div>
+
+                  <!--=====================================
+                  ENTRADA PARA AGREGAR PRODUCTO
+                  ======================================-->
+                  <hr>
+                  <div class="form-group row text-center">
+                    <div class="col-sm-5">
+                      <strong>Descripcion</strong>
+                    </div>
+                    <div class="col-sm-2">
+                      <strong>Cantidad</strong>
+                    </div>
+                    <div class="col-sm-2">
+                      <strong>P.U</strong>
+                    </div>
+                    <div class="col-sm-3">
+                      <strong>P. Total</strong>
+                    </div>
+                  </div>
+                  <div class="form-group row nuevoProducto slimscroll">
 
                     <?php
 
-                      $params = [
-                        'show' => 'any',
-                        'data' =>'all'
-                      ];
+                    $detalle = $datos['detalle'];
+                    $pro_detalle = "";
+                    //print_r($detalle);
+                    
+                    if(count($detalle) > 0){
 
-                      $selected = '';
-                      $proveedores = ProveedorController::ctrMostrarProveedor($params);
-                      foreach ($proveedores as $value) {
-                        $selected = $proveedor_id == $value["id"] ? 'selected':'';
-                        echo '<option value="'.$value["id"].'" '.$selected.'>'.$value["razon_social"].'</option>';
+                      foreach ($detalle as $key => $producto) {
 
+                        $pro_detalle = ControladorProductos::ctrViewProducto($producto);
+                        echo $pro_detalle;
+                        
                       }
+
+                    }
 
                     ?>
 
-                    </select>
-                                        
-                    <span class="input-group-addon">
-                      <button type="button" class="btn btn-default btn-xs" data-toggle="modal" 
-                        data-target="#modalAgregarProveedor" data-dismiss="modal"> 
-                        Agregar proveedor
-                      </button>
-                    </span>
-                  
                   </div>
-                </div>
 
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                    <input type="text" class="form-control search" placeholder="Buscar productos ingresados en la lista">
-                  </div>
-                </div>
-
-                <!--=====================================
-                ENTRADA PARA AGREGAR PRODUCTO
-                ======================================-->
-                <hr>
-                <div class="form-group row text-center">
-                  <div class="col-sm-5">
-                    <strong>Descripcion</strong>
-                  </div>
-                  <div class="col-sm-2">
-                    <strong>Cantidad</strong>
-                  </div>
-                  <div class="col-sm-2">
-                    <strong>P.U</strong>
-                  </div>
-                  <div class="col-sm-3">
-                    <strong>P. Total</strong>
-                  </div>
-                </div>
-                <div class="form-group row nuevoProducto">
-
-                  <?php
-
-                  $detalle = $datos['detalle'];
-                  $pro_detalle = "";
-                  //print_r($detalle);
-                  
-                  if(count($detalle) > 0){
-
-                    foreach ($detalle as $key => $producto) {
-
-                      $pro_detalle = ControladorProductos::ctrViewProducto($producto);
-                      echo $pro_detalle;
-                      
-                    }
-
-                  }
-
-                  ?>
-
-                </div>
-
-                <input type="hidden" id="listaProductos" name="listaProductos" required>
-                <input type="hidden" id="listaId" name="listaId" required>
-                <!--=====================================
-                BOTÓN PARA AGREGAR PRODUCTO
-                ======================================-->
-
-                <button type="button" class="btn btn-default hidden-lg btnAgregarProducto">Agregar producto</button>
-
-                <hr>
-
-                <div class="row">
-
+                  <input type="hidden" id="listaProductos" name="listaProductos" required>
+                  <input type="hidden" id="listaId" name="listaId" required>
                   <!--=====================================
-                  ENTRADA IMPUESTOS Y TOTAL
+                  BOTÓN PARA AGREGAR PRODUCTO
                   ======================================-->
-                  
-                  <div class="col-xs-8 pull-right">
-                    
-                    <table class="table">
 
-                      <thead>
+                  <button type="button" class="btn btn-default hidden-lg btnAgregarProducto">Agregar producto</button>
 
-                        <tr>
-                          <th></th>
-                          <th>Total</th>      
-                        </tr>
-
-                      </thead>
-
-                      <tbody>
-                      
-                        <tr>
-                          <td style="width: 50%"></td>
-                          <td style="width: 50%">
-                            <div class="input-group">
-                              <span class="input-group-addon"><i class="ion ion-social-usd"></i></span>
-                              <input type="text" class="form-control input-lg" id="nuevoTotalCompra"  total="" placeholder="00000" readonly>
-                              <input type="hidden" name="total" class="totalCompra" id="totalCompra">
-                            </div>
-                          </td>
-                        </tr>
-
-                      </tbody>
-                    </table>
-
+                  <br>
+                  <div class="row">
+                    <div class="col-xs-6">
+                      <button class="btn btn-default btn-block totalItems" disabled></button>
+                    </div>
+                    <div class="col-xs-6">
+                      <button type="button" class="btn btn-danger btn-block clearLista">Limpiar lista</button>
+                    </div>
                   </div>
 
-                </div>
-
-                
-                <!--=====================================
-                ENTRADA MÉTODO DE PAGO
-                ======================================-->
-
-                <div class="form-group row">
-                  
-                  <div class="col-xs-6" style="padding-right:0px">
+                  <br>
+                  <div class="form-horizontal row">
                     
-                     <div class="input-group">
-                  
+                    <div class="col-sm-6">
                       <select class="form-control" id="nuevoMetodoPago" name="metodo_pago" required>
                         <option value="contado">Contado</option>
                         <option value="credito">Credito</option>
                       </select>    
-
                     </div>
 
-                  </div>
+                    <div class="col-sm-6">
+                      <div class="control-label col-sm-4 ">
+                        <strong>TOTAL</strong>
+                      </div>
+                      <div class="col-sm-8">
+                        <div class="input-group">
+                          <span class="input-group-addon"><i class="ion ion-social-usd"></i></span>
+                          <input type="text" class="form-control input-lg" id="nuevoTotalCompra"  total="" placeholder="00000" readonly>
+                          <input type="hidden" name="total" class="totalCompra" id="totalCompra">
+                        </div>
+                      </div>
+                    </div>
+
+                  </div><br>
 
                 </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-block">Guardar Compra</button>
+                </div>
+                
 
               </div>
 
-            </div>
-
-            <div class="box-footer ">
-              <button type="submit" class="btn btn-primary pull-right">Guardar Compra</button>
-            </div>
-
-        </form>
-
-      
+            </form>
 
         </div>
             

@@ -36,6 +36,10 @@ class AjaxCompras{
 
     }
 
+    public function ajaxDeleteCompra(){
+        
+    }
+
     
 
 }
@@ -44,6 +48,19 @@ if(isset($_POST["accion"])){
 
     $compras = new AjaxCompras();
     $compras -> params = $_POST;
-    $compras -> ajaxAddEditCompras();
+
+    switch ($_POST["accion"]) {
+        case 'add':
+        case 'edit':
+            $compras -> ajaxAddEditCompras();
+            break;
+        case 'delete':
+            $compras -> ajaxDeleteCompra();
+            break;
+        default:
+            # code...
+            break;
+    }
+    
 
 }

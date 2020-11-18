@@ -54,6 +54,7 @@ session_start();
 
   <!-- Morris chart -->
   <link rel="stylesheet" href="<?php echo BASE_URL; ?>vistas/bower_components/morris.js/morris.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL; ?>vistas/css/style.css">
 
   <!--=====================================
   PLUGINS DE JAVASCRIPT
@@ -92,6 +93,7 @@ session_start();
   <script src="<?php echo BASE_URL; ?>vistas/plugins/input-mask/jquery.inputmask.js"></script>
   <script src="<?php echo BASE_URL; ?>vistas/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
   <script src="<?php echo BASE_URL; ?>vistas/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+  <script src="<?php echo BASE_URL; ?>vistas/plugins/jquery-slimScroll/jquery.slimscroll.min.js"></script>
 
   <!-- jQuery Number -->
   <script src="<?php echo BASE_URL; ?>vistas/plugins/jqueryNumber/jquerynumber.min.js"></script>

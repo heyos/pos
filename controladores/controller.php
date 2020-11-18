@@ -75,7 +75,7 @@ class Controller {
                 
                 break;
             default:
-                return $qTotal;
+                return $qRecords;
                 break;
         }
     }

@@ -50,226 +50,187 @@ if($_SESSION["perfil"] == "Especial"){
           
           <div class="box-header with-border"></div>
 
-        <form role="form" method="post" class="formularioCompra">
+          <form role="form" method="post" class="formularioCompra">
 
-            <div class="box-body">
-  
-              <div class="box">
+              <div class="box-body">
+    
+                <div class="box">
 
-                <div class="form-group">
+                  <div class="form-group">
 
-                  <div class="row">
+                    <div class="row">
 
-                    <div class="col-sm-6">
+                      <div class="col-sm-4">
 
-                      <div class="input-group">
-                        
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
+                        <div class="input-group">
+                          
+                          <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
 
-                        <input type="text" class="form-control" id="fecha" name="fecha" value="<?php echo date("Y-m-d"); ?>" required>
+                          <input type="text" class="form-control nuevaFecha" id="fecha" name="fecha" value="<?php echo date("Y-m-d"); ?>" required>
 
-                      </div>
-
-                    </div>
-
-                    <div class="col-sm-6">
-                      
-                      <div class="input-group">
-                        
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
-
-                        <input type="text" class="form-control" id="hora" name="hora" value="<?php echo date("H:i:s"); ?>" readonly>
+                        </div>
 
                       </div>
 
-                    </div>
+                      <div class="col-sm-4">
+                        
+                        <div class="input-group">
+                          
+                          <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
 
-                  </div>
-                
+                          <input type="text" class="form-control" id="hora" name="hora" value="<?php echo date("H:i:s"); ?>" readonly>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-sm-4">
+
+                        <div class="input-group">
                       
+                          <span class="input-group-addon"><i class="fa fa-key"></i></span>
 
-                </div> 
+                          <?php
 
-                <div class="form-group">
+                          $compras = ComprasController::codigo();
+                          $codigo = $compras['contenido'];
+                          $accion = "add";
+
+                          echo '<input type="text" class="form-control" id="codigo" name="codigo" value="'.$codigo.'" readonly>';
+
+                          ?>
+                        
+                        </div>
+                        
+                      </div>
+
+                    </div>
                   
-                  <div class="input-group">
+                  </div> 
+
+                  <input type="hidden" name="accion" value="<?php echo $accion; ?>">
+                  <input type="hidden" name="usuario_id" value="<?php echo $_SESSION["id"]; ?>">
+                  <!--=====================================
+                  ENTRADA DEL CLIENTE
+                  ======================================--> 
+
+                  <div class="form-group">
                     
-                    <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                    <div class="input-group">
+                      
+                      <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                      
+                      <select class="form-control" id="seleccionarProveedor" name="proveedor_id" required>
 
-                    <?php
+                      <?php
 
-                    $compras = ComprasController::codigo();
-                    $codigo = $compras['contenido'];
-                    $accion = "add";
+                        $params = [
+                          'show' => 'any',
+                          'data' =>'all'
+                        ];
 
-                    echo '<input type="text" class="form-control" id="codigo" name="codigo" value="'.$codigo.'" readonly>';
+                        $proveedores = ProveedorController::ctrMostrarProveedor($params);
+                        foreach ($proveedores as $value) {
 
-                    ?>
-                  
-                  </div>
-                
-                </div>
-                <input type="hidden" name="accion" value="<?php echo $accion; ?>">
-                <input type="hidden" name="usuario_id" value="<?php echo $_SESSION["id"]; ?>">
-                <!--=====================================
-                ENTRADA DEL CLIENTE
-                ======================================--> 
+                         echo '<option value="'.$value["id"].'">'.$value["razon_social"].'</option>';
 
-                <div class="form-group">
-                  
-                  <div class="input-group">
+                        }
+
+                      ?>
+
+                      </select>
+                                          
+                      <span class="input-group-addon"><button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#modalAgregarProveedor" data-dismiss="modal">Agregar proveedor</button></span>
                     
-                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
-                    
-                    <select class="form-control" id="seleccionarProveedor" name="proveedor_id" required>
-
-                    <?php
-
-                      $params = [
-                        'show' => 'any',
-                        'data' =>'all'
-                      ];
-
-                      $proveedores = ProveedorController::ctrMostrarProveedor($params);
-                      foreach ($proveedores as $value) {
-
-                       echo '<option value="'.$value["id"].'">'.$value["razon_social"].'</option>';
-
-                      }
-
-                    ?>
-
-                    </select>
-                                        
-                    <span class="input-group-addon"><button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#modalAgregarProveedor" data-dismiss="modal">Agregar proveedor</button></span>
+                    </div>
                   
                   </div>
-                
-                </div>
 
-                <!--=====================================
-                ENTRADA PARA AGREGAR PRODUCTO
-                ======================================-->
-                <hr>
-                <div class="form-group row text-center">
-                  <div class="col-sm-5">
-                    <strong>Descripcion</strong>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                      <input type="text" class="form-control search" placeholder="Buscar productos ingresados en la lista">
+                    </div>
                   </div>
-                  <div class="col-sm-2">
-                    <strong>Cantidad</strong>
-                  </div>
-                  <div class="col-sm-2">
-                    <strong>P.U</strong>
-                  </div>
-                  <div class="col-sm-3">
-                    <strong>P. Total</strong>
-                  </div>
-                </div>
-                <div class="form-group row nuevoProducto">
-
-                
-
-                </div>
-
-                <input type="" id="listaProductos" name="listaProductos" required>
-                <input type="" id="listaId" name="listaId" required>
-                <!--=====================================
-                BOTÓN PARA AGREGAR PRODUCTO
-                ======================================-->
-
-                <button type="button" class="btn btn-default hidden-lg btnAgregarProducto">Agregar producto</button>
-
-                <hr>
-
-                <div class="row">
 
                   <!--=====================================
-                  ENTRADA IMPUESTOS Y TOTAL
+                  ENTRADA PARA AGREGAR PRODUCTO
                   ======================================-->
-                  
-                  <div class="col-xs-8 pull-right">
-                    
-                    <table class="table">
+                  <hr>
+                  <div class="form-group row text-center">
+                    <div class="col-sm-5">
+                      <strong>Descripcion</strong>
+                    </div>
+                    <div class="col-sm-2">
+                      <strong>Cantidad</strong>
+                    </div>
+                    <div class="col-sm-2">
+                      <strong>P.U</strong>
+                    </div>
+                    <div class="col-sm-3">
+                      <strong>P. Total</strong>
+                    </div>
+                  </div>
 
-                      <thead>
-
-                        <tr>
-                          <th></th>
-                          <th>Total</th>      
-                        </tr>
-
-                      </thead>
-
-                      <tbody>
-                      
-                        <tr>
-                          <td style="width: 50%"></td>
-                          <td style="width: 50%">
-                            <div class="input-group">
-                              <span class="input-group-addon"><i class="ion ion-social-usd"></i></span>
-                              <input type="text" class="form-control input-lg" id="nuevoTotalCompra"  total="" placeholder="00000" readonly>
-                              <input type="hidden" name="total" id="totalCompra">
-                            </div>
-                          </td>
-                        </tr>
-
-                      </tbody>
-                    </table>
+                  <div class="form-group row nuevoProducto slimscroll">
 
                   </div>
 
-                </div>
+                  <input type="hidden" id="listaProductos" name="listaProductos" required>
+                  <input type="hidden" id="listaId" name="listaId" required>
+                  <!--=====================================
+                  BOTÓN PARA AGREGAR PRODUCTO
+                  ======================================-->
 
-                <hr>
+                  <button type="button" class="btn btn-default hidden-lg btnAgregarProducto">Agregar producto</button>
 
-                <!--=====================================
-                ENTRADA MÉTODO DE PAGO
-                ======================================-->
+                  <br>
+                  <div class="row">
+                    <div class="col-xs-6">
+                      <button class="btn btn-default btn-block totalItems" disabled></button>
+                    </div>
+                    <div class="col-xs-6">
+                      <button type="button" class="btn btn-danger btn-block clearLista">Limpiar lista</button>
+                    </div>
+                  </div>
 
-                <div class="form-group row">
-                  
-                  <div class="col-xs-6" style="padding-right:0px">
-                    
-                     <div class="input-group">
-                  
+                  <br>
+
+                  <div class="form-horizontal row">
+                      
+                    <div class="col-sm-6">
                       <select class="form-control" id="nuevoMetodoPago" name="metodo_pago" required>
                         <option value="contado">Contado</option>
                         <option value="credito">Credito</option>
-                        <option value="TC">Tarjeta Crédito</option>
-                        <option value="TD">Tarjeta Débito</option>                  
                       </select>    
-
                     </div>
 
-                  </div>
+                    <div class="col-sm-6">
+                      <div class="control-label col-sm-4 ">
+                        <strong>TOTAL</strong>
+                      </div>
+                      <div class="col-sm-8">
+                        <div class="input-group">
+                          <span class="input-group-addon"><i class="ion ion-social-usd"></i></span>
+                          <input type="text" class="form-control input-lg" id="nuevoTotalCompra"  total="" placeholder="00000" readonly>
+                          <input type="hidden" name="total" class="totalCompra" id="totalCompra">
+                        </div>
+                      </div>
+                    </div>
 
-                  <div class="cajasMetodoPago"></div>
-
-                  <input type="hidden" id="listaMetodoPago">
+                  </div><br>
 
                 </div>
 
-                <br>
-      
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-block">Guardar Compra</button>
+                </div>
+
               </div>
 
-            </div>
-
-            <div class="box-footer">
-              <button type="submit" class="btn btn-primary pull-right">Guardar Compra</button>
-            </div>
-
-        </form>
-
-        <?php
-
-          $guardarVenta = new ControladorVentas();
-          $guardarVenta -> ctrCrearVenta();
-          
-        ?>
+          </form>
 
         </div>
-            
       </div>
 
       <!--=====================================
@@ -277,6 +238,23 @@ if($_SESSION["perfil"] == "Especial"){
       ======================================-->
 
       <div class="col-lg-7 hidden-md hidden-sm hidden-xs">
+
+        <div class="box box-warning">
+          <div class="box-header with-border"></div>
+          <div class="box-body">
+            <div class="form-group has-success">
+              <label>Ingrese codigo de barras</label>
+              <div class="input-group">
+                <input type="text" class="codigoProducto form-control">
+                <span class="input-group-addon">
+                  <i class="fa fa-barcode"></i>
+                </span>
+              </div>
+              
+            </div>
+            
+          </div>
+        </div>
         
         <div class="box box-warning">
 

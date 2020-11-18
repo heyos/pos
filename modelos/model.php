@@ -10,14 +10,53 @@ class Model {
         $join = "";
         $str = "";
         $column = "";
+        $table = "";
         $value = "";
         $signo = "";
         $limit = "";
         $orderBy = "";
 
+        //JOIN
+        if(array_key_exists('join',$params)){
+
+            if(is_array($params['join']) && count($params['join']) > 0){
+
+                foreach ($params['join'] as $val) {
+
+                    $str = "";
+                    
+                    switch (count($val)) {
+                        case 3:
+                            
+                            $str = sprintf(" %s ON %s = %s ",$val[0],$val[1],$val[2]);
+                            
+                            break;
+                            
+                        default:
+                            $str = $val[0];
+                            break;
+                    }
+                    
+                    $join .= sprintf(" %s ",$str);
+                    
+                }
+
+            }elseif (!empty($params['join'])) {
+                $join = $params['join'];
+            }
+
+            if(!empty($join)){
+                $join = ' JOIN '.$join;
+            }
+
+        }
+
+        //--------------------------------------------------
+
+        //WHERE
         if(array_key_exists('where', $params)){
 
-            if(count($params['where']) > 0){
+            if(is_array($params['where']) && count($params['where']) > 0){
                 foreach ($params['where'] as $val) {
 
                     $str = "";
@@ -55,6 +94,9 @@ class Model {
                 if(array_key_exists("search",$params)){
                     $where .= " AND ";
                 }
+
+            }elseif (!empty($params['where'])) {
+                $where = $params['where'];
             }
 
         }
@@ -69,30 +111,54 @@ class Model {
             
         }
 
+        if(!empty($where)){
+            $where = ' AND '.$where;
+        }
+        //-------------------------------------------------------------------
+        //FIN WHERE
+        //-------------------------------------------------------------------
+
+        //ORDER BY
         if(array_key_exists("order",$params) && array_key_exists("dir",$params)){
             if (!empty($params['order']) && !empty($params['dir'])) {
                 $orderBy = sprintf(" ORDER BY %s %s",$params['order'],$params['dir']);
             }
         }
+        //----------------------------------------------------
 
+        //LIMIT
         if(array_key_exists("start",$params) && array_key_exists("length",$params)){
             $limit = sprintf(" LIMIT %d,%d ",$params['start'],$params['length']);
         }
+        //----------------------------------------------------
 
-        if(!empty($where)){
-            $where = ' AND '.$where;
+        $columns = array_key_exists('columns',$params) ? $params['columns']:'*';
+
+        $deletedParam = 'deleted';
+
+        if(!empty($join)){
+            $arr = explode(" ", $params['table']);
+            $deletedParam = trim($arr[1]).'.deleted'; //REFENCIA AL "AS" DE LA TABLA
         }
 
-        $sql = sprintf("SELECT * FROM %s WHERE deleted = '0' %s %s %s",
-                        $params['table'],$where,$orderBy,$limit);
+        $sql = sprintf("SELECT %s FROM %s %s WHERE %s = '0' %s %s %s",
+                        $columns,$params['table'],$join,$deletedParam,$where,$orderBy,$limit);
 
         $query = Conexion::conectar()->prepare($sql);
 
-        $query -> execute();
+        $data = [];
+        //echo $sql;
+        
+        if($query -> execute()){
 
-        return $query -> fetchAll();
-       
-        $query -> close();
+            $data = $query -> fetchAll();
+
+        }
+
+        $query = null;
+
+        return $data;       
+        
     }
 
     static public function firstOrAll($table, $params, $data){

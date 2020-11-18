@@ -54,7 +54,8 @@ class ControladorProductos extends Controller{
 
 		$respuesta = [
 			"stock"=> $stock,
-			"contenido"=>$out
+			"contenido"=>$out,
+			"idProducto"=>$idProducto
 		] ;
 
 		return $respuesta;

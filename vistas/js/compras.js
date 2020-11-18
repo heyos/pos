@@ -14,7 +14,7 @@ $(".nuevaFecha").datepicker({
 
 var table = $('.tablaCompras').DataTable( {
     "ajax": {
-        url:"ajax/datatable-compras.ajax.php",
+        url:"ajax/datatable-productos-v2.ajax.php",
         data: function(d){
             d.productos = $('#listaId').val(); //enviar parametros personalizados
         },
@@ -63,7 +63,7 @@ var table = $('.tablaCompras').DataTable( {
 
 	}
 
-} );
+});
 
 /*=============================================
 AGREGANDO PRODUCTOS A LA COMPRA DESDE LA TABLA
@@ -137,9 +137,7 @@ $(".formularioCompra").on("click", "button.quitarProducto", function(){
 
 	localStorage.setItem("quitarProducto", JSON.stringify(idQuitarProducto));
 
-    console.log(localStorage.getItem("quitarProducto"));
-
-	$("button.recuperarBoton[idProducto='"+idProducto+"']").removeClass('btn-default');
+    $("button.recuperarBoton[idProducto='"+idProducto+"']").removeClass('btn-default');
 
 	$("button.recuperarBoton[idProducto='"+idProducto+"']").addClass('btn-primary agregarProducto');
 
@@ -155,6 +153,39 @@ $(".formularioCompra").on("click", "button.quitarProducto", function(){
         listarProductos();
 
 	}
+
+});
+
+//QUITAR TODOS LOS PRODUCTOS DE LA LISTA
+$('.clearLista').on('click',function(){
+
+	var lista = $('#listaId').val() != '' ? JSON.parse($('#listaId').val()): [];
+
+	if(lista.length == 0){
+		return;
+	}
+
+	swal({
+      title: "Borrar lista",
+      text: "¡Este accion borrara los productos de la lista!",
+      type: "warning",
+      showCancelButton: true,
+      cancelButtonText: "¡Cerrar!",
+      confirmButtonText: "¡Ok!"
+    }).then(function(result){
+
+    	if(result.value){
+
+    		$('.nuevoProducto').html('');
+    		sumarTotalPrecios();
+        	listarProductos();
+    		table.draw();    		
+
+    	}
+
+    });
+
+    
 
 });
 
@@ -207,6 +238,55 @@ $('.search').keyup(function(e){
 
 	}
 
+});
+
+/*==========================================================
+BUSCAR PRODUCTOS CON CODIGO DE BARRA Y AGREGAR A LA LISTA
+==========================================================*/
+
+$('.codigoProducto').keypress(function(e){
+
+	var codigo = $(this).val();
+	var key = (e.which) ? e.which : e.keyCode
+	var listaId = $('#listaId').val() != '' ? JSON.parse($('#listaId').val()) : [];
+	
+	if(key == 13 && codigo != ''){
+		datos = 'accion=data&codigo='+codigo;
+
+		$.ajax({
+			cache: false,
+			type:'POST',
+			dataType: 'json',
+			url: "ajax/productos.ajax.php",
+			data: datos,
+			success: function(response){
+
+				if(listaId.includes(response.idProducto)){
+
+					swal({
+				      title: "Producto existente",
+				      text: "¡Este producto ya se encuentra en la lista!",
+				      type: "warning",
+				      confirmButtonText: "¡Cerrar!"
+				    });
+
+				}else{
+
+					$('.nuevoProducto').append(response.contenido);
+					$('button.agregarProducto[idProducto="'+response.idProducto+'"]').removeClass('btn-primary');
+					$('button.agregarProducto[idProducto="'+response.idProducto+'"]').addClass('btn-default recuperarBoton').removeClass('agregarProducto');
+					$('.codigoProducto').val('');
+					sumarTotalPrecios();
+        			listarProductos();
+				}
+
+			},
+			error: function(e){
+				console.log(e);
+	            alert(e.responseText);
+			}
+		});
+	}
 });
 
 /*=============================================
@@ -535,7 +615,7 @@ function sumarTotalPrecios(){
 FORMATO AL PRECIO FINAL
 =============================================*/
 
-$("#nuevoTotalVenta").number(true, 2);
+$("#nuevoTotalCompra").number(true, 2);
 
 /*=============================================
 SELECCIONAR MÉTODO DE PAGO
@@ -612,33 +692,7 @@ $("#nuevoMetodoPago").change(function(){
 
 	
 
-})
-
-/*=============================================
-CAMBIO EN EFECTIVO
-=============================================*/
-$(".formularioCompra").on("change", "input#nuevoValorEfectivo", function(){
-
-	var efectivo = $(this).val();
-
-	var cambio =  Number(efectivo) - Number($('#nuevoTotalCompra').val());
-
-	var nuevoCambioEfectivo = $(this).parent().parent().parent().children('#capturarCambioEfectivo').children().children('#nuevoCambioEfectivo');
-
-	nuevoCambioEfectivo.val(cambio);
-
-})
-
-/*=============================================
-CAMBIO TRANSACCIÓN
-=============================================*/
-$(".formularioVenta").on("change", "input#nuevoCodigoTransaccion", function(){
-
-	// Listar método en la entrada
-     listarMetodos()
-
-
-})
+});
 
 
 /*=============================================
@@ -656,6 +710,7 @@ function listarProductos(){
 
 	var precio = $(".nuevoPrecioProducto");
     var total = $(".nuevoTotalProducto");
+    var totalItems = 0;
 
 	for(var i = 0; i < descripcion.length; i++){
 
@@ -672,34 +727,75 @@ function listarProductos(){
 		
 	}
 
+	totalItems = listaId.length;
+
 	$("#listaProductos").val(JSON.stringify(listaProductos));
     $("#listaId").val(JSON.stringify(listaId));
+    $('.totalItems').html('<b>Nro Productos:</b> '+totalItems);
 }
 
-/*=============================================
-LISTAR MÉTODO DE PAGO
-=============================================*/
+//COMPRAS
 
-function listarMetodos(){
+var tableLista = $('.tablaListaCompras').DataTable( {
+    "ajax": {
+        url:"ajax/datatable-compras.ajax.php",
+        data: function(d){
+            //d.productos = $('#listaId').val(); //enviar parametros personalizados
+        },
+        complete: function(res){
+        	console.log(res);
+        }
+    },
+    "deferRender": true,
+	"retrieve": true,
+	"processing": true,
+    "serverSide":true,
+    "order": [[ 4, "desc" ]],
+    columns: [
 
-	var listaMetodos = "";
+        {data: 'DT_RowIndex', name: 'DT_RowIndex',className:'text-center'},
+        {data: 'codigo', name: 'codigo',className:'text-center'},
+        {data: 'proveedor_name', name: 'proveedor_name', className:'text-center'},
+        {data: 'total', name: 'total', className:'text-center',orderable: false,searchable: false},
+        {data: 'fecha_hora', name: 'fecha_hora', className:'text-center',searchable: false},
+        {data: 'action', name: 'action', className:'text-center',orderable: false, searchable: false},
 
-	if($("#nuevoMetodoPago").val() == "Efectivo"){
+    ],
+	"language": {
 
-		$("#listaMetodoPago").val("Efectivo");
-
-	}else{
-
-		$("#listaMetodoPago").val($("#nuevoMetodoPago").val()+"-"+$("#nuevoCodigoTransaccion").val());
+			"sProcessing":     "Procesando...",
+			"sLengthMenu":     "Mostrar _MENU_ registros",
+			"sZeroRecords":    "No se encontraron resultados",
+			"sEmptyTable":     "Ningún dato disponible en esta tabla",
+			"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+			"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+			"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+			"sInfoPostFix":    "",
+			"sSearch":         "Buscar:",
+			"sUrl":            "",
+			"sInfoThousands":  ",",
+			"sLoadingRecords": "Cargando...",
+			"oPaginate": {
+			"sFirst":    "Primero",
+			"sLast":     "Último",
+			"sNext":     "Siguiente",
+			"sPrevious": "Anterior"
+			},
+			"oAria": {
+				"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+				"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+			}
 
 	}
 
-}
+});
+
+
 
 /*=============================================
-BOTON EDITAR VENTA
+BOTON EDITAR COMPRA
 =============================================*/
-$(".tablas").on("click", ".btnEditarCompra", function(){
+$(".tablaListaCompras").on("click", ".btnEditarCompra", function(){
 
 	var idCompra = $(this).attr("idCompra");
 
@@ -708,70 +804,43 @@ $(".tablas").on("click", ".btnEditarCompra", function(){
 
 });
 
-/*=============================================
-FUNCIÓN PARA DESACTIVAR LOS BOTONES AGREGAR CUANDO EL PRODUCTO YA HABÍA SIDO SELECCIONADO EN LA CARPETA
-=============================================*/
-
-function quitarAgregarProducto(){
-
-	//Capturamos todos los id de productos que fueron elegidos en la venta
-	var idProductos = $(".quitarProducto");
-
-	//Capturamos todos los botones de agregar que aparecen en la tabla
-	var botonesTabla = $(".tablaCompras tbody button.agregarProducto");
-
-	//Recorremos en un ciclo para obtener los diferentes idProductos que fueron agregados a la venta
-	for(var i = 0; i < idProductos.length; i++){
-
-		//Capturamos los Id de los productos agregados a la venta
-		var boton = $(idProductos[i]).attr("idProducto");
-		
-		//Hacemos un recorrido por la tabla que aparece para desactivar los botones de agregar
-		for(var j = 0; j < botonesTabla.length; j ++){
-
-			if($(botonesTabla[j]).attr("idProducto") == boton){
-
-				$(botonesTabla[j]).removeClass("btn-primary agregarProducto");
-				$(botonesTabla[j]).addClass("btn-default");
-
-			}
-		}
-
-	}
-	
-}
-
-/*=============================================
-CADA VEZ QUE CARGUE LA TABLA CUANDO NAVEGAMOS EN ELLA EJECUTAR LA FUNCIÓN:
-=============================================*/
-
-$('.tablaVentas').on( 'draw.dt', function(){
-
-	quitarAgregarProducto();
-
-})
 
 
 /*=============================================
-BORRAR VENTA
+BORRAR COMPRA
 =============================================*/
-$(".tablas").on("click", ".btnEliminarVenta", function(){
+$(".tablaListaCompras").on("click", ".btnEliminarCompra", function(){
 
   var idVenta = $(this).attr("idVenta");
 
   swal({
-        title: '¿Está seguro de borrar la venta?',
+        title: '¿Está seguro de borrar la compra?',
         text: "¡Si no lo está puede cancelar la accíón!",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Si, borrar venta!'
+        confirmButtonText: 'Si, borrar compra!'
       }).then(function(result){
         if (result.value) {
           
-            window.location = "index.php?ruta=ventas&idVenta="+idVenta;
+            var data = "accion=delete&id="+idVenta;
+            $.ajax({
+            	cache: false,
+            	type:'POST',
+            	dataType: 'json',
+            	url:'ajax/compras.ajax.php',
+            	data: data,
+            	success: function(response){
+
+            	},
+            	error: function(e){
+            		console.log(e.responseText);
+            		//alert(e.responseText)
+            	}
+
+            });
         }
 
   })
@@ -818,7 +887,7 @@ $('#daterange-btn').daterangepicker(
    
    	localStorage.setItem("capturarRango", capturarRango);
 
-   	window.location = "index.php?ruta=ventas&fechaInicial="+fechaInicial+"&fechaFinal="+fechaFinal;
+   	//window.location = "index.php?ruta=ventas&fechaInicial="+fechaInicial+"&fechaFinal="+fechaFinal;
 
   }
 
@@ -832,8 +901,8 @@ $(".daterangepicker.opensleft .range_inputs .cancelBtn").on("click", function(){
 
 	localStorage.removeItem("capturarRango");
 	localStorage.clear();
-	window.location = "ventas";
-})
+	window.location = "compras";
+});
 
 /*=============================================
 CAPTURAR HOY
@@ -879,7 +948,7 @@ $(".daterangepicker.opensleft .ranges li").on("click", function(){
 
 	}
 
-})
+});
 
 
 

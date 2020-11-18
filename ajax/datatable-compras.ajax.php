@@ -1,7 +1,8 @@
 <?php
+session_start();
 
-require_once "../controladores/productos.controlador.php";
-require_once "../modelos/productos.modelo.php";
+require_once "../controladores/compras.controlador.php";
+require_once "../modelos/compras.modelo.php";
 
 class TablaProductosCompras{
 
@@ -9,36 +10,45 @@ class TablaProductosCompras{
 
   public function showDataTable(){
 
-    $columns = ['id','imagen','codigo','descripcion','stock']; //columnas
+    $columns = "c.id AS id,
+                c.codigo AS codigo,
+                c.proveedor_id AS proveedor_id,
+                p.razon_social AS proveedor_name,
+                c.total AS total,
+                CONCAT(c.fecha,' ',c.hora) AS fecha_hora"; //columnas
+
+    if(array_key_exists('fechas',$this->request)){ 
+
+
+    }
+
+    $join = array(
+      array('proveedor p','c.proveedor_id','p.id')
+    );
+
     $searchColumns = ['codigo','descripcion']; //columnas donde generar la busqueda
     $orderColumns = [
       0 => 'id',
-      2 => 'codigo',
-      3 => 'descripcion',
-      4 => 'stock'
+      1 => 'codigo',
+      2 => 'proveedor_name',
+      4 => 'fecha_hora'
     ]; //columnas para ordenar
 
     $params = array(
-            "table"=>"productos",
+            "table"=>"compra c",
             "columns"=>$columns,
             "searchColumns"=>$searchColumns,
-            "orderColumns" => $orderColumns
+            "orderColumns" => $orderColumns,
+            "join"=>$join
     );
 
-    $options = Controller::dataTable($this->request,$params,'options');
-    $records = Controller::dataTable($this->request,$params,'data');
-    // $records = array();
+    $options = ComprasController::dataTable($this->request,$params,'options');
+    $records = ComprasController::dataTable($this->request,$params,'data');
+    //$records = array();
     // $test = Controller::dataTable($this->request,$params,'');
     $data = [];
 
-    //PARA VERIFICAR SI YA SE UTILIZO EL PRODUCTO
-    //-------------------------------------------------
-    $lista = [];
-    $class = '';
     
-    if(array_key_exists('productos',$this->request)){
-      $lista = json_decode($this->request['productos'],true);
-    }
     //-------------------------------------------------
 
     if(count($records) > 0){
@@ -46,49 +56,57 @@ class TablaProductosCompras{
       $i =0;
 
       // procesando la data para mostrarla en el front
+      $id = 0;
+      $proveedor_id = 0;
+      $proveedor_name = '';
+      $codigo = '';
+      $fecha_hora = '';
+      $total = 0;
+
       foreach ($records as $row) {
 
         $i++;
-        $imagen = "<img src='".$row["imagen"]."' width='40px'>";
+        $id = $row[0];
+        $codigo = $row[1];
+        $proveedor_name = $row[3];
+        $total = $row[4];
+        $fecha_hora = $row[5];
 
-        if($row["stock"] <= 10){
-
-          $stock = "<button class='btn btn-danger'>".$row["stock"]."</button>";
-
-        }else if($row["stock"] > 11 && $row["stock"] <= 15){
-
-          $stock = "<button class='btn btn-warning'>".$row["stock"]."</button>";
-
-        }else{
-
-          $stock = "<button class='btn btn-success'>".$row["stock"]."</button>";
+        if($_SESSION['perfil'] == 'Administrador'){
+          
+          $button =  "
+                <div class='btn-group'>
+                  <button class='btn btn-warning btnEditarCompra btn-sm' idCompra='".$row["id"]."'><i class='fa fa-pencil'></i></button>
+                  <button class='btn btn-danger btnEliminarCompra btn-sm' idCompra='".$row["id"]."'><i class='fa fa-times'></i></button>
+                </div>
+          ";
 
         }
-
-        $class = in_array($row["id"], $lista) ? 'btn-default' : 'btn-primary agregarProducto' ;
-
-        $button =  "<div class='btn-group'><button class='btn ".$class." recuperarBoton' idProducto='".$row["id"]."'>Agregar</button></div>";
+        
+        
 
         $data[] = array(
           "DT_RowIndex" => $i,
-          "codigo" => $row['codigo'],
-          "imagen" => $imagen,
-          "descripcion" =>$row['descripcion'],
-          "stock" => $stock,
+          "codigo" => $codigo,
+          "proveedor_name" => $proveedor_name,
+          "total" =>$total,
+          "fecha_hora" => $fecha_hora,
           "action" => $button
         );
 
       }
 
     }else{
+      // $var = '';
+      
       // $data[] = array(
-      //     "DT_RowIndex" => 1,
+      //     "DT_RowIndex" => '',
       //     "codigo" => '',
-      //     "imagen" => '',
-      //     "descripcion" =>$test,
-      //     "stock" => '',
+      //     "proveedor_name" => $var,
+      //     "total" =>'',
+      //     "fecha_hora" => '',
       //     "action" => ''
-      // );
+      //   );
     }
 
     $options['data'] = $data;

@@ -78,3 +78,10 @@ $('a[href='+ruta+']').parent().addClass('active');
 $('a[href='+ruta+']').parent().parent().parent().addClass('active');
 
 
+/*===================================
+//slimscroll
+====================================*/
+
+$('.slimscroll').slimscroll({
+  height: '200px'
+});

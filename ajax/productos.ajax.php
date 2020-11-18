@@ -75,10 +75,19 @@ class AjaxProductos{
 
     switch ($this->accion) {
       case 'data':
-        
-        $item = "id";
-        $valor = $this->params['id'];
-        $orden = "id";
+
+        if(array_key_exists('codigo',$this->params)){
+          //agregar desde codigo de barra
+          $item = "codigo";
+          $valor = $this->params['codigo'];
+          $orden = "codigo";
+
+        }else{
+          //agregar desde lista de productos
+          $item = "id";
+          $valor = $this->params['id'];
+          $orden = "id";
+        }                
 
         $respuesta = ControladorProductos::ctrShowProducto($item, $valor,$orden);
 
