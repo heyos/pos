@@ -128,29 +128,24 @@ class Controller {
 
     }
 
-    public static function itemDetail($datos){
+    public static function itemDetail($params){
 
         $respuestaOk = false;
         $mensajeError = "No se puede ejecutar la aplicacion";
-        $contenidoOk = '';
+        $contenidoOk = [];
 
-        if(array_key_exists('id',$datos) && array_key_exists('tabla',$datos)){
+        if(array_key_exists('id',$params) && array_key_exists('tabla',$params)){
 
-            $id = Globales::sanearData($datos['id']);
-            $tabla = Globales::sanearData($datos['tabla']);
+            $tabla = Globales::sanearData($params['tabla']);
 
-            $datos = Model::detalleDatosMdl($tabla,'id',$id);
+            $datos = Model::firstOrAll($tabla,$params,'first');
 
-            if(count($datos) > 0){
-                if(array_key_exists('dFecNac', $datos[0])){
-                    $fecha = $datos[0]['dFecNac'];
-                    $fecha = date('d-m-Y',strtotime($fecha));
-                    $datos[0]['dFecNac'] = $fecha;
-                }
+            if(!empty($datos) > 0){
+                
                 $respuestaOk = true;
-                $contenidoOk = $datos[0];
+                $contenidoOk = $datos;
             }else{
-                $mensajeError = "Parametros incorrectos.";
+                $mensajeError = "Parametros incorrectos - NULL.";
             }
 
 
@@ -162,7 +157,7 @@ class Controller {
                             'mensaje'=>$mensajeError,
                             'contenido'=>$contenidoOk);
 
-        echo json_encode($salidaJson);
+        return $salidaJson;
 
     }
 

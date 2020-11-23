@@ -1,6 +1,4 @@
-
 <?php
-
 
 require_once "../controladores/globales.php";
 require_once "../controladores/compras.controlador.php";

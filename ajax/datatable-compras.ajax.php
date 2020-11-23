@@ -71,6 +71,7 @@ class TablaProductosCompras{
         $proveedor_name = $row[3];
         $total = $row[4];
         $fecha_hora = $row[5];
+        $button = '';
 
         if($_SESSION['perfil'] == 'Administrador'){
           
