@@ -1,5 +1,5 @@
 /*=============================================
-CARGAR LA TABLA DINÁMICA DE VENTAS
+CARGAR LA TABLA DINÁMICA DE COMPRAS
 =============================================*/
 
 sumarTotalPrecios();
@@ -184,8 +184,6 @@ $('.clearLista').on('click',function(){
     	}
 
     });
-
-    
 
 });
 
@@ -435,7 +433,7 @@ $(".formularioVenta").on("change", "select.nuevaDescripcionProducto", function()
       	    $(nuevoPrecioProducto).attr("precioReal", respuesta["precio_venta"]);
             $(nuevoPrecioProducto).attr("precioCompraReal", respuesta["precio_compra"]);
 
-  	        listarProductos()
+  	        listarProductos();
 
       	}
 
@@ -592,11 +590,6 @@ function sumarTotalPrecios(){
 	
     }
 
-	// function sumaArrayPrecios(total, numero){
-
-	// 	return total + numero;
-
-	// }
 	if(arraySumaPrecio.length > 0){
 		sumaTotalPrecio = arraySumaPrecio.reduce(sumaArrayPrecios);
 	}
@@ -743,7 +736,7 @@ var tableLista = $('.tablaListaCompras').DataTable( {
             //d.productos = $('#listaId').val(); //enviar parametros personalizados
         },
         complete: function(res){
-        	console.log(res);
+        	//console.log(res);
         }
     },
     "deferRender": true,
@@ -811,7 +804,7 @@ BORRAR COMPRA
 =============================================*/
 $(".tablaListaCompras").on("click", ".btnEliminarCompra", function(){
 
-  var idVenta = $(this).attr("idVenta");
+  var id = $(this).attr("idCompra");
 
   swal({
         title: '¿Está seguro de borrar la compra?',
@@ -825,7 +818,7 @@ $(".tablaListaCompras").on("click", ".btnEliminarCompra", function(){
       }).then(function(result){
         if (result.value) {
           
-            var data = "accion=delete&id="+idVenta;
+            var data = "accion=delete&id="+id;
             $.ajax({
             	cache: false,
             	type:'POST',
@@ -834,6 +827,14 @@ $(".tablaListaCompras").on("click", ".btnEliminarCompra", function(){
             	data: data,
             	success: function(response){
 
+            		if(response.respuesta == false){
+            			swal('Error..!',response.mensaje,'error');
+            		}else{
+            			swal('Exito..!',response.mensaje,'success');
+            			tableLista.draw();
+            		}
+
+            		console.log(response);
             	},
             	error: function(e){
             		console.log(e.responseText);

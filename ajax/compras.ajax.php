@@ -35,6 +35,13 @@ class AjaxCompras{
     }
 
     public function ajaxDeleteCompra(){
+
+        $params = $this->params;
+        unset($params['accion']);
+
+        $respuesta = ComprasController::eliminarCompra($params);
+
+        echo json_encode($respuesta);
         
     }
 

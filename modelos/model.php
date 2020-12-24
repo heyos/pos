@@ -144,17 +144,18 @@ class Model {
         $sql = sprintf("SELECT %s FROM %s %s WHERE %s = '0' %s %s %s",
                         $columns,$params['table'],$join,$deletedParam,$where,$orderBy,$limit);
 
-        $query = Conexion::conectar()->prepare($sql);
+        $con = Conexion::conectar();
+        $query = $con->prepare($sql);
 
         $data = [];
-        //echo $sql;
-        
+                
         if($query -> execute()){
 
             $data = $query -> fetchAll();
 
         }
 
+        $con = null;
         $query = null;
 
         return $data;       

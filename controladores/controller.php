@@ -297,34 +297,25 @@ class Controller {
 
         echo json_encode($salidaJson);
 
-
     }
 
-    public static function deleteItem($datos){
+    public static function deleteItem($params){
 
         $respuestaOk = false;
         $mensajeError = "No se puede ejecutar la aplicacion";
-        $contenidoOk = '';
+        
+        if($params['table'] !=''){
 
-        if($datos['tabla'] !=''){
-            $table = $datos['tabla'] ;
-            if($datos['id']!=''){
+            $table = $params['table'];
 
-                $id = $datos['id'];
+            if($params['id']!=''){
+
+                $id = $params['id'];
+                $type = $params['type'];
                 
-                switch ($table) {
-                    case 'persona':
-                        $columnId = 'id';
-                        break;
-                    
-                    default:
-                        $columnId = 'id';
-                        break;
-                }
+                $respuesta = Model::delete($table,$id,$type);
 
-                $respuesta = Model::eliminarDatoMdl($table,$columnId,$id);
-
-                if($respuesta ==  true){
+                if($respuesta !=  0){
                     $respuestaOk = true;
                     $mensajeError = "Se elimino exitosamente.";
                 }else{
@@ -340,9 +331,8 @@ class Controller {
         }
 
         $salidaJson = array('respuesta'=>$respuestaOk,
-                            'mensaje'=>$mensajeError,
-                            'contenido'=>$contenidoOk);
+                            'message'=>$mensajeError);
 
-        echo json_encode($salidaJson);
+        return $salidaJson;
     }
 }

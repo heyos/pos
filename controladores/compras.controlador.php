@@ -319,6 +319,88 @@ class ComprasController extends Controller {
         
     }
 
+    static public function eliminarCompra($params){
+
+        $mensajeError = "";
+        $respuestaOk = false;
+        $contenidoOk = "";
+
+        $idCompra = $params['id'];
+        $datosCompra = self::mostrarCompra($idCompra);
+        $arrDetalle = $datosCompra['detalle'];
+        $i = 0;
+
+        if(count($arrDetalle) > 0){
+
+            //PROCESO PARA QUITAR EL STOCK ANTERIORMENTE GUARDADO
+            foreach ($arrDetalle as $oldItem) {
+
+                $oldCantidad = $oldItem['cantidad'];
+                $idProducto = $oldItem['producto_id'];
+                //VERIFICAMOS QUE PRODUCTO EXISTA
+                $producto = ModeloProductos::mdlMostrarProductos('productos', 'id', $idProducto, '');
+
+                if(!empty($producto)){
+                    $descripcion = $producto['descripcion'];
+                    $stock = $producto['stock'];
+                    $old = $stock;
+                    $stock -= $oldCantidad;
+                    $producto['stock'] = $stock;
+                    
+                    $resPro = ModeloProductos::mdlEditarProducto('productos',$producto);
+
+                    if($resPro == 'ok'){
+
+                        $idDetalle = $oldItem['id'];
+                        $delete = CompraDetalle::delete('compra_detalle',$idDetalle,'logic');
+                        
+                        if($delete == 0){
+                            $mensajeError .= "Error al eliminar este producto <b>".$descripcion."<b> del detalle<br>";
+                        }else{
+                            $i++;
+                            $mensajeError .= "<b>".$descripcion."<b><br>";
+                        }
+                        
+                    }else{
+                        $mensajeError .= "Error al eliminar este producto <b>".$descripcion."<b><br>";
+                    }
+                    
+                    
+                }
+
+                $stock = 0;
+                $descripcion ='';
+                
+            }
+        }
+
+        
+        $deleteCompra = ComprasModel::delete('compra',$idCompra,'logic');
+
+        if($deleteCompra != 0){
+            $respuestaOk = true;
+            
+            $mensajeErrorPro = '';
+            // if($i > 0){
+            //     $mensajeErrorPro = '<br>'.$mensajeError;
+            // }
+            $mensajeError = "Se elimino la compra exitosamente".$mensajeErrorPro;
+
+        }else{
+            $mensajeError = "Error al eliminar la compra";
+        }
+
+
+        $salidaJson = [
+            'mensaje'=>$mensajeError,
+            'respuesta'=>$respuestaOk,
+            'contenido'=>$contenidoOk
+        ];
+
+        return $salidaJson;
+
+    }
+
     static public function codigo(){
 
         $response = false;

@@ -14,8 +14,8 @@ if($_SESSION["perfil"] == "Especial"){
 
 }
 
-//$id = $_GET['term'];
-$id = 13;
+$id = $_GET['term'];
+//$id = 13;
 $datos = ComprasController::mostrarCompra($id);
 $compra = [];
 $detalle  = [];
