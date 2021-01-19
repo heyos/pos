@@ -24,29 +24,25 @@ class Model {
                 foreach ($params['join'] as $val) {
 
                     $str = "";
-                    
+
                     switch (count($val)) {
                         case 3:
-                            
+
                             $str = sprintf(" %s ON %s = %s ",$val[0],$val[1],$val[2]);
-                            
+
                             break;
-                            
+
                         default:
                             $str = $val[0];
                             break;
                     }
-                    
-                    $join .= sprintf(" %s ",$str);
-                    
+
+                    $join .= sprintf(" JOIN %s ",$str);
+
                 }
 
             }elseif (!empty($params['join'])) {
-                $join = $params['join'];
-            }
-
-            if(!empty($join)){
-                $join = ' JOIN '.$join;
+                $join = sprintf(" JOIN %s ",$params['join']) ;
             }
 
         }
