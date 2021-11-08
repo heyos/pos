@@ -119,9 +119,13 @@ class ControladorVentas{
 						   "metodo_pago"=>$_POST["listaMetodoPago"],
 							"fecha"=>$fechaV);
 
-			$respuesta = ModeloVentas::mdlIngresarVenta($tabla, $datos);
+			if( $_POST["listaMetodoPago"] == 'Efectivo'){
+				$datos['fecha_pago'] = $fechaV;
+			}
 
-			if($respuesta == "ok"){
+			$respuesta = ModeloVentas::create($tabla, $datos);
+
+			if($respuesta != 0){
 
 				echo'<script>
 
@@ -611,7 +615,17 @@ class ControladorVentas{
 		$gananciaCategoria = array();
 		$arrayKey = array();
 
-		$respuesta = ModeloVentas::mdlRangoFechasVentas($tabla, $fechaInicial, $fechaFinal);
+		//$respuesta = ModeloVentas::mdlRangoFechasVentas($tabla, $fechaInicial, $fechaFinal);
+
+		$params = array(
+			'table' => $tabla,
+			'columns' => '*',
+			'where' => array(
+				["fecha_pago BETWEEN '".$fechaInicial."' AND '".$fechaFinal."'"]
+			)
+		);
+
+		$respuesta = ModeloVentas::all($params);
 
 		if(count($respuesta) > 0){
 
@@ -694,6 +708,75 @@ class ControladorVentas{
 
 
 		echo $salida;
+	}
+
+	public static function capitalAcumulado($fechaInicial, $fechaFinal,$all = false){
+
+		$tabla = "ventas";
+
+		//$fechaInicial = date('Y-m-').'01';
+		//$fechaFinal = date('Y-m-d');
+		$totalPrecioCompra = 0;
+		$arrayTotalCategoria = array();
+		$categoria = "";
+
+		$term = '';
+
+		if($all){
+			$fechaFinal = date('Y-m-d');
+			$fechaFinal = date('Y-m-d',strtotime('-1day',strtotime($fechaFinal)));
+			$term = sprintf("fecha_pago <= '%s'",$fechaFinal);
+		}else{
+			$term = sprintf("fecha_pago BETWEEN '%s' AND '%s'",$fechaInicial,$fechaFinal);
+		}
+
+		$params = array(
+			'table' => $tabla,
+			'columns' => '*',
+			'where' => array(
+				[$term]
+			)
+		);
+
+		$respuesta = ModeloVentas::all($params);
+
+		if(count($respuesta) > 0){
+
+			foreach ($respuesta as $key => $row) {
+				
+				$productos = json_decode($row["productos"],true);
+
+				foreach ($productos as $key => $value) {
+
+					$precioCompra = 0;
+
+					$id = $value["id"];
+					$cantidadVendida = $value["cantidad"];
+										
+					$datosProd = ModeloProductos::mdlMostrarProductosDetalle("productos AS p, categorias AS c", $id);
+
+					if(!empty($datosProd[1])){
+
+						$precioCompra = (isset($value["precioCompra"]))?$value["precioCompra"]:$datosProd[2];
+						$totalPrecioCompra += $precioCompra*$cantidadVendida;
+						$total = $precioCompra*$cantidadVendida;
+
+						$categoria = $datosProd[1];
+						if(array_key_exists($categoria,$arrayTotalCategoria)){
+							$arrayTotalCategoria[$categoria] = $arrayTotalCategoria[$categoria] + $total;
+						}else{
+							$arrayTotalCategoria[$categoria] = $total;
+						}
+					
+					}
+				}
+
+			}
+
+		}
+
+		return $arrayTotalCategoria;
+
 	}
 
 }

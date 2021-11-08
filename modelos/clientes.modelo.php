@@ -1,8 +1,8 @@
 <?php
 
-require_once "conexion.php";
+require_once "model.php";
 
-class ModeloClientes{
+class ModeloClientes extends Model{
 
 	/*=============================================
 	CREAR CLIENTE

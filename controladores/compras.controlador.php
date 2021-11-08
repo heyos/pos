@@ -23,6 +23,11 @@ class ComprasController extends Controller {
 
                 //CREAMOS UN REGISTRO DE COMPRA
                 $tabla = 'compra';
+
+                if($params['metodo_pago'] == 'contado'){
+                    $params['fecha_pago'] = $params['fecha'];
+                }
+
                 $idCompra = ComprasModel::create($tabla,$params);
                 
                 if($idCompra != 0){
@@ -163,6 +168,11 @@ class ComprasController extends Controller {
                 //ACTUALIZMOS REGISTRO DE COMPRA
                 $idCompra = $params['id'];
                 $tabla = 'compra';
+
+                if($params['metodo_pago'] == 'contado'){
+                    $params['fecha_pago'] = $params['fecha'];
+                }
+
                 $response = ComprasModel::update($tabla,$params);
                 
                 if($response != 0){
@@ -472,5 +482,63 @@ class ComprasController extends Controller {
             
 
         return $response;
+    }
+
+    public static function capitalGastado($fechaInicial,$fechaFinal,$all = false){
+
+        $tabla = "compra_detalle dt";
+
+        $total = 0;
+
+        $arrayTotalCategoria = array();
+        $categoria = "";
+
+        $term = '';
+
+        if($all){
+            $fechaFinal = date('Y-m-d');
+            $fechaFinal = date('Y-m-d',strtotime('-1day',strtotime($fechaFinal)));
+            $term = sprintf("c.fecha_pago <= '%s'",$fechaFinal);
+        }else{
+            $term = sprintf("c.fecha_pago BETWEEN '%s' AND '%s'",$fechaInicial,$fechaFinal);
+        }
+
+        $columns = '
+            SUM(dt.sub_total),
+            ca.categoria
+        ';
+
+        $params = array(
+            'table' => $tabla,
+            'columns' => $columns,
+            'where' => array(
+                [$term]
+            ),
+            'join' => array(
+                ['compra c','dt.compra_id','c.id'],
+                ['productos p','dt.producto_id','p.id'],
+                ['categorias ca','p.id_categoria','ca.id']
+            ),
+            'group' => 'ca.categoria'
+        );
+
+        $respuesta = ComprasModel::all($params);
+
+        if(count($respuesta) > 0){
+
+            foreach ($respuesta as $value) {
+                $categoria = $value[1];
+                $total = $value[0];
+
+                if(array_key_exists($categoria,$arrayTotalCategoria)){
+                    $arrayTotalCategoria[$categoria] = $arrayTotalCategoria[$categoria] + $total;
+                }else{
+                    $arrayTotalCategoria[$categoria] = $total;
+                }
+            }
+
+        }
+
+        return $arrayTotalCategoria;
     }
 }

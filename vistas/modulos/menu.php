@@ -28,7 +28,19 @@
 
 				</a>
 
-			</li>';
+			</li>
+
+			<li>
+
+				<a href="proveedores">
+
+					<i class="fa fa-user"></i>
+					<span>Proveedores</span>
+
+				</a>
+
+			</li>
+			';
 
 		}
 
@@ -117,7 +129,18 @@
 
 					<li>
 
-						<a href="reportes">
+						<a href="registro-capital">
+							
+							<i class="fa fa-circle-o"></i>
+							<span>Registro de capital</span>
+
+						</a>
+
+					</li>
+
+					<li>
+
+						<a href="reportes-compras">
 							
 							<i class="fa fa-circle-o"></i>
 							<span>Reporte de compras</span>

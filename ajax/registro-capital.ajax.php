@@ -1,13 +1,21 @@
 <?php
 
-require_once "../controladores/proveedor.controlador.php";
-require_once "../modelos/proveedor.modelo.php";
+require_once "../controladores/categorias.controlador.php";
+require_once "../controladores/compras.controlador.php";
+require_once "../controladores/ventas.controlador.php";
+require_once "../controladores/reporte_capital.controlador.php";
 
-class AjaxProveedor{
+require_once "../modelos/compras.modelo.php";
+require_once "../modelos/ventas.modelo.php";
+require_once "../modelos/reporte_capital.modelo.php";
+require_once "../modelos/productos.modelo.php";
+require_once "../modelos/categorias.modelo.php";
+
+class ReporteCapitalAjax{
 
     public $params;
     
-    public function ajaxAddEditProveedor(){
+    public function addRegistro(){
 
         $params = $this->params;
         $accion = $params['accion'];
@@ -26,26 +34,16 @@ class AjaxProveedor{
 
     }
 
-    public function getProveedorAjax(){
+    public function getResumen(){
         $params = $this->params;
 
-        $params['tabla'] = 'proveedor';
-        $params['id'] = $params['term'];
-
-        $data = ProveedorController::itemDetail($params);
-
-        $respuesta = array(
-            'response' => $data['respuesta'],
-            'message' => $data['mensaje'],
-            'data' => $data['contenido']
-        );
-
+        $respuesta = ReporteCapitalController::showResumenInput();
 
         echo json_encode($respuesta);
 
     }
 
-    public function deleteProveedorAjax(){
+    public function deleteRegistro(){
 
         $params = $this->params;
 
@@ -65,19 +63,18 @@ EDITAR CLIENTE
 
 if(isset($_POST["accion"])){
 
-    $a = new AjaxProveedor();
+    $a = new ReporteCapitalAjax();
     $a -> params = $_POST;
 
     switch ($_POST["accion"]) {
-        case 'edit':
         case 'add':
-            $a -> ajaxAddEditProveedor();
+            $a -> addRegistro();
             break;
         case 'data':
-            $a -> getProveedorAjax();
+            $a -> getResumen();
             break;
         case 'delete':
-            $a -> deleteProveedorAjax();
+            $a -> deleteRegistro();
             break;
         default:
             echo json_encode([

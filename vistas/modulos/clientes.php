@@ -50,7 +50,7 @@ if($_SESSION["perfil"] == "Especial"){
 
       <div class="box-body">
         
-       <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
+       <table class="table table-bordered table-striped dt-responsive tabla-cliente" width="100%">
          
         <thead>
          
@@ -62,10 +62,10 @@ if($_SESSION["perfil"] == "Especial"){
            <th>Email</th>
            <th>Teléfono</th>
            <th>Dirección</th>
-           <th>Fecha nacimiento</th> 
+           <!-- <th>Fecha nacimiento</th>  -->
            <th>Total compras</th>
            <th>Última compra</th>
-           <th>Ingreso al sistema</th>
+           <!-- <th>Ingreso al sistema</th> -->
            <th>Acciones</th>
 
          </tr> 
@@ -74,7 +74,7 @@ if($_SESSION["perfil"] == "Especial"){
 
         <tbody>
 
-        <?php
+        <!-- <?php
 
           $item = null;
           $valor = null;
@@ -126,7 +126,7 @@ if($_SESSION["perfil"] == "Especial"){
           
             }
 
-        ?>
+        ?> -->
    
         </tbody>
 

@@ -13,6 +13,11 @@ CARGAR LA TABLA DINÁMICA DE VENTAS
 
 // })//
 
+var arr = ['crear-venta','editar-venta','ventas','reportes'];
+
+if(arr.includes($('#ruta').val())){
+
+
 $("#nuevaFecha").datepicker({ 
     dateFormat: 'yy-mm-dd',
     maxDate: "+0D"
@@ -25,34 +30,34 @@ $('.tablaVentas').DataTable( {
     "deferRender": true,
 	"retrieve": true,
 	"processing": true,
-	 "language": {
+ 	"language": {
 
-			"sProcessing":     "Procesando...",
-			"sLengthMenu":     "Mostrar _MENU_ registros",
-			"sZeroRecords":    "No se encontraron resultados",
-			"sEmptyTable":     "Ningún dato disponible en esta tabla",
-			"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-			"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
-			"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-			"sInfoPostFix":    "",
-			"sSearch":         "Buscar:",
-			"sUrl":            "",
-			"sInfoThousands":  ",",
-			"sLoadingRecords": "Cargando...",
-			"oPaginate": {
-			"sFirst":    "Primero",
-			"sLast":     "Último",
-			"sNext":     "Siguiente",
-			"sPrevious": "Anterior"
-			},
-			"oAria": {
-				"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-				"sSortDescending": ": Activar para ordenar la columna de manera descendente"
-			}
+		"sProcessing":     "Procesando...",
+		"sLengthMenu":     "Mostrar _MENU_ registros",
+		"sZeroRecords":    "No se encontraron resultados",
+		"sEmptyTable":     "Ningún dato disponible en esta tabla",
+		"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+		"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+		"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+		"sInfoPostFix":    "",
+		"sSearch":         "Buscar:",
+		"sUrl":            "",
+		"sInfoThousands":  ",",
+		"sLoadingRecords": "Cargando...",
+		"oPaginate": {
+		"sFirst":    "Primero",
+		"sLast":     "Último",
+		"sNext":     "Siguiente",
+		"sPrevious": "Anterior"
+		},
+		"oAria": {
+			"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+			"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+		}
 
 	}
 
-} );
+});
 
 /*=============================================
 AGREGANDO PRODUCTOS A LA VENTA DESDE LA TABLA
@@ -293,7 +298,7 @@ $(".btnAgregarProducto").click(function(){
       	dataType:"json",
       	success:function(respuesta){
       	    
-      	    	$(".nuevoProducto").append(
+  	    	$(".nuevoProducto").append(
 
           	'<div class="row" style="padding:5px 15px">'+
 
@@ -505,6 +510,8 @@ function sumarTotalPrecios(){
 	}
 
 	var sumaTotalPrecio = arraySumaPrecio.reduce(sumaArrayPrecios);
+
+	console.log(sumaTotalPrecio);
 	
 	$("#nuevoTotalVenta").val(sumaTotalPrecio);
 	$("#totalVenta").val(sumaTotalPrecio);
@@ -891,6 +898,7 @@ $(".daterangepicker.opensleft .ranges li").on("click", function(){
 
 })
 
+}
 
 
 

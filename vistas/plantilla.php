@@ -86,6 +86,9 @@ session_start();
   <!-- jquery ui -->
   <script src="<?php echo BASE_URL; ?>vistas/plugins/jQueryUI/jquery-ui.min.js"></script>
 
+  <!-- jquery blockUI -->
+  <script src="<?php echo BASE_URL; ?>vistas/plugins/blockUI/jquery.blockUI.js"></script>
+
   <!-- iCheck 1.0.1 -->
   <script src="<?php echo BASE_URL; ?>vistas/plugins/iCheck/icheck.min.js"></script>
 
@@ -97,6 +100,9 @@ session_start();
 
   <!-- jQuery Number -->
   <script src="<?php echo BASE_URL; ?>vistas/plugins/jqueryNumber/jquerynumber.min.js"></script>
+
+  <!-- jQuery Numeric -->
+  <script src="<?php echo BASE_URL; ?>vistas/plugins/jqueryNumeric/jquery.numeric.js"></script>
 
   <!-- daterangepicker http://www.daterangepicker.com/-->
   <script src="<?php echo BASE_URL; ?>vistas/bower_components/moment/min/moment.min.js"></script>
@@ -153,10 +159,13 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "reportes" ||
         $_GET["ruta"] == "salir" ||
         $_GET["ruta"] == "compras" ||
-        $_GET["ruta"] == "editar-compra"){
+        $_GET["ruta"] == "editar-compra" ||
+        $_GET["ruta"] == "registro-capital" ||
+        $_GET["ruta"] == "reportes-compras" ||
+        $_GET["ruta"] == "proveedores"){
 
         echo "<input type='hidden' value='".$_GET["ruta"]."' id='ruta'>";
-        //echo "<input type='hidden' value='".BASE_URL."' id='url'>";
+        echo "<input type='hidden' value='".BASE_URL."' id='url'>";
 
 
         include "modulos/".$_GET["ruta"].".php";
@@ -198,6 +207,8 @@ CUERPO DOCUMENTO
 <script src="<?php echo BASE_URL; ?>vistas/js/ventas.js"></script>
 <script src="<?php echo BASE_URL; ?>vistas/js/compras.js"></script>
 <script src="<?php echo BASE_URL; ?>vistas/js/reportes.js"></script>
+<script src="<?php echo BASE_URL; ?>vistas/js/proveedores.js"></script>
+<script src="<?php echo BASE_URL; ?>vistas/js/registro-capital.js"></script>
 
 </body>
 </html>

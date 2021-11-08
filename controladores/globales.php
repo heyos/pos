@@ -118,4 +118,48 @@ class Globales{
 
     }
 
+    public static function nombre_dia($dia){
+        $str = '';
+
+        switch ($dia) {
+            case 0:
+                $str = 'Domingo';
+                break;
+
+            case 1:
+                $str = 'Lunes';
+                break;
+
+            case 2:
+                $str = 'Martes';
+                break;
+
+            case 3:
+                $str = 'Miercoles';
+                break;
+
+            case 4:
+                $str = 'Jueves';
+                break;
+
+            case 5:
+                $str = 'Viernes';
+                break;
+
+            case 6:
+                $str = 'Sabado';
+                break;
+
+            case 8:
+                $str = "Todos";
+                break;
+            
+            default:
+                $str = 'No definido';
+                break;
+        }
+
+        return $str;
+    }
+
 }

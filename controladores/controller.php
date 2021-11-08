@@ -51,8 +51,8 @@ class Controller {
 
         $params['start'] = $start;
         $params['length'] = $length;
-        $params['order'] = $orderColumn;
-        $params['dir'] = $orderDir;
+        $params['order'] = !isset($params['order']) ? $orderColumn : $params['order'];
+        $params['dir'] = !isset($params['dir']) ? $orderDir : $params['dir'];
 
         $qRecords = Model::all($params);
 
@@ -134,18 +134,18 @@ class Controller {
         $mensajeError = "No se puede ejecutar la aplicacion";
         $contenidoOk = [];
 
-        if(array_key_exists('id',$params) && array_key_exists('tabla',$params)){
+        if((array_key_exists('id',$params) || array_key_exists('where',$params))  && array_key_exists('tabla',$params)){
 
-            $tabla = Globales::sanearData($params['tabla']);
+            $tabla = $params['tabla'];
 
             $datos = Model::firstOrAll($tabla,$params,'first');
 
-            if(!empty($datos) > 0){
+            if(!empty($datos)){
                 
                 $respuestaOk = true;
                 $contenidoOk = $datos;
             }else{
-                $mensajeError = "Parametros incorrectos - NULL.";
+                $mensajeError = "Parametros incorrectos.";
             }
 
 

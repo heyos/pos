@@ -1,6 +1,8 @@
 <?php
 
-class ControladorClientes{
+require_once "controller.php";
+
+class ControladorClientes extends Controller{
 
 	/*=============================================
 	CREAR CLIENTES
