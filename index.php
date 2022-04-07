@@ -29,14 +29,21 @@ ControladorPlantilla::baseUrl();
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();
 
-
+//echo date('Y-m-d');
 
 // $fechaInicial = date('Y-m-').'01';
 // $fechaFinal = date('Y-m-d');
 
 // $gastado = ReporteCapitalController::showReporteCapital();
+// $acumulado = ControladorVentas::capitalAcumulado('','',true);
+// print_r($acumulado);
+// echo '<br>';
 
-// print_r($gastado);
+// $reporte = ReporteCapitalController::showReporteCapital();
 
+// echo '<pre>';
+// print_r($reporte);
+
+// echo '</pre>';
 // echo $fechaInicial.' - '.$fechaFinal.'<br>';
 // echo "".$gastado;

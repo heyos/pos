@@ -60,6 +60,7 @@ $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
 $('[data-mask]').inputmask()
 
 $('.number').numeric();
+$('.texto').alpha();
 
 /*=============================================
 CORRECCIÓN BOTONERAS OCULTAS BACKEND	
@@ -114,18 +115,19 @@ function unBlockPage(){
 function resetForm(form){
     $('#'+form+' input[type=checkbox]').prop('checked',false);
 	$('#'+form+' input[type=text]').val('');
+    $('#'+form+' input[type=date]').val('');
     $('#'+form+' input[type=email]').val('');
     $('#'+form+' select').val('');
     $('#'+form+' .select2').val(null).trigger('change');
 	$('#'+form+' textarea').val('');
 }
 
-function validateForm(form){
+function validateForm(form,callback = null){
 
 	var i = 0;
 	var message = '';
-
-	$('#'+form+' .required').each(function(){
+    
+    $('#'+form+' .required').each(function(){
 		
 		var val = $(this).val();
 		
@@ -136,17 +138,29 @@ function validateForm(form){
 			message += '* '+placeholder+'<br>';
 			 
 		}
-		
-	});
 
+    });
+
+    
 	if(i > 0){
-		swal({
-			title: 'Un momento ..!',
-			html: message,
-			type: 'warning'
-		});
-		return false;
+		
+        if(callback){
+            callback(false,message);
+        }else{
+            swal({
+                title: 'Un momento ..!',
+                html: message,
+                type: 'warning'
+            });
+            
+        }
+		
+        return false;
 	}
+
+    if(callback){
+        callback(true,'');
+    }
 
 }
 
@@ -155,8 +169,6 @@ function loadData(url,type,str,form,callback){
     if(type == ''){
         type = 'POST';
     }
-
-    
 
     $.ajax({
         beforeSend:function(){
@@ -259,7 +271,6 @@ function deleteRow(url,params,type){
 
                     unBlockPage();
 					
-
                 },
                 error: function(e){
                     unBlockPage();
@@ -271,4 +282,30 @@ function deleteRow(url,params,type){
 
   	})
 
+}
+
+function actionData(url, str, callback){
+
+    $.ajax({
+        beforeSend:function(){
+            blockPage();
+        },
+        url: url,
+        cache: false,
+        type: 'POST',
+        dataType: "json",
+        data: str,
+        success: function(data){
+
+            unBlockPage();
+            callback(data.response,data);
+
+        },
+        error: function(e){
+            unBlockPage();
+            console.log(e);
+            callback(false,{message : 'Error en el sistema'});
+        }
+
+    });
 }

@@ -1,11 +1,9 @@
 
-var arr = ['clientes'];
+var arr = ['administrar-deudas'];
 
 if(arr.includes($('#ruta').val())){
 
-  let form = 'formCliente';
-
-  let table = $('.tabla-cliente').DataTable( {
+  var table = $('.tabla-deudas').DataTable( {
     "ajax": {
         url:"ajax/datatable-clientes.ajax.php",
         data: function(d){
@@ -23,12 +21,9 @@ if(arr.includes($('#ruta').val())){
 
         {data: 'DT_RowIndex', name: 'DT_RowIndex',className:'text-center'},
         {data: 'nombre', name: 'nombre',className:'text-center'},
-        {data: 'documento', name: 'documento',className:'text-center'},
-        {data: 'email', name: 'email', className:'text-center'},
         {data: 'telefono', name: 'telefono', className:'text-center',orderable: false,searchable: false},
-        {data: 'direccion', name: 'direccion', className:'text-center',orderable: false,searchable: false},
-        {data: 'compras', name: 'compras', className:'text-center',orderable: false,searchable: false},
-        {data: 'ultima_compra', name: 'ultima_compra', className:'text-center',orderable: false,searchable: false},
+        {data: 'deuda_total', name: 'deuda_total', className:'text-center',orderable: false,searchable: false},
+        {data: 'ultima_pago', name: 'ultima_pago', className:'text-center',orderable: false,searchable: false},
         {data: 'action', name: 'action', className:'text-center',orderable: false, searchable: false},
 
     ],
@@ -61,75 +56,39 @@ if(arr.includes($('#ruta').val())){
 
   });
 
-  $('#btn-add').click(function(){
-
-    resetForm(form);
-    $('#id').val('0');
-    $('#accion').val('add');
-    $('#modalAgregarCliente .modal-title').html('Agregar Cliente')
-    $('#modalAgregarCliente').modal('show');
-    //
-  });
-
-  $('#guardarCliente').click(function(){
-
-    validateForm(form,function(response,message){
-
-      console.log(response);
-      //return
-
-      if(response){
-
-        let url = $('#url').val();
-        url += "ajax/clientes.ajax.php";
-
-        let str = $('#'+form).serialize();
-        actionData(url, str, function(response,data){
-          if(response){
-            swal('Exito',data.message,'success');
-            $('#modalAgregarCliente').modal('hide');
-            table.draw();
-          }else{
-            swal('Advertencia',data.message,'warning');
-          }
-        });
-
-      }else{
-        swal({
-          title: 'Un momento ..!',
-          html: message,
-          type: 'warning'
-        });
-      }
-
-    });
-
-  });
-
   /*=============================================
   EDITAR CLIENTE
   =============================================*/
   $(".tabla-cliente").on("click", ".btnEditarCliente", function(){
 
     var idCliente = $(this).attr("idCliente");
-    let url = $('#url').val();
-    let ruta = url+"ajax/clientes.ajax.php";
-    
-    var str = 'accion=data&id='+idCliente;
-    
-    resetForm(form);
 
-    loadData(ruta,'',str,form,function(response,data) {
-      
-      if(response){
-        $('#modalAgregarCliente .modal-title').html('Actualizar Cliente')
-        $('#modalAgregarCliente').modal('show');
+    var datos = new FormData();
+      datos.append("idCliente", idCliente);
+
+      $.ajax({
+
+        url:"ajax/clientes.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType:"json",
+        success:function(respuesta){
+        
+             $("#idCliente").val(respuesta["id"]);
+           $("#editarCliente").val(respuesta["nombre"]);
+           $("#editarDocumentoId").val(respuesta["documento"]);
+           $("#editarEmail").val(respuesta["email"]);
+           $("#editarTelefono").val(respuesta["telefono"]);
+           $("#editarDireccion").val(respuesta["direccion"]);
+             $("#editarFechaNacimiento").val(respuesta["fecha_nacimiento"]);
       }
-    });
 
-    
+      })
 
-  });
+  })
 
   /*=============================================
   ELIMINAR CLIENTE

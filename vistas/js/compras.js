@@ -2,6 +2,10 @@
 CARGAR LA TABLA DINÁMICA DE COMPRAS
 =============================================*/
 
+var arr = ['crear-compra','reportes-compras'];
+
+if(arr.includes($('#ruta').val())){
+
 sumarTotalPrecios();
 listarProductos();
 
@@ -953,4 +957,4 @@ $(".daterangepicker.opensleft .ranges li").on("click", function(){
 
 
 
-
+}

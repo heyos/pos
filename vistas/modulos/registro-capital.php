@@ -41,7 +41,7 @@ if($_SESSION["perfil"] == "Especial"){
 
       <div class="box-header with-border">
   
-        <button type="button" id="btn-openRegistro" class="btn btn-primary">
+        <button type="button" id="btn-openRegistro" data-type="new" class="btn btn-primary btn-openRegistro">
           Generar registro
         </button>
 
@@ -82,7 +82,7 @@ if($_SESSION["perfil"] == "Especial"){
 
     <div class="modal-content">
 
-      <form role="form" id="formRegistro" method="post" class="form-horizontal">
+      <form role="form" id="formRegistro" class="form-horizontal">
 
         <!--=====================================
         CABEZA DEL MODAL
@@ -131,7 +131,10 @@ if($_SESSION["perfil"] == "Especial"){
 
             <div id="body-inputs">
             </div>
-            <input type="" name="detalle" id="detalle" required>
+
+            <input type="hidden" name="detalle" id="detalle">
+            <input type="hidden" name="f_inicio" id="f_inicio">
+            <input type="hidden" name="f_fin" id="f_fin">
 
           </div>
 
@@ -145,7 +148,7 @@ if($_SESSION["perfil"] == "Especial"){
 
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
 
-          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="button" id="btnGuardar" class="btn btn-primary">Guardar</button>
 
         </div>
 

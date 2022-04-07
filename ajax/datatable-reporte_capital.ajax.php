@@ -19,10 +19,12 @@ class DatatableAjax{
     ]; //columnas para ordenar
 
     $params = array(
-            "table"=>"reporte_capital",
-            "columns"=>$columns,
-            "searchColumns"=>$searchColumns,
-            "orderColumns" => $orderColumns
+      "table"=>"reporte_capital",
+      "columns"=>$columns,
+      "searchColumns"=>$searchColumns,
+      "orderColumns" => $orderColumns,
+      "order" => 'activo',
+      "dir" => 'ASC'
     );
 
     $options = ReporteCapitalController::dataTable($this->request,$params,'options');
@@ -40,23 +42,38 @@ class DatatableAjax{
 
       $i =0;
 
+      $arrActivo = array(
+        '0' => array(
+          'icon' => 'fa fa-times',
+          'color' => 'label-danger'
+        ),
+        '1' => array(
+          'icon' => 'fa fa-check',
+          'color' => 'label-success'
+        )
+      );
+
+      $labelActivo = "";
+
       // procesando la data para mostrarla en el front
       foreach ($records as $row) {
 
         $i++;
+
+        $activo = array_key_exists($row['activo'],$arrActivo) ? $arrActivo[$row['activo']] : $arrActivo['0'] ;
+        $labelActivo = '<span class="label '.$activo['color'].'"><i class="'.$activo['icon'].'"></i></span>';
         
         $button = '
           <div class="btn-group">
-            <button class="btn btn-warning btnEditarCliente"  id="'.$row["id"].'">
-              <i class="fa fa-pencil"></i>
-            </button>
+            
         ';
 
         if($_SESSION["perfil"] == "Administrador"){
 
             $button .= '
-            <button class="btn btn-danger btnEliminarCliente" idCliente="'.$row["id"].'">
-              <i class="fa fa-pencil"></i>
+            <button class="btn btn-success btn-sm btn-openRegistro" id="'.$row['id'].'" 
+            data-type="detalle" idCliente="'.$row["id"].'">
+              <i class="fa fa-file-text-o"></i>
             </button>';
 
         }
@@ -70,7 +87,7 @@ class DatatableAjax{
           "capital" => $row['capital'],
           "f_inicio" => $row['f_inicio'],
           "f_fin" => $row['f_fin'],
-          "activo" => $row['activo'],
+          "activo" => $labelActivo,
           "action" => $button
         );
 

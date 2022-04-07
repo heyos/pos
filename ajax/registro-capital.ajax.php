@@ -22,13 +22,7 @@ class ReporteCapitalAjax{
 
         unset($params['accion']);
 
-        if($accion == 'add'){
-
-            $respuesta = ProveedorController::nuevoProveedor($params);
-
-        }elseif ($accion == 'edit') {
-           $respuesta = ProveedorController::updateProveedor($params);
-        }        
+        $respuesta = ReporteCapitalController::addRegistro($params);
 
         echo json_encode($respuesta);
 
@@ -37,7 +31,7 @@ class ReporteCapitalAjax{
     public function getResumen(){
         $params = $this->params;
 
-        $respuesta = ReporteCapitalController::showResumenInput();
+        $respuesta = ReporteCapitalController::showResumenInput($params);
 
         echo json_encode($respuesta);
 
@@ -85,5 +79,10 @@ if(isset($_POST["accion"])){
             break;
     }
    
-
+}else{
+    echo json_encode([
+        'response' => false,
+        'message' => "Pamametros incorrectos",
+        'data' => []
+    ]);
 }

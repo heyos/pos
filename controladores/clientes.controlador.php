@@ -8,74 +8,46 @@ class ControladorClientes extends Controller{
 	CREAR CLIENTES
 	=============================================*/
 
-	static public function ctrCrearCliente(){
+	static public function crearCliente($params){
 
-		if(isset($_POST["nuevoCliente"])){
+		$response = false;
+		$message = "No se puede ejecutar la aplicacion";
 
-			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoCliente"]) &&
-			   preg_match('/^[0-9]+$/', $_POST["nuevoDocumentoId"]) &&
-			   preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $_POST["nuevoEmail"]) && 
-			   preg_match('/^[()\-0-9 ]+$/', $_POST["nuevoTelefono"]) && 
-			   preg_match('/^[#\.\-a-zA-Z0-9 ]+$/', $_POST["nuevaDireccion"])){
+		$columsValid = array(
+			'data' => ['nombre','documento','email','telefono'],
+			'dataOut' => [
+				'nombre' => 'Nombre'
+			]
+		);
 
-			   	$tabla = "clientes";
+		$table = 'clientes';
 
-			   	$datos = array("nombre"=>$_POST["nuevoCliente"],
-					           "documento"=>$_POST["nuevoDocumentoId"],
-					           "email"=>$_POST["nuevoEmail"],
-					           "telefono"=>$_POST["nuevoTelefono"],
-					           "direccion"=>$_POST["nuevaDireccion"],
-					           "fecha_nacimiento"=>$_POST["nuevaFechaNacimiento"]);
+		$respuesta = self::paramsValid($table,$columsValid,$params);
 
-			   	$respuesta = ModeloClientes::mdlIngresarCliente($tabla, $datos);
+		if($respuesta['response']){
 
-			   	if($respuesta == "ok"){
+			$res = ModeloClientes::create($table,$params);
 
-					echo'<script>
-
-					swal({
-						  type: "success",
-						  title: "El cliente ha sido guardado correctamente",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result){
-									if (result.value) {
-
-									window.location = "clientes";
-
-									}
-								})
-
-					</script>';
-
-				}
-
+			if($res > 0){
+				$response = true;
+				$message = "Se actualizo el registro exitosamente.";
 			}else{
-
-				echo'<script>
-
-					swal({
-						  type: "error",
-						  title: "¡El cliente no puede ir vacío o llevar caracteres especiales!",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result){
-							if (result.value) {
-
-							window.location = "clientes";
-
-							}
-						})
-
-			  	</script>';
-
-
-
+				$message = "No se guardo el registro";
 			}
 
+		}else{
+			$message = $respuesta['message'];
 		}
 
+		$salidaJson = array(
+			'response' => $response,
+			'message' => $message
+		);
+
+		return $salidaJson;
+
 	}
+
 
 	/*=============================================
 	MOSTRAR CLIENTES
@@ -91,78 +63,47 @@ class ControladorClientes extends Controller{
 
 	}
 
-	/*=============================================
-	EDITAR CLIENTE
-	=============================================*/
+	
+	static public function updateCliente($params){
 
-	static public function ctrEditarCliente(){
+		$response = false;
+		$message = "No se puede ejecutar la aplicacion";
+		$data = '';
 
-		if(isset($_POST["editarCliente"])){
+		$columsValid = array(
+			'data' => ['nombre','documento','email','telefono'],
+			'diff' => 'id',
+			'dataOut' => [
+				'nombre' => 'Nombre'
+			]
+		);
 
-			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarCliente"]) &&
-			   preg_match('/^[0-9]+$/', $_POST["editarDocumentoId"]) &&
-			   preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $_POST["editarEmail"]) && 
-			   preg_match('/^[()\-0-9 ]+$/', $_POST["editarTelefono"]) && 
-			   preg_match('/^[#\.\-a-zA-Z0-9 ]+$/', $_POST["editarDireccion"])){
+		$table = 'clientes';
 
-			   	$tabla = "clientes";
+		$respuesta = self::paramsValid($table,$columsValid,$params);
 
-			   	$datos = array("id"=>$_POST["idCliente"],
-			   				   "nombre"=>$_POST["editarCliente"],
-					           "documento"=>$_POST["editarDocumentoId"],
-					           "email"=>$_POST["editarEmail"],
-					           "telefono"=>$_POST["editarTelefono"],
-					           "direccion"=>$_POST["editarDireccion"],
-					           "fecha_nacimiento"=>$_POST["editarFechaNacimiento"]);
+		if($respuesta['response']){
 
-			   	$respuesta = ModeloClientes::mdlEditarCliente($tabla, $datos);
+			$update = ModeloClientes::update($table,$params);
 
-			   	if($respuesta == "ok"){
-
-					echo'<script>
-
-					swal({
-						  type: "success",
-						  title: "El cliente ha sido cambiado correctamente",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result){
-									if (result.value) {
-
-									window.location = "clientes";
-
-									}
-								})
-
-					</script>';
-
-				}
-
+			if($update > 0){
+				$response = true;
+				$message = "Se actualizo el registro exitosamente.";
 			}else{
-
-				echo'<script>
-
-					swal({
-						  type: "error",
-						  title: "¡El cliente no puede ir vacío o llevar caracteres especiales!",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result){
-							if (result.value) {
-
-							window.location = "clientes";
-
-							}
-						})
-
-			  	</script>';
-
-
-
+				$message = "No se actualizo el registro";
 			}
 
+		}else{
+			$message = $respuesta['message'];
 		}
 
+		
+		$salidaJson = array(
+			'response' => $response,
+			'message' => $message
+		);
+
+		return $salidaJson;
 	}
 
 	/*=============================================

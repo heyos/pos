@@ -116,14 +116,18 @@ class ControladorVentas{
 						   "impuesto"=>$_POST["nuevoPrecioImpuesto"],
 						   "neto"=>$_POST["nuevoPrecioNeto"],
 						   "total"=>$_POST["totalVenta"],
-						   "metodo_pago"=>$_POST["listaMetodoPago"],
+						   "metodo_pago"=>$_POST["nuevoMetodoPago"],
 							"fecha"=>$fechaV);
 
-			if( $_POST["listaMetodoPago"] == 'Efectivo'){
+			if( $_POST["nuevoMetodoPago"] == 'Efectivo'){
 				$datos['fecha_pago'] = $fechaV;
+			}else{
+				$datos['codigo_pago'] = $_POST["codigo_pago"];
 			}
 
 			$respuesta = ModeloVentas::create($tabla, $datos);
+
+
 
 			if($respuesta != 0){
 
@@ -288,20 +292,31 @@ class ControladorVentas{
 			/*=============================================
 			GUARDAR CAMBIOS DE LA COMPRA
 			=============================================*/	
+			//$fechaV = ($_POST["nuevaFecha"] < date("Y-m-d")) ? $_POST["nuevaFecha"]:$_POST["nuevaFecha"]." ".date("H:i:s") ;
 
 			$datos = array("id_vendedor"=>$_POST["idVendedor"],
 						   "id_cliente"=>$_POST["seleccionarCliente"],
-						   "codigo"=>$_POST["editarVenta"],
+						   //"codigo"=>$_POST["editarVenta"],
 						   "productos"=>$listaProductos,
 						   "impuesto"=>$_POST["nuevoPrecioImpuesto"],
 						   "neto"=>$_POST["nuevoPrecioNeto"],
 						   "total"=>$_POST["totalVenta"],
-						   "metodo_pago"=>$_POST["listaMetodoPago"]);
+						   "metodo_pago"=>$_POST["nuevoMetodoPago"]);
+
+			if( $_POST["nuevoMetodoPago"] == 'Efectivo'){
+				$datos['fecha_pago'] = date("Y-m-d");
+			}else{
+				$datos['codigo_pago'] = isset($_POST["codigo_pago"]) ? $_POST["codigo_pago"] : '';
+			}
+
+			$datos['where'] = array(
+				['codigo',$_POST["editarVenta"]]
+			);
 
 
-			$respuesta = ModeloVentas::mdlEditarVenta($tabla, $datos);
+			$respuesta = ModeloVentas::update($tabla, $datos);
 
-			if($respuesta == "ok"){
+			if($respuesta == 1){
 
 				echo'<script>
 

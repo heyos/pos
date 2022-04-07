@@ -503,12 +503,7 @@ MODAL AGREGAR CLIENTE
 
       </form>
 
-      <?php
-
-        $crearCliente = new ControladorClientes();
-        $crearCliente -> ctrCrearCliente();
-
-      ?>
+      
 
     </div>
 

@@ -58,19 +58,38 @@ if(arr.includes($('#ruta').val())){
 
   });
 
-  $('#btn-openRegistro').click(function(){
+  $('body').on('click','.btn-openRegistro',function(){
 
     var ruta = url+'ajax/registro-capital.ajax.php';
     var str = 'accion=data';
+
+    var type = $(this).attr('data-type');
+    var id = $(this).attr('id') ? $(this).attr('id') : 0;
+
+    str += '&type='+type+'&id='+id;
 
     loadData(ruta,'',str,'',function(response,data){
 
       if(response){
         resetForm('formRegistro');
+
+        $('.capital').prop('disabled',false);
         $('.capital').val(data.capital);
         $('#body-inputs').html(data.html);
+
+        if(type=="detalle"){
+          $('#formRegistro input').prop('disabled',true);
+          $('#btnGuardar').hide();
+        }else{
+          $('#btnGuardar').show();
+          $('#formRegistro input').prop('disabled',false);
+        }
+
         $('#aumentar_monto').prop('disabled',true);
         $('#modalRegistro').modal('show');
+        $('#f_inicio').val(data.fecha.f_inicio);
+        $('#f_fin').val(data.fecha.f_fin);
+
       }
 
       //console.log(data);
@@ -89,6 +108,9 @@ if(arr.includes($('#ruta').val())){
     montoCategoria = montoCategoria.toFixed(2);
 
     calcular(montoCategoria);
+    var input = $('#aumentar').is(':checked') ? 'nuevo':'original'
+    almacenar(input);
+
   });
 
   $('#aumentar').click(function(){
@@ -104,6 +126,7 @@ if(arr.includes($('#ruta').val())){
     }else{
       div.hide();
       $('#aumentar_monto').prop('disabled',true);
+      $('#aumentar_monto').val('0');
       $('#original').prop('disabled',false);
       $('.original').prop('disabled',false);
       $('#capital').prop('disabled',false);
@@ -117,8 +140,46 @@ if(arr.includes($('#ruta').val())){
     var val = $(this).val();
 
     $('.nuevo_'+orden).val(val);
+    var aumentar_monto = $('#aumentar_monto');
+    var aumentar = $('#aumentar').is(':checked') ? 0 : aumentar_monto.val();
+
+    aumentar_monto.val(aumentar)
 
     almacenar(input);
+
+  });
+
+  $('#btnGuardar').click(function(){
+
+    validateForm('formRegistro');
+
+    var condicion = $('#aumentar').is(':checked') ? true : false;
+    var input = condicion ? 'nuevo':'original';
+    almacenar(input);
+
+    var str = $('#formRegistro').serialize();
+    str += '&accion=add';
+
+    if(condicion){
+      str += '&capital='+$('#capital').val();
+    }
+
+    //console.log(str);
+
+    // return;
+
+    var ruta = url+'ajax/registro-capital.ajax.php'
+
+    actionData(ruta, str, function(status,data){
+
+      if(status){
+        $('#modalRegistro').modal('hide');
+        table.draw();
+        swal('Exito..!', data.message,'success');
+      }else{
+        swal('Advertencia..!', data.message,'warning');
+      }
+    });
 
   });
 
@@ -166,7 +227,7 @@ if(arr.includes($('#ruta').val())){
         $(this).val(newMonto);
       }
 
-      $('.nuevo_'+orden).val(newMonto);
+      $('.nuevo_'+orden).val(newMonto.toFixed(2));
 
     });
 
@@ -185,9 +246,9 @@ if(arr.includes($('#ruta').val())){
       total += monto;
     });
 
-    $('#capital').val(total);
+    $('#capital').val(total.toFixed(2));
     $('#detalle').val(JSON.stringify(lista));
-    //console.log(JSON.stringify(lista));
+    
     
   }
 

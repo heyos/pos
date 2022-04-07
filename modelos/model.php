@@ -228,6 +228,12 @@ class Model {
 
                                 $str = sprintf(" %s = '%s'",$column,$value);
                                 break;
+
+                            case 1:
+                                $column = $val[0];
+                                
+                                $str = sprintf(" %s ",$column);
+                                break;
                         }
 
                         $where .= sprintf(" %s AND",$str);

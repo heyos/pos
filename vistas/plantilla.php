@@ -102,7 +102,10 @@ session_start();
   <script src="<?php echo BASE_URL; ?>vistas/plugins/jqueryNumber/jquerynumber.min.js"></script>
 
   <!-- jQuery Numeric -->
-  <script src="<?php echo BASE_URL; ?>vistas/plugins/jqueryNumeric/jquery.numeric.js"></script>
+  <!-- <script src="<?php echo BASE_URL; ?>vistas/plugins/jqueryNumeric/jquery.numeric.js"></script> -->
+
+  <!--jQuery Alphanum -->
+  <script src="<?php echo BASE_URL; ?>vistas/plugins/jqueryAlphanum/jquery.alphanum.js"></script>
 
   <!-- daterangepicker http://www.daterangepicker.com/-->
   <script src="<?php echo BASE_URL; ?>vistas/bower_components/moment/min/moment.min.js"></script>
@@ -162,6 +165,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "editar-compra" ||
         $_GET["ruta"] == "registro-capital" ||
         $_GET["ruta"] == "reportes-compras" ||
+        $_GET["ruta"] == "administrar-deudas" ||
         $_GET["ruta"] == "proveedores"){
 
         echo "<input type='hidden' value='".$_GET["ruta"]."' id='ruta'>";
@@ -209,6 +213,7 @@ CUERPO DOCUMENTO
 <script src="<?php echo BASE_URL; ?>vistas/js/reportes.js"></script>
 <script src="<?php echo BASE_URL; ?>vistas/js/proveedores.js"></script>
 <script src="<?php echo BASE_URL; ?>vistas/js/registro-capital.js"></script>
+<!-- <script src="<?php echo BASE_URL; ?>vistas/js/administrar-deuda.js"></script> -->
 
 </body>
 </html>

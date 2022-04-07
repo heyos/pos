@@ -1,0 +1,142 @@
+[12-Dec-2021 22:19:26 America/Lima] PHP Notice:  Undefined variable: gastado in C:\xampp\htdocs\hrcody-sistemas\pos\index.php on line 39
+[12-Dec-2021 22:22:08 America/Lima] PHP Notice:  Undefined variable: f_fin in C:\xampp\htdocs\hrcody-sistemas\pos\index.php on line 61
+[06-Apr-2022 16:48:42 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method ControladorClientes::ctrCrearCliente() in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\administrar-deudas.php:275
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(175): include()
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(30): ControladorPlantilla::ctrPlantilla()
+#3 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\administrar-deudas.php on line 275
+[06-Apr-2022 17:50:03 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method ControladorClientes::ctrCrearCliente() in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\administrar-deudas.php:275
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(175): include()
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(30): ControladorPlantilla::ctrPlantilla()
+#3 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\administrar-deudas.php on line 275
+[06-Apr-2022 17:55:51 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method ControladorClientes::ctrCrearCliente() in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\administrar-deudas.php:275
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(175): include()
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(30): ControladorPlantilla::ctrPlantilla()
+#3 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\administrar-deudas.php on line 275
+[06-Apr-2022 21:45:52 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method ControladorClientes::ctrCrearCliente() in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\administrar-deudas.php:275
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(175): include()
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(30): ControladorPlantilla::ctrPlantilla()
+#3 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\administrar-deudas.php on line 275
+[06-Apr-2022 21:45:58 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method ControladorClientes::ctrCrearCliente() in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\administrar-deudas.php:275
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(175): include()
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(30): ControladorPlantilla::ctrPlantilla()
+#3 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\administrar-deudas.php on line 275
+[06-Apr-2022 21:47:05 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method ControladorClientes::ctrCrearCliente() in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\administrar-deudas.php:275
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(175): include()
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(30): ControladorPlantilla::ctrPlantilla()
+#3 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\administrar-deudas.php on line 275
+[06-Apr-2022 21:47:35 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method ControladorClientes::ctrCrearCliente() in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\administrar-deudas.php:275
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(175): include()
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(30): ControladorPlantilla::ctrPlantilla()
+#3 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\administrar-deudas.php on line 275
+[06-Apr-2022 21:48:41 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method ControladorClientes::ctrCrearCliente() in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\administrar-deudas.php:219
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(175): include()
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(30): ControladorPlantilla::ctrPlantilla()
+#3 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\administrar-deudas.php on line 219
+[06-Apr-2022 21:48:52 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method ControladorClientes::ctrCrearCliente() in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\administrar-deudas.php:219
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(175): include()
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(30): ControladorPlantilla::ctrPlantilla()
+#3 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\administrar-deudas.php on line 219
+[06-Apr-2022 22:32:44 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method ControladorClientes::ctrCrearCliente() in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\crear-venta.php:509
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(175): include()
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(30): ControladorPlantilla::ctrPlantilla()
+#3 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\crear-venta.php on line 509
+[06-Apr-2022 22:34:45 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method ControladorClientes::ctrCrearCliente() in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\crear-venta.php:509
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(175): include()
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(30): ControladorPlantilla::ctrPlantilla()
+#3 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\crear-venta.php on line 509
+[06-Apr-2022 23:04:33 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method ControladorClientes::ctrCrearCliente() in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php:501
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(175): include()
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(30): ControladorPlantilla::ctrPlantilla()
+#3 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 501
+[06-Apr-2022 23:05:10 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method ControladorClientes::ctrCrearCliente() in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php:500
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(175): include()
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(30): ControladorPlantilla::ctrPlantilla()
+#3 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 500
+[06-Apr-2022 23:05:49 America/Lima] PHP Notice:  Undefined index: id in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 249
+[06-Apr-2022 23:05:49 America/Lima] PHP Notice:  Trying to access array offset on value of type bool in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 255
+[06-Apr-2022 23:05:49 America/Lima] PHP Notice:  Undefined index: stock in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 260
+[06-Apr-2022 23:05:49 America/Lima] PHP Notice:  Undefined index: id in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 249
+[06-Apr-2022 23:05:49 America/Lima] PHP Notice:  Trying to access array offset on value of type bool in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 255
+[06-Apr-2022 23:05:49 America/Lima] PHP Notice:  Undefined index: stock in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 260
+[06-Apr-2022 23:05:49 America/Bogota] PHP Notice:  Undefined index: nuevaFecha in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 293
+[06-Apr-2022 23:05:49 America/Bogota] PHP Notice:  Undefined index: nuevaFecha in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 293
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Undefined index: id in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 147
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Trying to access array offset on value of type bool in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 152
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Undefined index: id in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 160
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Undefined index: id in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 162
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Undefined index: stock in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 170
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Trying to access array offset on value of type bool in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 180
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Undefined index: total in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 180
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Undefined index: id in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 147
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Trying to access array offset on value of type bool in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 152
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Undefined index: id in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 160
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Undefined index: id in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 162
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Undefined index: stock in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 170
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Trying to access array offset on value of type bool in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 180
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Undefined index: total in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 180
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Undefined index: id in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 205
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Trying to access array offset on value of type bool in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 211
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Trying to access array offset on value of type bool in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 216
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Undefined index: id in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 205
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Trying to access array offset on value of type bool in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 211
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Trying to access array offset on value of type bool in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 216
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Undefined index: id in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 249
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Trying to access array offset on value of type bool in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 255
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Undefined index: stock in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 260
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Undefined index: id in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 249
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Trying to access array offset on value of type bool in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 255
+[06-Apr-2022 23:09:18 America/Lima] PHP Notice:  Undefined index: stock in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 260
+[06-Apr-2022 23:13:28 America/Lima] PHP Notice:  Undefined index: id in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 147
+[06-Apr-2022 23:13:28 America/Lima] PHP Notice:  Trying to access array offset on value of type bool in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 152
+[06-Apr-2022 23:13:28 America/Lima] PHP Notice:  Undefined index: id in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 160
+[06-Apr-2022 23:13:28 America/Lima] PHP Notice:  Undefined index: id in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 162
+[06-Apr-2022 23:13:28 America/Lima] PHP Notice:  Undefined index: stock in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 170
+[06-Apr-2022 23:13:28 America/Lima] PHP Notice:  Trying to access array offset on value of type bool in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 180
+[06-Apr-2022 23:13:28 America/Lima] PHP Notice:  Undefined index: total in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 180
+[06-Apr-2022 23:13:28 America/Lima] PHP Notice:  Undefined index: id in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 147
+[06-Apr-2022 23:13:28 America/Lima] PHP Notice:  Trying to access array offset on value of type bool in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 152
+[06-Apr-2022 23:13:28 America/Lima] PHP Notice:  Undefined index: id in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 160
+[06-Apr-2022 23:13:28 America/Lima] PHP Notice:  Undefined index: id in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 162
+[06-Apr-2022 23:13:28 America/Lima] PHP Notice:  Undefined index: stock in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 170
+[06-Apr-2022 23:13:28 America/Lima] PHP Notice:  Trying to access array offset on value of type bool in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 180
+[06-Apr-2022 23:13:28 America/Lima] PHP Notice:  Undefined index: total in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 180
+[06-Apr-2022 23:18:20 America/Lima] PHP Notice:  Undefined index: codigo_pago in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 125

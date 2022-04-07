@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set('America/Lima');
+
 class Controller {
 
     static public function dataTable($req,$params,$action){
@@ -122,6 +124,7 @@ class Controller {
         $return = array('respuesta'=>$respuestaOk,
                             'mensaje'=>$mensajeError,
                             'contenido'=>$contenidoOk,
+                            'message' => $mensajeError,
                             'id'=>$id);
 
         return $return;
@@ -171,120 +174,7 @@ class Controller {
         
         if(count($datos) > 0){
 
-            $columns = '';
-            $values = '';
-            $table = '';
-
-            foreach ($datos as $key => $item) {
-
-                if($key == 'tabla'){
-                    $table = $item;
-                }elseif ($key == 'id') {
-                    $id = $item;
-                }
-                elseif ($key == 'dFecNac') {
-
-                    if($item == ''){
-                        $fecha = 'null';
-                       
-                    }else{
-                        $fecha = date('Y-m-d',strtotime($datos['dFecNac']));
-                        $fecha = sprintf(" '%s' ",$fecha) ;
-                    }
-
-                    $columns .= sprintf(" %s =  %s, ",$key,$fecha);
-                    
-                }else{
-                    $columns .= sprintf(" %s = '%s', ",$key,$item);
-                }
-            }
-
-            $columns = substr($columns, 0,-2);
             
-            if($table != ''){
-
-                $error = 0;
-                $oldrut = '';
-                $columnId = 'id';
-
-                switch ($table) {
-                    case 'persona':
-
-                        if($_POST['nRutPer'] != ''){
-
-                            if(strlen($_POST['nRutPer']) > 1){
-                                $old = Model::detalleDatosMdl($table,'id',$id);
-                                if(count($old) > 0){
-
-                                    $validarRut = Globales::valida_rut($_POST['nRutPer']);
-                                    
-                                    if($validarRut==false){
-                                        $mensajeError = "RUT invalido";
-                                        $error++;
-                                    }else{
-                                        $oldrut = $old[0]['nRutPer'];
-                                        if($oldrut != $_POST['nRutPer']){
-                                            
-                                            // $verificar = Model::detalleDatosMdl($table,'nRutPer',$_POST['nRutPer']);
-                                            $where = array('nRutPer'=>$_POST['nRutPer'],'xTipoPer'=>$_POST['xTipoPer']);
-                                            $verificar = Model::detalleDatosCustomMdl($table,$where);
-                                            if(count($verificar) > 0){
-                                                $mensajeError = "RUT ya se encuentra registrado";
-                                                $error++;
-                                            }
-                                        }
-                                    }
-                                }else{
-                                    $error++;
-                                    $mensaje = 'Parametros invalidos';
-                                }
-                            }else{
-                                $error++;
-                                $mensajeError = "RUT invalido";
-                            }
-
-                        }else{
-                            $error++;
-                            $mensajeError = "Rut no puede estar vacio.";
-                        }
-
-                        $columnId = 'id';
-                        
-                        break;
-                    case 'direccion':
-
-                        if($_POST['xEmail'] != ''){
-                            $valid_email = Globales::is_valid_email($_POST['xEmail']);
-
-                            if($valid_email == false){
-                                $error++;
-                                if($mensajeError != ''){
-                                    $mensajeError.='<br>';
-                                }
-                                $mensajeError = "Email invalido";
-                            }
-                        }
-                        
-                        break;
-                    default:
-                        
-                        break;
-                }
-
-                if($error == 0){
-                    $respuesta = Model::actualizarDatosMdl($table,$columns,$columnId,$id);
-
-                    if($respuesta ==  true){
-                        $respuestaOk = true;
-                        $mensajeError = "Se actualizo exitosamente.";
-                    }else{
-                        $mensajeError = "No se actualizo el registro";
-                    }
-                }
-                                  
-            }else{
-                $mensajeError = "Parametros incorrectos";
-            }
             
 
         }else{
@@ -334,5 +224,73 @@ class Controller {
                             'message'=>$mensajeError);
 
         return $salidaJson;
+    }
+
+    public static function paramsValid($table,$arrKey,$arrData){
+
+        $response = false;
+        $data = '';
+        $error = 0;
+        $message = "";
+        
+        if(array_key_exists('data',$arrKey)){
+            if(count($arrKey['data']) > 0 && count($arrData) > 0){
+                
+                $params = [];
+                $respuesta = [];
+                $out = '';
+
+                foreach ($arrKey['data'] as $key) {
+
+                    $out = '';
+                    
+                    if(array_key_exists($key,$arrData)){
+                        
+                        $data = sprintf(" %s = '%s' ",$key,$arrData[$key]);
+
+                        if(array_key_exists('diff',$arrKey)){
+                            $diff = $arrKey['diff'];
+                            if(array_key_exists($diff,$arrData)){
+                                $data .= sprintf(" AND %s <> '%s' ",$diff,$arrData[$diff]);
+                            }
+                        }
+
+                        $params = array(
+                            'where' => [[$data]]
+                        );
+
+                        $respuesta = Model::firstOrAll($table,$params,'all');
+
+                        if(count($respuesta) > 0){
+
+                            $error ++;
+                            $out = $key;
+                            if(array_key_exists('dataOut',$arrKey)){
+                                $out = array_key_exists($key, $arrKey['dataOut']) ? $arrKey['dataOut'][$key] : $key;
+                            }
+
+                            $message .= $out.' : '.$arrData[$key].' ya esta registrado. <br>';
+                        }
+
+                        $data = '';
+                    }
+
+                }
+
+                if($error > 0) {
+                    $message = substr($message, 0,-4);
+                }else {
+                    $response = true;
+                }
+                    
+            }
+        }
+            
+        $salida = array(
+            'response' => $response,
+            'message' => $message
+        );
+
+        return $salida;
     }
 }

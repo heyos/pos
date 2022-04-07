@@ -4,14 +4,29 @@ require_once "controller.php";
 
 class ReporteCapitalController extends Controller {
 
-	public static function showReporteCapital() {
+	public static function showReporteCapital($params = null) {
 
 		$table = 'reporte_capital';
 
+		$args = array(
+			['activo','1']
+		);
+
+		$type = 'new';
+
+		if($params){
+
+			$type = $params['type'];
+
+			if($type == 'detalle'){
+				$args = array(
+					['id',$params['id']]
+				);
+			}
+		}
+
 		$where = array(
-			'where' => [
-				['activo','1']
-			]
+			'where' => $args
 		);
 
 		$arrInicio = [];
@@ -22,8 +37,8 @@ class ReporteCapitalController extends Controller {
 		$gastado = 0;
 		$total = 0;
 		$f_inicio = '';
-		$f_fin = date('Y-m-d');
-		$f_fin = date('Y-m-d',strtotime('-1day',strtotime($f_fin)));
+		$hoy = date('Y-m-d');
+		$f_fin = date('Y-m-d',strtotime('-1day',strtotime($hoy)));
 
 		$reporte = ReporteCapitalModel::firstOrAll($table,$where,'first');
 		$detalle = [];
@@ -35,12 +50,14 @@ class ReporteCapitalController extends Controller {
 			$f_inicio = $reporte['f_fin'];
 			$f_inicio = date('Y-m-d',strtotime('+1day',strtotime($f_inicio)));
 
-			$arrAcumulado = ControladorVentas::capitalAcumulado($f_inicio, $f_fin);
-			$arrGastado = ComprasController::capitalGastado($f_inicio, $f_fin);
+			if($type == 'new'){
+				$arrAcumulado = ControladorVentas::capitalAcumulado($f_inicio, $f_fin);
+				$arrGastado = ComprasController::capitalGastado($f_inicio, $f_fin);
+			}
 
 		}else{
 			$f_inicio = $f_fin;
-			$arrInicio = ControladorVentas::capitalAcumulado('','',true);
+			$arrAcumulado = ControladorVentas::capitalAcumulado('','',true);
 			$arrGastado = ComprasController::capitalGastado('','',true);
 		}
 
@@ -84,15 +101,18 @@ class ReporteCapitalController extends Controller {
 
 	}
 
-	public static function showResumenInput(){
+	public static function showResumenInput($params){
 
 		$html = '';
 		$message = 'No se puede ejecutar la aplicacion';
+		$response = false;
 
-		$reporte = self::showReporteCapital();
+		$reporte = self::showReporteCapital($params);
 		$capital = 0;
 
-		if($reporte['response']){
+		$out = $reporte['desde'] > $reporte['hasta'] ? false : true;
+
+		if($reporte['response'] && $out){
 
 			$i = 0;
 
@@ -104,14 +124,14 @@ class ReporteCapitalController extends Controller {
 						<div class="col-sm-4 col-xs-12">
 							<div class="input-group">
                 				<span class="input-group-addon"><i class="fa fa-money"></i></span>
-                				<input type="text" class="form-control input original" input="original"
+                				<input type="text" class="form-control input original number" input="original"
                 				orden="'.$i.'" categoria="'.$categoria.'" value="'.$data['total'].'">
                 			</div>
 						</div>
 						<div class="col-sm-4 col-xs-12 aumentar" style="display:none;">
 							<div class="input-group">
                 				<span class="input-group-addon"><i class="fa fa-money"></i></span>
-                				<input type="text" class="form-control input nuevo nuevo_'.$i.'" input="nuevo"
+                				<input type="text" class="form-control number input nuevo nuevo_'.$i.'" input="nuevo"
                 				orden="'.$i.'" categoria="'.$categoria.'" value="'.$data['total'].'">
                 			</div>
 						</div>
@@ -124,18 +144,75 @@ class ReporteCapitalController extends Controller {
 				
 			}
 
+			$response = true;
+
 		}else{
-			$message = 'Debe registrar almenos una categoria para empezar.';
+			$message = $out ? 'Debe registrar almenos una categoria para empezar.' : 'Es muy pronto para crear un regitro nuevo.';
 		}
 
 
 		return array(
-			'response' => $reporte['response'],
+			'response' => $response,
 			'message' => $message,
 			'html' => $html,
-			'capital' => $capital
+			'capital' => $capital,
+			'fecha' => array(
+				'f_inicio' => $reporte['desde'],
+				'f_fin' => $reporte['hasta']
+			)
 		);
 
+	}
+
+	public static function addRegistro($params){
+
+		$response = false;
+		$message = "Error en el proceso.";
+		
+		$params['tabla'] = "reporte_capital";
+
+		$respuesta = self::newItem($params);
+
+		if($respuesta['respuesta']){
+
+			$message = $respuesta['message'];
+
+			$where = array(
+				'activo' => '0',
+				'where' => array(
+					['activo','1']
+				)
+			);
+
+			$update = ReporteCapitalModel::update('reporte_capital',$where);
+
+			if($update == 1){
+
+				$where = array(
+					'activo' => '1',
+					'id' => $respuesta['id']
+				);
+
+				$update = ReporteCapitalModel::update('reporte_capital',$where);
+
+				if($update == 1){
+					$response = true;
+				}else{
+					$message = "Se guardo, pero no se pudo activar el registro.";
+				}
+				
+			}else{
+				$message = "Se guardo, pero hubo un error al completar el proceso.";
+			}
+		}
+
+		$salida = array(
+			'response' => $response,
+			'message' => $message
+		);
+
+		return $salida;
+		
 	}
 		
 

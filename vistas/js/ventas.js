@@ -622,7 +622,7 @@ $("#nuevoMetodoPago").change(function(){
                         
                 '<div class="input-group">'+
                      
-                  '<input type="number" min="0" class="form-control" id="nuevoCodigoTransaccion" placeholder="Código transacción"  required>'+
+                  '<input type="number" min="0" class="form-control" id="nuevoCodigoTransaccion" name="codigo_pago" placeholder="Código transacción"  required>'+
                        
                   '<span class="input-group-addon"><i class="fa fa-lock"></i></span>'+
                   
