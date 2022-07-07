@@ -47,3 +47,53 @@ $plantilla -> ctrPlantilla();
 // echo '</pre>';
 // echo $fechaInicial.' - '.$fechaFinal.'<br>';
 // echo "".$gastado;
+exit();
+$total = 41;
+
+$arr = array(
+	array(
+		'total' => 20.5,
+		'pagado' => 0,
+		'pago' => 0,
+		'saldo' => 20.5
+	),
+	array(
+		'total' => 20.5,
+		'pagado' => 0,
+		'pago' => 0,
+		'saldo' => 20.5
+	)
+);
+
+echo '<pre>';
+print_r($arr);
+echo '</pre>';
+
+$pago = 10;
+$totalDeuda = 0;
+$arr2 = [];
+
+foreach ($arr as $deuda) {
+	
+	if($pago >= $deuda['total']){
+
+		$deuda['pago'] = $deuda['total'];
+		$deuda['saldo'] = 0;
+		$deuda['pagado'] = 1;
+
+		$pago = $pago - $deuda['total'];
+
+	}else{
+
+		$deuda['pago'] = $pago;
+		$deuda['saldo'] = $deuda['total'] - $pago;
+		
+		$pago = 0;
+	}
+
+	$arr2[] = $deuda;
+}
+
+echo '<pre>';
+print_r($arr2);
+echo '</pre>';

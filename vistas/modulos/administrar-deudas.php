@@ -83,7 +83,7 @@ if($_SESSION["perfil"] == "Especial"){
 MODAL AGREGAR CLIENTE
 ======================================-->
 
-<div id="modalAgregarCliente" class="modal fade" role="dialog">
+<div id="modalPago" class="modal fade" role="dialog">
   
   <div class="modal-dialog">
 

@@ -213,7 +213,7 @@ CUERPO DOCUMENTO
 <script src="<?php echo BASE_URL; ?>vistas/js/reportes.js"></script>
 <script src="<?php echo BASE_URL; ?>vistas/js/proveedores.js"></script>
 <script src="<?php echo BASE_URL; ?>vistas/js/registro-capital.js"></script>
-<!-- <script src="<?php echo BASE_URL; ?>vistas/js/administrar-deuda.js"></script> -->
+<script src="<?php echo BASE_URL; ?>vistas/js/administrar-deuda.js"></script>
 
 </body>
 </html>

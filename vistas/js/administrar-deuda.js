@@ -5,7 +5,7 @@ if(arr.includes($('#ruta').val())){
 
   var table = $('.tabla-deudas').DataTable( {
     "ajax": {
-        url:"ajax/datatable-clientes.ajax.php",
+        url:"ajax/datatable-administrar_deudas.ajax.php",
         data: function(d){
           //d.productos = $('#listaId').val(); //enviar parametros personalizados
         },
@@ -23,7 +23,7 @@ if(arr.includes($('#ruta').val())){
         {data: 'nombre', name: 'nombre',className:'text-center'},
         {data: 'telefono', name: 'telefono', className:'text-center',orderable: false,searchable: false},
         {data: 'deuda_total', name: 'deuda_total', className:'text-center',orderable: false,searchable: false},
-        {data: 'ultima_pago', name: 'ultima_pago', className:'text-center',orderable: false,searchable: false},
+        {data: 'ultimo_pago', name: 'ultimo_pago', className:'text-center',orderable: false,searchable: false},
         {data: 'action', name: 'action', className:'text-center',orderable: false, searchable: false},
 
     ],
@@ -59,7 +59,7 @@ if(arr.includes($('#ruta').val())){
   /*=============================================
   EDITAR CLIENTE
   =============================================*/
-  $(".tabla-cliente").on("click", ".btnEditarCliente", function(){
+  $(".tabla-deudas").on("click", ".btnEditarCliente", function(){
 
     var idCliente = $(this).attr("idCliente");
 
@@ -93,7 +93,7 @@ if(arr.includes($('#ruta').val())){
   /*=============================================
   ELIMINAR CLIENTE
   =============================================*/
-  $(".tabla-cliente").on("click", ".btnEliminarCliente", function(){
+  $(".tabla-deudas").on("click", ".btnEliminarCliente", function(){
 
     var idCliente = $(this).attr("idCliente");
     

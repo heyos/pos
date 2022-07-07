@@ -158,7 +158,8 @@ class Controller {
 
         $salidaJson = array('respuesta'=>$respuestaOk,
                             'mensaje'=>$mensajeError,
-                            'contenido'=>$contenidoOk);
+                            'contenido'=>$contenidoOk
+                        );
 
         return $salidaJson;
 

@@ -172,6 +172,7 @@ class Model {
             $data = $query -> fetchAll();
 
         }else{
+            echo $sql.'<br>';
             echo $query->errorInfo()[2];
         }
 
