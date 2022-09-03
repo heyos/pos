@@ -429,8 +429,8 @@ MODAL AGREGAR CLIENTE
 
       <?php
 
-        $crearCliente = new ControladorClientes();
-        $crearCliente -> ctrCrearCliente();
+        // $crearCliente = new ControladorClientes();
+        // $crearCliente -> ctrCrearCliente();
 
       ?>
 

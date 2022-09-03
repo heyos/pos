@@ -2,7 +2,7 @@
 CARGAR LA TABLA DINÁMICA DE COMPRAS
 =============================================*/
 
-var arr = ['crear-compra','reportes-compras'];
+var arr = ['crear-compra','reportes-compras','compras'];
 
 if(arr.includes($('#ruta').val())){
 

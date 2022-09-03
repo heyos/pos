@@ -38,16 +38,6 @@ if($_SESSION["perfil"] == "Especial"){
 
     <div class="box">
 
-      <!-- <div class="box-header with-border">
-  
-        <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarCliente">
-          
-          Agregar cliente
-
-        </button>
-
-      </div> -->
-
       <div class="box-body">
         
        <table class="table table-bordered table-striped dt-responsive tabla-deudas" width="100%">
@@ -89,129 +79,107 @@ MODAL AGREGAR CLIENTE
 
     <div class="modal-content">
 
-      <form role="form" method="post">
+      <!--=====================================
+      CABEZA DEL MODAL
+      ======================================-->
 
-        <!--=====================================
-        CABEZA DEL MODAL
-        ======================================-->
+      <div class="modal-header" style="background:#3c8dbc; color:white">
 
-        <div class="modal-header" style="background:#3c8dbc; color:white">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
 
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Registrar Pago - [<span id="nombre"></span>]</h4>
 
-          <h4 class="modal-title">Agregar cliente</h4>
+      </div>
 
-        </div>
+      <!--=====================================
+      CUERPO DEL MODAL
+      ======================================-->
 
-        <!--=====================================
-        CUERPO DEL MODAL
-        ======================================-->
-
-        <div class="modal-body">
-
-          <div class="box-body">
-
-            <!-- ENTRADA PARA EL NOMBRE -->
-            
-            <div class="form-group">
-              
-              <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-
-                <input type="text" class="form-control input-lg" name="nuevoCliente" placeholder="Ingresar nombre" required>
-
+      <div class="modal-body">
+        
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-8 col-sm-12">
+            <div class="small-box bg-yellow">
+        
+              <div class="inner">
+                <h3 id="deuda_total">$489.50</h3>
+                <p>Deuda Total</p>
               </div>
-
-            </div>
-
-            <!-- ENTRADA PARA EL DOCUMENTO ID -->
-            
-            <div class="form-group">
               
-              <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-key"></i></span> 
-
-                <input type="number" min="0" class="form-control input-lg" name="nuevoDocumentoId" placeholder="Ingresar documento" required>
-
+              <div class="icon">
+                <i class="ion ion-social-usd"></i>
               </div>
-
+              
             </div>
-
-            <!-- ENTRADA PARA EL EMAIL -->
-            
-            <div class="form-group">
-              
-              <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-envelope"></i></span> 
-
-                <input type="email" class="form-control input-lg" name="nuevoEmail" placeholder="Ingresar email" required>
-
-              </div>
-
-            </div>
-
-            <!-- ENTRADA PARA EL TELÉFONO -->
-            
-            <div class="form-group">
-              
-              <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-phone"></i></span> 
-
-                <input type="text" class="form-control input-lg" name="nuevoTelefono" placeholder="Ingresar teléfono" data-inputmask="'mask':'(999) 999-9999'" data-mask required>
-
-              </div>
-
-            </div>
-
-            <!-- ENTRADA PARA LA DIRECCIÓN -->
-            
-            <div class="form-group">
-              
-              <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-map-marker"></i></span> 
-
-                <input type="text" class="form-control input-lg" name="nuevaDireccion" placeholder="Ingresar dirección" required>
-
-              </div>
-
-            </div>
-
-             <!-- ENTRADA PARA LA FECHA DE NACIMIENTO -->
-            
-            <div class="form-group">
-              
-              <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
-
-                <input type="text" class="form-control input-lg" name="nuevaFechaNacimiento" placeholder="Ingresar fecha nacimiento" data-inputmask="'alias': 'yyyy/mm/dd'" data-mask required>
-
-              </div>
-
-            </div>
-  
           </div>
+          <div class="col-md-2"></div>
+        </div>
+            
+        <form role="form" method="post">
+          <div class="box-body">
+            <div class="form-group">
+              <label class="col-sm-3 control-label">
+                Ingresar importe
+              </label>
+              <div class="col-sm-8">
+                <div class="input-group input-group-sm">
+                  <input type="text" id="importe" class="form-control decimal">
+                  <input type="hidden" id="deuda" class="form-control">
+                  <input type="hidden" id="cliente_id" class="form-control">
+                  <span class="input-group-btn">
+                    <button type="button" id="agregar-btn" class="btn btn-success btn-flat">Agregar</button>
+                  </span>
+                </div>
 
+              </div>
+
+            </div>
+
+          </div>
+        </form>
+
+        <div class="box box-warning">
+          <div class="box-header with-border">
+            <h3 class="box-title">Ultimos pagos registrados</h3>
+          </div>
+          <div class="box-body">
+            <table class="table table-condensed table-striped" width="100%">
+              <thead>
+                <tr>
+                  <th width="15%">#</th>
+                  <th width="45%">Importe</th>
+                  <th width="40%">Fecha Pago</th>
+                  <!-- <th width="20%">Accion</th> -->
+                </tr>
+              </thead>
+              <tbody id="tbody_data">
+                
+              </tbody>
+              <tbody id="tbody_0">
+                <tr>
+                  <td colspan="4" class="text-center"> <label class="label label-warning">0 pagos registrados</label></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        <!--=====================================
-        PIE DEL MODAL
-        ======================================-->
+      </div>
 
-        <div class="modal-footer">
+      <!--=====================================
+      PIE DEL MODAL
+      ======================================-->
 
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
+      <div class="modal-footer">
 
-          <button type="submit" class="btn btn-primary">Guardar cliente</button>
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
 
-        </div>
+        <!-- <button type="button" class="btn btn-primary">Guardar cliente</button> -->
 
-      </form>
+      </div>
+
+      
 
     </div>
 

@@ -490,6 +490,7 @@ class Model {
             $con = Conexion::conectar();
 
             $sql = sprintf("UPDATE %s SET %s WHERE %s ",$table,$values,$where);
+            // echo $sql;
             $query = $con -> prepare($sql);
 
             if($query->execute()) {

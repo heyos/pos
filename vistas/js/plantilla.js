@@ -61,6 +61,10 @@ $('[data-mask]').inputmask()
 
 $('.number').numeric();
 $('.texto').alpha();
+$('.decimal').numeric({
+    maxDecimalPlaces: 2,
+    allowMinus   : false,
+})
 
 /*=============================================
 CORRECCIÓN BOTONERAS OCULTAS BACKEND	
@@ -308,4 +312,72 @@ function actionData(url, str, callback){
         }
 
     });
+}
+
+function actionFormData(url, str, callback){
+
+    $.ajax({
+        beforeSend:function(){
+            blockPage();
+        },
+        url: url,
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: 'POST',
+        dataType: "json",
+        data: str,
+        success: function(data){
+
+            unBlockPage();
+            callback(data.response,data);
+
+        },
+        error: function(e){
+            unBlockPage();
+            console.log(e);
+            callback(false,{message : 'Error en el sistema'});
+        }
+
+    });
+}
+
+function stringParams(params) {
+    try {
+      let cadena = '';
+      if (typeof params === 'object') {
+        for (const key in params) {
+          cadena += key + '=' + params[key] + '&';
+        }
+        //console.log(cadena);
+        cadena = cadena != '' ? cadena.slice(0, -1) : '';
+      } else {
+        alert('OBJETO NO VALIDO PARA PROCESAR PARAMETROS');
+        return false;
+      }
+
+      return cadena;
+    } catch (error) {
+      console.log('CS stringParams :>>', error);
+      return '';
+    }
+}
+
+function formDataParams(params) {
+    try {
+      let formData = new FormData();
+      if (typeof params === 'object') {
+        for (const key in params) {
+          formData.append(key, params[key] ? params[key] : '');
+        }
+        //console.log(cadena);
+        return formData;
+      } else {
+        alert('OBJETO NO VALIDO PARA PROCESAR PARAMETROS');
+        return false;
+      }
+    } catch (error) {
+      console.log('CS formDataParams :>>', error);
+      return false;
+    }
 }

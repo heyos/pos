@@ -17,7 +17,12 @@ class ControladorPlantilla{
             $base = NULL; 
         }
 
-        define('BASE_URL', 'http://'.$_SERVER['HTTP_HOST'].$base.'/');
+        $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
+        $domain = $_SERVER['HTTP_HOST'];
+        $url = $protocol.$domain;
+
+        define('BASE_URL',$url.$base.'/');
+
     }
 
 

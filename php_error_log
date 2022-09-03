@@ -140,3 +140,24 @@ Stack trace:
 [06-Apr-2022 23:13:28 America/Lima] PHP Notice:  Trying to access array offset on value of type bool in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 180
 [06-Apr-2022 23:13:28 America/Lima] PHP Notice:  Undefined index: total in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\editar-venta.php on line 180
 [06-Apr-2022 23:18:20 America/Lima] PHP Notice:  Undefined index: codigo_pago in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 125
+[16-Jul-2022 23:17:08 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method ControladorClientes::ctrCrearCliente() in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\crear-compra.php:433
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(175): include()
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(30): ControladorPlantilla::ctrPlantilla()
+#3 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\crear-compra.php on line 433
+[16-Jul-2022 23:17:30 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method ControladorClientes::ctrCrearCliente() in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\crear-compra.php:433
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(175): include()
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(30): ControladorPlantilla::ctrPlantilla()
+#3 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\crear-compra.php on line 433
+[16-Jul-2022 23:17:45 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method ControladorClientes::ctrCrearCliente() in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\crear-compra.php:433
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(175): include()
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(30): ControladorPlantilla::ctrPlantilla()
+#3 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\crear-compra.php on line 433

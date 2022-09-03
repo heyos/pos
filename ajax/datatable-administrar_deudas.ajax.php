@@ -1,7 +1,11 @@
 <?php
 
 require_once "../controladores/ventas.controlador.php";
+require_once "../controladores/pago_deuda.controlador.php";
+require_once "../controladores/detalle_pago_deuda.controlador.php";
 require_once "../modelos/ventas.modelo.php";
+require_once "../modelos/pago_deuda.modelo.php";
+require_once "../modelos/detalle_pago_deuda.modelo.php";
 
 class DatatableAjax{
 
@@ -62,12 +66,13 @@ class DatatableAjax{
       $idCliente = 0;
       $deuda = 0;
       $detallePago = [];
+      $ultimo = [];
 
       // procesando la data para mostrarla en el front
       foreach ($records as $row) {
 
         $idCliente = $row[1];
-        //$deuda = $row[4];
+        $deuda = 0;
         //obtener ventas con deuda
         $argsVentas = array(
           'columns' => '*',
@@ -81,6 +86,7 @@ class DatatableAjax{
         $arrVentas = ModeloVentas::all($argsVentas);
 
         if(count($arrVentas) > 0){
+
           foreach ($arrVentas as $venta) {
             $args = array(
               'tabla'=>'detalle_pago_deuda',
@@ -90,7 +96,7 @@ class DatatableAjax{
               )
             );
 
-            $detalle = ControladorVentas::itemDetail($args);
+            $detalle = DetallePagoDeudaController::itemDetail($args);
 
             if($detalle['respuesta']){
               $detallePago = $detalle['contenido'];
@@ -100,6 +106,28 @@ class DatatableAjax{
               $deuda += $venta['total'];
             }
           }
+
+          $deuda = number_format($deuda,2,'.','');
+        }
+
+        $argsUltimo = array(
+          'columns' => '*',
+          'table'=>'pago_deuda',
+          'where' => array(
+            ['cliente_id',$idCliente],
+          ),
+          'start' => '0',
+          'length' => '1',
+          'order' => 'id',
+          'dir' => 'DESC'
+        );
+
+        $ultimo_pago = '---';
+        $arrUltimo = PagoDeudaModel::all($argsUltimo);
+
+        if(count($arrUltimo) > 0){
+          $ultimo = $arrUltimo[0];
+          $ultimo_pago = 'Fecha: '.date('d/m/Y',strtotime($ultimo['fecha_pago'])).' | importe: '.number_format($ultimo['importe'],2,'.','');
         }
 
         $i++;
@@ -112,8 +140,7 @@ class DatatableAjax{
         if($_SESSION["perfil"] == "Administrador"){
 
             $button .= '
-            <button class="btn btn-success btn-sm btn-openRegistro" id="'.$row[0].'" 
-            data-type="detalle" idCliente="'.$row[0].'">
+            <button class="btn btn-success btn-sm btn-openRegistro" id="'.$row[1].'" nombre="'.$row[2].'">
               <i class="fa fa-file-text-o"></i>
             </button>';
 
@@ -128,21 +155,21 @@ class DatatableAjax{
           "nombre" => $row[2],
           "telefono" => $row[3],
           "deuda_total" => $deuda,
-          "ultimo_pago" => '',
+          "ultimo_pago" => $ultimo_pago,
           "action" => $button
         );
 
       }
 
     }else{
-      $data[] = array(
-          "DT_RowIndex" => 1,
-          "nombre" => '',
-          "telefono" => '',
-          "deuda_total" =>$test,
-          "ultimo_pago" => '',
-          "action" => ''
-      );
+      // $data[] = array(
+      //     "DT_RowIndex" => 1,
+      //     "nombre" => '',
+      //     "telefono" => '',
+      //     "deuda_total" =>$test,
+      //     "ultimo_pago" => '',
+      //     "action" => ''
+      // );
     }
 
     $options['data'] = $data;

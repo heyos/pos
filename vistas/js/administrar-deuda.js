@@ -3,6 +3,8 @@ var arr = ['administrar-deudas'];
 
 if(arr.includes($('#ruta').val())){
 
+  var host = $('#url').val();
+
   var table = $('.tabla-deudas').DataTable( {
     "ajax": {
         url:"ajax/datatable-administrar_deudas.ajax.php",
@@ -59,36 +61,82 @@ if(arr.includes($('#ruta').val())){
   /*=============================================
   EDITAR CLIENTE
   =============================================*/
-  $(".tabla-deudas").on("click", ".btnEditarCliente", function(){
+  $(".tabla-deudas").on("click", ".btn-openRegistro", function(){
 
-    var idCliente = $(this).attr("idCliente");
+    var idCliente = $(this).attr("id");
+    let nombre = $(this).attr('nombre');
 
-    var datos = new FormData();
-      datos.append("idCliente", idCliente);
+    $('#cliente_id').val(idCliente);
+    $('#nombre').html('<b>'+nombre+'</b>');
 
-      $.ajax({
+    getPagosList(idCliente);
 
-        url:"ajax/clientes.ajax.php",
-        method: "POST",
-        data: datos,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType:"json",
-        success:function(respuesta){
+  });
+
+  $('#importe').keyup(function(){
+    let importe = parseFloat($(this).val());
+    let deuda = parseFloat($('#deuda').val());
+    let newDeuda = deuda - importe;
+
+    if(importe > deuda){
+      swal('Importe no puede superar la suma de '+deuda.toFixed(2),'','warning');
+      $('#deuda_total').html('$'+deuda.toFixed(2))
+      $(this).val('')
+      return;
+    }
+
+    $('#deuda_total').html('$'+newDeuda.toFixed(2))
+  })
+
+  $('#agregar-btn').click(function(){
+    let importe = parseFloat($('#importe').val());
+    let deuda = parseFloat($('#deuda').val());
+    idCliente = $('#cliente_id').val();
+    
+    if(importe > deuda){
+      swal('Importe no puede superar la suma de '+deuda.toFixed(2),'','warning');
+      $('#deuda_total').html('$'+deuda.toFixed(2))
+      return;
+    }
+
+    swal({
+      title: '¿Está seguro de registrar el pago?',
+      text: "¡Una vez guardado no se podrá modificar!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Si, guardar pago!'
+    }).then(function(result){
+      if (result.value) {
         
-             $("#idCliente").val(respuesta["id"]);
-           $("#editarCliente").val(respuesta["nombre"]);
-           $("#editarDocumentoId").val(respuesta["documento"]);
-           $("#editarEmail").val(respuesta["email"]);
-           $("#editarTelefono").val(respuesta["telefono"]);
-           $("#editarDireccion").val(respuesta["direccion"]);
-             $("#editarFechaNacimiento").val(respuesta["fecha_nacimiento"]);
+        let request = {
+          cliente_id : idCliente,
+          importe: importe,
+          accion: 'add'
+        }
+
+        let params = formDataParams(request);
+        let url = host+'ajax/pago_deuda.ajax.php';
+
+        actionFormData(url,params,function(status,response){
+          if(status){
+            swal(response.message,'','success');
+            getPagosList(idCliente,false)
+          }else{
+            swal(response.message,'','warning');
+          }
+
+          table.draw();
+        });
+        
       }
 
-      })
+    })
 
-  })
+
+  });
 
   /*=============================================
   ELIMINAR CLIENTE
@@ -115,6 +163,39 @@ if(arr.includes($('#ruta').val())){
     })
 
   });
+
+  function getPagosList(cliente_id,open=true){
+
+    let request = {
+      term : cliente_id,
+      accion: 'pagosList'
+    }
+
+    let params = formDataParams(request);
+    let url = host+'ajax/pago_deuda.ajax.php';
+    
+    actionFormData(url,params,function(status,response){
+
+      if(status){
+        $('#tbody_0').hide();
+        $('#tbody_data').show().html(response.tbody)
+      }else{
+        $('#tbody_0').show();
+        $('#tbody_data').hide().html('');
+      }
+
+      $('#importe').val('')
+      
+      $('#deuda').val(response.deuda_total)
+      $('#deuda_total').html('$'+response.deuda_total.toFixed(2))
+      
+      if(open){
+        $('#modalPago').modal('show');
+      }
+      
+    });
+
+  }
 
 }
   
