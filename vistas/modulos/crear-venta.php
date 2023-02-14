@@ -236,7 +236,7 @@ if($_SESSION["perfil"] == "Especial"){
                             
                             <div class="input-group">
                            
-                              <input type="number" class="form-control input-lg" min="0" id="nuevoImpuestoVenta" name="nuevoImpuestoVenta" placeholder="0" required>
+                              <input type="number" class="form-control input-lg" min="0" id="nuevoImpuestoVenta" value="0" name="nuevoImpuestoVenta" placeholder="0" required>
 
                                <input type="hidden" name="nuevoPrecioImpuesto" id="nuevoPrecioImpuesto" required>
 
@@ -286,10 +286,11 @@ if($_SESSION["perfil"] == "Especial"){
                      <div class="input-group">
                   
                       <select class="form-control" id="nuevoMetodoPago" name="nuevoMetodoPago" required>
-                        <option value="">Seleccionar Metodo</option>
+                        <!-- <option value="">Seleccionar Metodo</option>
                         <option value="Efectivo">Efectivo</option>
                         <option value="Credito">Credito</option>
-                        <option value="Tarjeta">Tarjeta</option>
+                        <option value="Tarjeta">Tarjeta</option> -->
+                        <?php echo ControladorVentas::metodosPago(''); ?>
                       </select>    
 
                     </div>

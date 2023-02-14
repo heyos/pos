@@ -121,7 +121,9 @@ class ControladorVentas extends Controller{
 						   "metodo_pago"=>$_POST["nuevoMetodoPago"],
 							"fecha"=>$fechaV);
 
-			if( $_POST["nuevoMetodoPago"] == 'Efectivo'){
+			$arrMetodo = ['Cortesia','Tarjeta','Efectivo'];
+
+			if( in_array($_POST["nuevoMetodoPago"], $arrMetodo)){
 				$datos['fecha_pago'] = $fechaV;
 			}else{
 				$datos['codigo_pago'] = $_POST["codigo_pago"];
@@ -305,9 +307,12 @@ class ControladorVentas extends Controller{
 						   "total"=>$_POST["totalVenta"],
 						   "metodo_pago"=>$_POST["nuevoMetodoPago"]);
 
-			if( $_POST["nuevoMetodoPago"] == 'Efectivo'){
+			$arrMetodo = ['Cortesia','Tarjeta','Efectivo'];
+
+			if( in_array($_POST["nuevoMetodoPago"], $arrMetodo)){
 				$datos['fecha_pago'] = date("Y-m-d");
 			}else{
+				$datos['fecha_pago'] = 'null';
 				$datos['codigo_pago'] = isset($_POST["codigo_pago"]) ? $_POST["codigo_pago"] : '';
 			}
 
@@ -649,6 +654,7 @@ class ControladorVentas extends Controller{
 			foreach ($respuesta as $key => $row) {
 				
 				$productos = json_decode($row["productos"],true);
+				$metodo_pago = $row['metodo_pago'];
 
 				foreach ($productos as $key => $value) {
 
@@ -666,9 +672,9 @@ class ControladorVentas extends Controller{
 
 						$arrayKey[] = $categoria;
 
-						$precioCompra = (isset($value["precioCompra"]))?$value["precioCompra"]:$datosProd[2];
+						$precioCompra = isset($value["precioCompra"]) ? $value["precioCompra"] : $datosProd[2];
 						$totalPrecioCompra = $precioCompra*$cantidadVendida;
-
+						$totalVendido = $metodo_pago == 'Cortesia' ? $totalPrecioCompra : $totalVendido;
 						$ganancia = $totalVendido - $totalPrecioCompra;
 
 						$totalVendidoCategoria[] = array($categoria=>$totalVendido);
@@ -794,6 +800,27 @@ class ControladorVentas extends Controller{
 
 		return $arrayTotalCategoria;
 
+	}
+
+	public static function metodosPago($metodo){
+
+		$arr = [
+			'Efectivo','Credito','Cortesia','Tarjeta'
+		];
+
+		$contenido = '
+			<option value="">Seleccionar Metodo</option>
+		';
+
+		foreach ($arr as $item) {
+			$selected = $metodo == $item ? 'selected' : '';
+
+			$contenido .= '
+				<option value="'.$item.'" '.$selected.'>'.$item.'</option>
+			';
+		}
+
+		return $contenido;
 	}
 
 }

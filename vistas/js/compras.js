@@ -2,7 +2,7 @@
 CARGAR LA TABLA DINÁMICA DE COMPRAS
 =============================================*/
 
-var arr = ['crear-compra','reportes-compras','compras'];
+var arr = ['crear-compra','reportes-compras','compras','editar-compra'];
 
 if(arr.includes($('#ruta').val())){
 
@@ -23,7 +23,7 @@ var table = $('.tablaCompras').DataTable( {
             d.productos = $('#listaId').val(); //enviar parametros personalizados
         },
         complete: function(res){
-            // console.log(res);
+            console.log(res);
         }
     },
     "deferRender": true,
@@ -164,7 +164,7 @@ $(".formularioCompra").on("click", "button.quitarProducto", function(){
 $('.clearLista').on('click',function(){
 
 	var lista = $('#listaId').val() != '' ? JSON.parse($('#listaId').val()): [];
-
+	
 	if(lista.length == 0){
 		return;
 	}
@@ -186,6 +186,8 @@ $('.clearLista').on('click',function(){
     		table.draw();    		
 
     	}
+
+    	
 
     });
 
@@ -557,7 +559,7 @@ $(".formularioCompra").on("submit", function(e){
 		          confirmButtonText: "¡Cerrar!"
 		        }).then(function(result){
 		        	if(result.value){
-		        		//window.location = "compras";
+		        		window.location = "compras";
 		        	}
 		        });
             }

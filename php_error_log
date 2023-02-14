@@ -161,3 +161,23 @@ Stack trace:
 #2 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(30): ControladorPlantilla::ctrPlantilla()
 #3 {main}
   thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\crear-compra.php on line 433
+[08-Sep-2022 21:55:05 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[08-Sep-2022 21:56:10 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[08-Sep-2022 21:58:50 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[08-Sep-2022 22:12:59 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[08-Sep-2022 22:13:41 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[08-Sep-2022 22:14:43 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[08-Sep-2022 22:16:22 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[08-Sep-2022 22:18:01 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[08-Sep-2022 22:18:47 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[08-Sep-2022 22:26:12 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[08-Sep-2022 22:49:42 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[08-Sep-2022 22:50:37 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[08-Sep-2022 22:51:15 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[08-Sep-2022 23:11:53 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[08-Sep-2022 23:14:54 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[09-Sep-2022 10:37:07 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[10-Sep-2022 22:57:12 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[10-Sep-2022 23:01:55 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[10-Sep-2022 23:03:20 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[10-Sep-2022 23:06:53 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141

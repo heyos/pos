@@ -1,6 +1,8 @@
 var url = $('#url').val();
 var form = 'formProveedor';
 
+var arr = ['proveedores'];
+if(arr.includes($('#ruta').val())){
 
 var table = $('.tablaProveedor').DataTable( {
     "ajax": {
@@ -131,3 +133,5 @@ $('#guardarProveedor').click(function(){
   });
 
 });
+
+}

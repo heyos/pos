@@ -47,6 +47,7 @@
 
                     $itemUsuario = "id";
                     $valorUsuario = $venta["id_vendedor"];
+                    $metodoPago = $venta['metodo_pago'];
 
                     $vendedor = ControladorUsuarios::ctrMostrarUsuarios($itemUsuario, $valorUsuario);
 
@@ -278,10 +279,11 @@
                      <div class="input-group">
                   
                       <select class="form-control" id="nuevoMetodoPago" name="nuevoMetodoPago" required>
-                        <option value="">Seleccione método de pago</option>
+                        <!-- <option value="">Seleccione método de pago</option>
                         <option value="Efectivo">Efectivo</option>
                         <option value="Credito">Credito</option>
-                        <option value="Tarjeta">Tarjeta</option>                  
+                        <option value="Tarjeta">Tarjeta</option> -->
+                        <?php echo ControladorVentas::metodosPago($metodoPago); ?>                
                       </select>    
 
                     </div>
