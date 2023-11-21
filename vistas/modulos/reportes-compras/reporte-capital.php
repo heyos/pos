@@ -41,23 +41,23 @@ $mostrar = 'desde '.$desde.' hasta '.$hasta;
                                 <td>'.$data['inicio'].'</td>
                                 <td>'.$data['acumulado'].'</td>
                                 <td>'.$data['gastado'].'</td>
-                                <td>'.$data['total'].'</td>
+                                <td>'.number_format($data['total'],2).'</td>
                             </tr>
                         ';
 
-                        $total += $data['total'];
+                        $total += floatval($data['total']);
                     }
 
-                    echo '
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Total</td>
-                            <td>'.$total.'</td>
-                        </tr>
-                    ';
+                    
                 ?>
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Total</td>
+                    <td><?php echo number_format($total,2); ?></td>
+                </tr>
                 
             </tbody>
             

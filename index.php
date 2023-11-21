@@ -13,6 +13,7 @@ require_once "controladores/ventas.controlador.php";
 require_once "controladores/proveedor.controlador.php";
 require_once "controladores/compras.controlador.php";
 require_once "controladores/reporte_capital.controlador.php";
+require_once "controladores/gastos.controller.php";
 
 require_once "modelos/usuarios.modelo.php";
 require_once "modelos/categorias.modelo.php";
@@ -23,6 +24,7 @@ require_once "modelos/proveedor.modelo.php";
 require_once "modelos/compras.modelo.php";
 require_once "modelos/compra_detalle.modelo.php";
 require_once "modelos/reporte_capital.modelo.php";
+require_once "modelos/gastos.model.php";
 
 ControladorPlantilla::baseUrl();
 
@@ -47,6 +49,17 @@ $plantilla -> ctrPlantilla();
 // echo '</pre>';
 // echo $fechaInicial.' - '.$fechaFinal.'<br>';
 // echo "".$gastado;
+
+exit();
+
+$data = array('heyller'=>11,'juan'=>12,'miguel'=>15);
+arsort($data);
+var_export($data);
+
+// echo $data[0];
+
+
+
 exit();
 $total = 41;
 

@@ -94,14 +94,14 @@ class DatatableAjax{
       }
 
     }else{
-      $data[] = array(
-          "DT_RowIndex" => 1,
-          "codigo" => '',
-          "imagen" => '',
-          "descripcion" =>$test,
-          "stock" => '',
-          "action" => ''
-      );
+      // $data[] = array(
+      //     "DT_RowIndex" => 1,
+      //     "codigo" => '',
+      //     "imagen" => '',
+      //     "descripcion" =>$test,
+      //     "stock" => '',
+      //     "action" => ''
+      // );
     }
 
     $options['data'] = $data;

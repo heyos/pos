@@ -121,6 +121,7 @@ function resetForm(form){
 	$('#'+form+' input[type=text]').val('');
     $('#'+form+' input[type=date]').val('');
     $('#'+form+' input[type=email]').val('');
+    $('#'+form+' input[type=number]').val('');
     $('#'+form+' select').val('');
     $('#'+form+' .select2').val(null).trigger('change');
 	$('#'+form+' textarea').val('');
@@ -135,7 +136,8 @@ function validateForm(form,callback = null){
 		
 		var val = $(this).val();
 		
-		var placeholder = $(this).attr('placeholder') ? $(this).attr('placeholder') : $(this).attr('id')+' es requerido';
+		var placeholder = $(this).attr('placeholder') ? $(this).attr('placeholder') : $(this).attr('id');
+        placeholder += ' es requerido'
 		
 		if(val == ''){
 			i++;
@@ -330,7 +332,7 @@ function actionFormData(url, str, callback){
         success: function(data){
 
             unBlockPage();
-            callback(data.response,data);
+            callback(data.response ? data.response : data.status ,data);
 
         },
         error: function(e){
@@ -380,4 +382,21 @@ function formDataParams(params) {
       console.log('CS formDataParams :>>', error);
       return false;
     }
+}
+
+function formSerializeToObject(form){
+
+    let str = $('#'+form).serialize();
+    let arrInit = str.split('&');
+
+    let object = {};
+
+    $.each(arrInit,function(e){
+        
+        let arrItem = arrInit[e].split('=');
+        object[arrItem[0]] = arrItem[1].replace(/%20/g,' ');
+    })
+
+    
+    return object;
 }

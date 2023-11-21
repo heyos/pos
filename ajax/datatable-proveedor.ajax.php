@@ -20,7 +20,7 @@ class TablaProveedor{
                 descripcion"; //columnas
 
     
-    $searchColumns = ['razon_social','ruc']; //columnas donde generar la busqueda
+    $searchColumns = ['razon_social']; //columnas donde generar la busqueda
     $orderColumns = [
       0 => 'id',
       1 => 'razon_social',
@@ -114,6 +114,7 @@ class TablaProveedor{
       //   );
     }
 
+    // $options['test'] = $records['sql'];
     $options['data'] = $data;
 
     echo json_encode($options);

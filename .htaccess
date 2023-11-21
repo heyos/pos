@@ -3,3 +3,4 @@ Options All -Indexes
 RewriteEngine On
 #RewriteRule ^(.*)/([a-zA-Z0-9_-]+)$ index.php?ruta=$1&term=$2
 RewriteRule ^([-a-zA-Z0-9]+)$ index.php?ruta=$1
+#RewriteRule ^(.*)$ index.php?ruta=$1 [QSA,L]

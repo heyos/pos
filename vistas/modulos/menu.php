@@ -115,8 +115,19 @@
 						</a>
 
 					</li>
+					<li>
+
+						<a href="registrar-gastos">
+							
+							<i class="fa fa-circle-o"></i>
+							<span>Registrar Gastos</span>
+
+						</a>
+
+					</li>
 
 				</ul>
+				
 
 			</li>';
 

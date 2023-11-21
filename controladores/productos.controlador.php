@@ -354,7 +354,9 @@ class ControladorProductos extends Controller{
 							   "stock" => $_POST["editarStock"],
 							   "precio_compra" => $_POST["editarPrecioCompra"],
 							   "precio_venta" => $_POST["editarPrecioVenta"],
-							   "imagen" => $ruta);
+							   "imagen" => $ruta,
+							   "id" => $_POST['editarId']
+							);
 
 				$respuesta = ModeloProductos::mdlEditarProducto($tabla, $datos);
 

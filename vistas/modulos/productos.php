@@ -330,7 +330,7 @@ MODAL EDITAR PRODUCTO
 
           <div class="box-body">
 
-
+            <input type="hidden" id="editarId" name="editarId">
             <!-- ENTRADA PARA SELECCIONAR CATEGORÍA -->
 
             <div class="form-group">

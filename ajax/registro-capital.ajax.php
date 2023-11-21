@@ -4,12 +4,14 @@ require_once "../controladores/categorias.controlador.php";
 require_once "../controladores/compras.controlador.php";
 require_once "../controladores/ventas.controlador.php";
 require_once "../controladores/reporte_capital.controlador.php";
+require_once "../controladores/gastos.controller.php";
 
 require_once "../modelos/compras.modelo.php";
 require_once "../modelos/ventas.modelo.php";
 require_once "../modelos/reporte_capital.modelo.php";
 require_once "../modelos/productos.modelo.php";
 require_once "../modelos/categorias.modelo.php";
+require_once "../modelos/gastos.model.php";
 
 class ReporteCapitalAjax{
 
@@ -23,6 +25,10 @@ class ReporteCapitalAjax{
         unset($params['accion']);
 
         $respuesta = ReporteCapitalController::addRegistro($params);
+
+        if($respuesta['response']){
+            GastosController::updateGastoUtilizado();
+        }
 
         echo json_encode($respuesta);
 

@@ -54,3 +54,6 @@
     /* is width and height divided by two */
 }
 
+#ui-datepicker-div{
+  z-index: 100000 !important;
+}

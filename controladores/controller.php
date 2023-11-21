@@ -14,7 +14,6 @@ class Controller {
         $order = $req['order'][0]['column'];
         $orderDir = $req['order'][0]['dir'];
         $orderColumn = $params['orderColumns'][$order];
-        
 
         if(!empty($req['search']['value'])){
 
@@ -48,29 +47,34 @@ class Controller {
                 
         }
 
-        $qTotal = Model::all($params);
-        $totalRecords = count($qTotal);
-
-        $params['start'] = $start;
-        $params['length'] = $length;
-        $params['order'] = !isset($params['order']) ? $orderColumn : $params['order'];
-        $params['dir'] = !isset($params['dir']) ? $orderDir : $params['dir'];
-
-        $qRecords = Model::all($params);
+        
 
         switch ($action) {
             case 'data':
+                $params['start'] = $start;
+                $params['length'] = $length;
+                $params['order'] = !isset($params['order']) ? $orderColumn : $params['order'];
+                $params['dir'] = !isset($params['dir']) ? $orderDir : $params['dir'];
+                $qRecords = Model::all($params);
 
-                return $qRecords;
+                $qRecords['sql'] = ""; //comentar solo para testear
+
+                // echo $qRecords['sql'];
+
+                return $qRecords['data'];
                 
                 break;
             
             case 'options':
 
+                $params['columns'] = "COUNT(*) AS totalRecords" ;
+                $qTotal = Model::all($params);
+                $totalRecords = count($qTotal['data']) > 0 ? $qTotal['data'][0]['totalRecords'] : 0; 
+
                 $options = [
                     "draw" => intval( $req['draw'] ),   
                     "recordsTotal" => intval( $totalRecords ),  
-                    "recordsFiltered" => intval($totalRecords)
+                    "recordsFiltered" => intval($totalRecords),
                 ];
 
                 return $options;
@@ -176,7 +180,25 @@ class Controller {
         
         if(count($datos) > 0){
 
+            if(array_key_exists('tabla',$datos)){
+
+                $table = $datos['tabla'];
             
+                unset($datos['tabla']);
+
+                $salida = Model::update($table,$datos);
+
+                if($salida != 0){
+                    $respuestaOk = true;
+                    $mensajeError = "Registro actualizado exitosamente";
+                    
+                }else{
+                    $mensajeError = $salida;
+                }
+                                  
+            }else{
+                $mensajeError = "Parametros incorrectos";
+            }
             
 
         }else{
@@ -187,7 +209,7 @@ class Controller {
                             'mensaje'=>$mensajeError,
                             'contenido'=>$contenidoOk);
 
-        echo json_encode($salidaJson);
+        return $salidaJson;
 
     }
 
@@ -195,23 +217,29 @@ class Controller {
 
         $respuestaOk = false;
         $mensajeError = "No se puede ejecutar la aplicacion";
-        
-        if($params['table'] !=''){
 
-            $table = $params['table'];
+        if(array_key_exists('table',$datos)){
+            
+            if($params['table'] !=''){
 
-            if($params['id']!=''){
+                $table = $params['table'];
 
-                $id = $params['id'];
-                $type = $params['type'];
-                
-                $respuesta = Model::delete($table,$id,$type);
+                if($params['id'] !=''){
 
-                if($respuesta !=  0){
-                    $respuestaOk = true;
-                    $mensajeError = "Se elimino exitosamente.";
+                    $id = $params['id'];
+                    $type = $params['type'];
+                    
+                    $respuesta = Model::delete($table,$id,$type);
+
+                    if($respuesta !=  0){
+                        $respuestaOk = true;
+                        $mensajeError = "Se elimino exitosamente.";
+                    }else{
+                        $mensajeError = "No se elimino el registro";
+                    }
+
                 }else{
-                    $mensajeError = "No se elimino el registro";
+                    $mensajeError = "Parametros inccorrectos";
                 }
 
             }else{
@@ -219,7 +247,7 @@ class Controller {
             }
 
         }else{
-            $mensajeError = "Parametros inccorrectos";
+            $mensajeError = "Parametros incorrectos";
         }
 
         $salidaJson = array('respuesta'=>$respuestaOk,

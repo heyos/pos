@@ -251,6 +251,8 @@ $(".tablaProductos tbody").on("click", "button.btnEditarProducto", function(){
 
            $("#editarPrecioVenta").val(respuesta["precio_venta"]);
 
+           $("#editarId").val(respuesta["id"]);
+
            if(respuesta["imagen"] != ""){
 
            	$("#imagenActual").val(respuesta["imagen"]);

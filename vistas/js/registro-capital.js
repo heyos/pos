@@ -217,7 +217,7 @@ if(arr.includes($('#ruta').val())){
     $('.original').each(function(){
       
       var val =  parseFloat($(this).val());
-      var newMonto = monto;
+      var newMonto = parseFloat(monto);
       var categoria = $(this).attr('categoria');
       var orden = $(this).attr('orden');
       

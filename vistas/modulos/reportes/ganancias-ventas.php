@@ -40,7 +40,6 @@ GRÁFICO DE VENTAS
     </div>
 
     <div class="box-body border-radius-none">
-
         <table class="table table-bordered table-condensed">
             <thead>
                 <tr>

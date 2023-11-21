@@ -161,6 +161,7 @@ class Model {
                 $where,$group,
                 $orderBy,$limit);
 
+
         $conexion = Conexion::conectar();
         $query = $conexion->prepare($sql);
 
@@ -169,7 +170,8 @@ class Model {
 
         if($query -> execute()){
 
-            $data = $query -> fetchAll();
+            $data['data'] = $query -> fetchAll();
+            $data['sql'] = $sql; //$sql;
 
         }else{
             echo $sql.'<br>';

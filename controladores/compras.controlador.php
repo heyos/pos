@@ -523,10 +523,10 @@ class ComprasController extends Controller {
         );
 
         $respuesta = ComprasModel::all($params);
-
+        
         if(count($respuesta) > 0){
 
-            foreach ($respuesta as $value) {
+            foreach ($respuesta['data'] as $value) {
                 $categoria = $value[1];
                 $total = $value[0];
 
@@ -537,6 +537,25 @@ class ComprasController extends Controller {
                 }
             }
 
+            $totalGastos = GastosController::getTotalGasto($fechaInicial,$fechaFinal,'capital',true);
+            $numCate = count($arrayTotalCategoria);
+
+            if($numCate == 0){
+                $categoriasArr = ControladorCategorias::ctrMostrarCategorias(null,null);
+                $numCate = count($categoriasArr);
+                $subPorCate = $totalGastos/$numCate;
+
+                foreach ($categoriasArr as $item) {
+                    $arrayTotalCategoria[$item['categoria']] = $subPorCate;
+                }
+
+            }else{
+                $subPorCate = $totalGastos/$numCate;
+                foreach ($arrayTotalCategoria as $key => $total) {
+                    $arrayTotalCategoria[$key] = $total + $subPorCate;
+                }
+            }
+                
         }
 
         return $arrayTotalCategoria;

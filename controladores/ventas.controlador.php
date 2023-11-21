@@ -648,15 +648,16 @@ class ControladorVentas extends Controller{
 		);
 
 		$respuesta = ModeloVentas::all($params);
+		$data = $respuesta['data'];
 
-		if(count($respuesta) > 0){
-
-			foreach ($respuesta as $key => $row) {
+		if(count($data) > 0){
+			
+			foreach ($data as $row) {
 				
 				$productos = json_decode($row["productos"],true);
 				$metodo_pago = $row['metodo_pago'];
 
-				foreach ($productos as $key => $value) {
+				foreach ($productos as $value) {
 
 					$totalPrecioCompra = 0;
 
@@ -674,7 +675,7 @@ class ControladorVentas extends Controller{
 
 						$precioCompra = isset($value["precioCompra"]) ? $value["precioCompra"] : $datosProd[2];
 						$totalPrecioCompra = $precioCompra*$cantidadVendida;
-						$totalVendido = $metodo_pago == 'Cortesia' ? $totalPrecioCompra : $totalVendido;
+						$totalVendido = $metodo_pago == 'Cortesia' ? 0 : $totalVendido;
 						$ganancia = $totalVendido - $totalPrecioCompra;
 
 						$totalVendidoCategoria[] = array($categoria=>$totalVendido);
@@ -690,11 +691,13 @@ class ControladorVentas extends Controller{
 
 			$arrayUniqueKey = array_unique($arrayKey);
 
+			
+
 			$totalPC = 0;
 			$totalVendido = 0;
 			$ganancia = 0;
 
-			foreach ($arrayUniqueKey as $key => $value) {
+			foreach ($arrayUniqueKey as $value) {
 
 				$salida .='
 					<tr>
@@ -717,7 +720,29 @@ class ControladorVentas extends Controller{
 						<td><strong>Total</strong></td>
 						<td align="right">'.$totalPC.'</td>
 						<td align="right">'.$totalVendido.'</td>
-						<td align="right">'.$ganancia.'</td>
+						<td align="right">'.number_format($ganancia,2).'</td>
+					</tr>
+			';
+
+			$gastado = GastosController::getTotalGasto($fechaInicial,$fechaFinal, 'ganancia');
+
+			$salida .='
+					<tr>
+						<td><strong>Ganancia consumida</strong></td>
+						<td align="right"></td>
+						<td align="right"></td>
+						<td align="right">'.number_format($gastado,2).'</td>
+					</tr>
+			';
+
+			$saldo = $ganancia - $gastado;
+
+			$salida .='
+					<tr>
+						<td><strong>Saldo</strong></td>
+						<td align="right"></td>
+						<td align="right"></td>
+						<td align="right">'.number_format($saldo,2).'</td>
 					</tr>
 			';
 
@@ -765,7 +790,7 @@ class ControladorVentas extends Controller{
 
 		if(count($respuesta) > 0){
 
-			foreach ($respuesta as $key => $row) {
+			foreach ($respuesta['data'] as $key => $row) {
 				
 				$productos = json_decode($row["productos"],true);
 
