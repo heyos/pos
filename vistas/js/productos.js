@@ -2,18 +2,10 @@
 CARGAR LA TABLA DINÁMICA DE PRODUCTOS
 =============================================*/
 
-// $.ajax({
-
-// 	url: "ajax/datatable-productos.ajax.php",
-// 	success:function(respuesta){
-		
-// 		console.log("respuesta", respuesta);
-
-// 	}
-
-// })
-
 var perfilOculto = $("#perfilOculto").val();
+var arr = ['productos'];
+
+if(arr.includes($('#ruta').val())){
 
 $('.tablaProductos').DataTable( {
     "ajax": "ajax/datatable-productos.ajax.php?perfilOculto="+perfilOculto,
@@ -297,5 +289,176 @@ $(".tablaProductos tbody").on("click", "button.btnEliminarProducto", function(){
 
 	})
 
-})
+});
+
+
+document.querySelector('#barcodeList').addEventListener("click",async () => {
+
+  blockPage();
+  const response = await getListProductos();
+
+  if(response.status){
+    htmlProductos(response.data);
+    $('#all_data').val(JSON.stringify(response.data));
+  }
+
+  unBlockPage();
+});
+
+document.querySelector('#filtro').addEventListener("keyup",()=>{
+
+  let textoBuscado = document.querySelector('#filtro').value;
+  let data = JSON.parse($('#all_data').val());
+  
+  const expresionRegular = new RegExp(textoBuscado, 'i');
+
+  const filter = textoBuscado == "" ? data : data.filter(objeto => expresionRegular.test(objeto.descripcion));
+  htmlProductos(filter);
+});
+
+$(".tablaProductos tbody").on("click", "button.btnBarcode", async function(){
+
+  let idProducto = $(this).attr("idProducto");
+  let descripcion = $(this).attr("descripcion");
+  let precio = $(this).attr("precio");
+  let codigo = $(this).attr("codigo");
+
+  let arr = [
+    {
+      descripcion: descripcion,
+      precio_venta: precio,
+      codigo: codigo
+    }
+  ];
+  
+  let barcode = await getBarcode(arr);
+  
+  if(barcode.status){
+    arr = barcode.data;
+    getBarcodePdf(arr);
+  }
+  
+
+});
+
+async function getBarcode(arr){
+
+  try{
+
+    let formData = new FormData();
+
+    formData.append('data',JSON.stringify(arr));
+
+    let response = await fetch("api_barcode/",{
+      method: "POST",
+      body: formData
+    }),
+    json = await response.json();
+
+    return json;
+
+  }catch(e){
+    console.log("getBarcode error:>>",e);
+    return {status: false}
+  }   
+
+}
 	
+async function getBarcodePdf(arr){
+
+  try{
+    blockPage();
+    let formData = new FormData();
+
+    formData.append('data',JSON.stringify(arr));
+    formData.append('accion','barcode');
+    
+    let response = await fetch("ajax/productos.ajax.php",{
+      method: "POST",
+      body: formData
+    }),
+    
+    blob = await response.blob();
+
+    if(blob.type =="application/pdf"){
+      
+      const url = URL.createObjectURL(blob);
+      // const link = document.createElement('a');
+      // link.href = url;
+      // link.download = 'barcode.pdf';
+
+      // document.body.appendChild(link);
+
+      // link.click();
+
+      // document.body.removeChild(link);
+      $('#modalBarcode').modal('show')
+      $('#iframe').attr('src',url);
+    }
+    unBlockPage();
+  }catch(e){
+    console.log("getBarcode error:>>",e);
+    return {type: null}
+  }   
+
+}
+
+async function getListProductos(){
+
+  try{
+    
+    let formData = new FormData();
+
+    formData.append('accion','data_productos');
+    
+    let response = await fetch("ajax/productos.ajax.php",{
+      method: "POST",
+      body: formData
+    }),
+    
+    json = await response.json();
+
+    return json;
+    
+  }catch(e){
+    console.log("getListProductos error:>>",e);
+    return {status: false}
+  }   
+
+}
+
+function htmlProductos(arr){
+    
+  const body_productos = document.querySelector('#body_productos');
+
+  let html = `
+    <tr>
+      <td colspan="4" class="text-center">
+        No se encontraron registros
+      </td>
+    </tr>
+  `;
+
+  if(arr.length > 0){
+    html = "";
+    arr.forEach((item) => {
+      let obj = JSON.stringify(item);
+      html += `
+        <tr>
+          <td>${item.codigo}</td>
+          <td>${item.descripcion}</td>
+          <td>${item.precio_venta}</td>
+          <td class="text-center">
+            <input type="checkbox" class="check" codigo="${obj.codigo}" descripcion="${obj.descripcion}" precio="${item.precio_venta}">
+          </td>
+        </tr>
+      `;
+    });
+  }
+    
+  body_productos.innerHTML = html;
+  
+}
+
+
+}

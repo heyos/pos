@@ -239,7 +239,19 @@
 
 						</a>
 
-					</li>';
+					</li>
+					<li>
+
+						<a href="crear-venta-rapida">
+							
+							<i class="fa fa-circle-o"></i>
+							<span>Crear venta rapida</span>
+
+						</a>
+
+					</li>
+					';
+
 
 					if($_SESSION["perfil"] == "Administrador"){
 

@@ -50,6 +50,10 @@ class ReporteCapitalController extends Controller {
 			$f_inicio = $reporte['f_fin'];
 			$f_inicio = date('Y-m-d',strtotime('+1day',strtotime($f_inicio)));
 
+			if($f_inicio > $f_fin){
+				$f_fin = $f_inicio;
+			}
+
 			if($type == 'new'){
 				$arrAcumulado = ControladorVentas::capitalAcumulado($f_inicio, $f_fin);
 				$arrGastado = ComprasController::capitalGastado($f_inicio, $f_fin);
@@ -61,7 +65,6 @@ class ReporteCapitalController extends Controller {
 			$arrGastado = ComprasController::capitalGastado('','',true);
 		}
 
-		
 		$categorias = ControladorCategorias::ctrMostrarCategorias('', '');
 		$arrTotal = [];
 

@@ -118,6 +118,57 @@ class ControladorProductos extends Controller{
 		return $respuesta;
 	}
 
+	static public function getProducto($item, $valor, $orden){
+
+		$status = false;
+		$message = "";
+		
+		$tabla = "productos";
+		$producto = ModeloProductos::mdlMostrarProductos($tabla, $item, $valor, $orden);
+
+		$idProducto = 0;
+		$descripcion = "";
+		$stock = 0;
+		$precioCompra = 0;
+		$params = [];
+
+		if(!empty($producto)){
+
+			
+			$idProducto = $producto['id'];
+			$descripcion = $producto['descripcion'];
+			$cantidad = 1;
+			$precioCompra = $producto['precio_compra'];
+			$stock = $producto['stock'];
+
+			if($stock > 0){
+				$status = true;
+				$params = [
+					'id' => $idProducto,
+					'descripcion' => $descripcion,
+					'cantidad' => 1, //cantidad vendida
+					'stock' => $stock,
+					'precio' => $producto['precio_venta'],
+					'precioCompra' => $precioCompra,
+					'total' => $producto['precio_venta']
+				];
+			}else{
+				$message = $descripcion.": Stock insuficiente";
+			}
+
+		}
+
+		$respuesta = [
+			"status" => $status,
+			"data"=>$params,
+			"idProducto"=>$idProducto,
+			"message" => $message
+		] ;
+
+		return $respuesta;
+
+	}
+
 	/*=============================================
 	CREAR PRODUCTO
 	=============================================*/
@@ -461,6 +512,37 @@ class ControladorProductos extends Controller{
 
 		return $respuesta;
 
+	}
+
+
+	static public function barcodePdf($data){
+		
+		require '../extensiones/fpdf/fpdf.php';
+
+		if(count($data) > 0){
+			$pdf = new FPDF('L','mm',array(50,30));
+			$pdf->SetAutoPageBreak(false);
+
+			foreach ($data as $item) {
+				$pdf->AddPage();
+				
+				$pdf->Image($item['barcode'], 4, 7, 42, 9);
+
+				$pdf->SetFont('Arial', '', 6);
+
+				$pdf->SetXY(3, 18);
+				$texto = ucfirst($item['descripcion']).' : S/ '.number_format($item['precio_venta'],2,'.','');
+				// $pdf->Cell(44, 2, $texto, 0, 0, 'C');
+				$pdf->MultiCell(44, 2, $texto, 0, 'C');
+			}
+
+			$pdf->Output("I","documento.pdf");
+
+			foreach ($data as $item) {
+				unlink($item['barcode']);
+			}
+		}
+			
 	}
 
 

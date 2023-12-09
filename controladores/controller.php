@@ -46,9 +46,7 @@ class Controller {
             }
                 
         }
-
         
-
         switch ($action) {
             case 'data':
                 $params['start'] = $start;

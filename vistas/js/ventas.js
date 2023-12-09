@@ -2,17 +2,6 @@
 CARGAR LA TABLA DINÁMICA DE VENTAS
 =============================================*/
 
-// $.ajax({
-
-// 	url: "ajax/datatable-ventas.ajax.php",
-// 	success:function(respuesta){
-		
-// 		console.log("respuesta", respuesta);
-
-// 	}
-
-// })//
-
 var arr = ['crear-venta','editar-venta','ventas','reportes'];
 
 if(arr.includes($('#ruta').val())){
@@ -437,7 +426,7 @@ $(".formularioVenta").on("change", "input.nuevaCantidadProducto", function(){
 
 	var precio = $(this).parent().parent().children(".ingresoPrecio").children().children(".nuevoPrecioProducto");
 
-	var precioFinal = $(this).val() * precio.attr("precioReal");
+	let precioFinal = $(this).val() * precio.attr("precioReal");
 	
 	precio.val(precioFinal);
 
@@ -455,9 +444,9 @@ $(".formularioVenta").on("change", "input.nuevaCantidadProducto", function(){
 
 		$(this).attr("nuevoStock", $(this).attr("stock"));
 
-		var precioFinal = $(this).val() * precio.attr("precioReal");
+		precioFinal = parseFloat($(this).val()) * parseFloat(precio.attr("precioReal"));
 
-		precio.val(precioFinal);
+		precio.val(precioFinal.toFixed(2));
 
 		sumarTotalPrecios();
 
@@ -509,10 +498,10 @@ function sumarTotalPrecios(){
 
 	}
 
-	var sumaTotalPrecio = arraySumaPrecio.reduce(sumaArrayPrecios);
+	let sumaTotalPrecio = arraySumaPrecio.reduce(sumaArrayPrecios);
 
-	console.log(sumaTotalPrecio);
-	
+	sumaTotalPrecio = sumaTotalPrecio.toFixed(2);
+
 	$("#nuevoTotalVenta").val(sumaTotalPrecio);
 	$("#totalVenta").val(sumaTotalPrecio);
 	$("#nuevoTotalVenta").attr("total",sumaTotalPrecio);

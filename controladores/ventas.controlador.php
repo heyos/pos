@@ -161,6 +161,133 @@ class ControladorVentas extends Controller{
 
 	}
 
+	static public function apiCreateVenta(){
+
+		$status = false;
+
+		if($_POST["listaProductos"] == ""){
+
+			$message = "Debe agregar almenos un producto";
+			
+		}else{
+			$listaProductos = json_decode($_POST["listaProductos"], true);
+
+			$totalProductosComprados = array();
+
+			foreach ($listaProductos as $key => $value) {
+
+			   	array_push($totalProductosComprados, $value["cantidad"]);
+				
+			   	$tablaProductos = "productos";
+
+			    $item = "id";
+			    $valor = $value["id"];
+			    $orden = "id";
+
+			    $traerProducto = ModeloProductos::mdlMostrarProductos($tablaProductos, $item, $valor, $orden);
+
+				$item1a = "ventas";
+				$valor1a = $value["cantidad"] + $traerProducto["ventas"];
+
+			    $nuevasVentas = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1a, $valor1a, $valor);
+
+				$item1b = "stock";
+				$valor1b = $traerProducto["stock"] - $value['cantidad'];
+
+				$nuevoStock = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1b, $valor1b, $valor);
+
+			}
+
+			$tablaClientes = "clientes";
+
+			$item = "id";
+			$valor = $_POST["seleccionarCliente"];
+
+			$traerCliente = ModeloClientes::mdlMostrarClientes($tablaClientes, $item, $valor);
+
+			$item1a = "compras";
+			$valor1a = array_sum($totalProductosComprados) + $traerCliente["compras"];
+
+			$comprasCliente = ModeloClientes::mdlActualizarCliente($tablaClientes, $item1a, $valor1a, $valor);
+
+			$item1b = "ultima_compra";
+
+			date_default_timezone_set('America/Lima');
+
+			$fecha = date('Y-m-d');
+			$hora = date('H:i:s');
+			$valor1b = $fecha.' '.$hora;
+
+			$fechaCliente = ModeloClientes::mdlActualizarCliente($tablaClientes, $item1b, $valor1b, $valor);
+
+			/*=============================================
+			GUARDAR LA VENTA
+			=============================================*/	
+
+			$fechaV = ($_POST["nuevaFecha"] < date("Y-m-d")) ? $_POST["nuevaFecha"]:$_POST["nuevaFecha"]." ".date("H:i:s") ;
+			$fecha_sin_hora = $_POST["nuevaFecha"];
+
+			$tabla = "ventas";
+
+			$datos = array(
+				"id_vendedor" => $_POST["idVendedor"],
+				"id_cliente" => $_POST["seleccionarCliente"],
+				"codigo" => $_POST["codigo"],
+				"productos" => $_POST["listaProductos"],
+				"impuesto" => 0,
+				"neto" => $_POST["totalVenta"],
+				"total" => $_POST["totalVenta"],
+				"metodo_pago" => $_POST["nuevoMetodoPago"],
+				"fecha" => $fechaV
+			);
+
+			$arrMetodo = ['Cortesia','Tarjeta','Efectivo'];
+
+			if( in_array($_POST["nuevoMetodoPago"], $arrMetodo)){
+				$datos['fecha_pago'] = $fecha_sin_hora;
+			}else{
+				$datos['codigo_pago'] = $_POST["codigo_pago"];
+			}
+
+			$respuesta = ModeloVentas::create($tabla, $datos);
+
+			if($respuesta != 0){
+
+				/*
+				echo '
+				<script>
+
+				localStorage.removeItem("rango");
+
+				swal({
+					type: "success",
+					title: "La venta ha sido guardada correctamente",
+					showConfirmButton: true,
+					confirmButtonText: "Cerrar"
+				}).then(function(result){
+					if (result.value) {
+						window.location = "ventas";
+					}
+				})
+
+				</script>';
+				*/
+
+				$status = true;
+				$message = "La venta ha sido guardada correctamente";
+
+			}
+		
+		}
+
+		return array(
+			'status' => $status,
+			'message' => $message
+		);
+
+	}
+
+
 	/*=============================================
 	EDITAR VENTA
 	=============================================*/
@@ -847,5 +974,33 @@ class ControladorVentas extends Controller{
 
 		return $contenido;
 	}
+
+	static public function codigo(){
+
+        $compra = ModeloVentas::lastRow('ventas');
+        $codigo = 1000;
+        $band = true;
+
+        if(!empty($compra)){
+            $codigo = $compra['codigo'] + 1;
+
+            while ($band) {
+
+                $params = array(
+                    'where'=> array(['codigo',$codigo])
+                );
+
+                $datos = ModeloVentas::firstOrAll('ventas',$params,'first');
+
+                if(!empty($datos)){
+                    $codigo ++;
+                }else{
+                    $band = false;
+                }
+            }
+        }
+
+        return $codigo;
+    }
 
 }

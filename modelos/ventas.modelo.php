@@ -22,7 +22,12 @@ class ModeloVentas extends Model{
 
 		}else{
 
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY id ASC");
+			if($valor == 'cod'){
+				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY id DESC LIMIT 1");
+			}else{
+				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY id ASC");
+			}
+			
 
 			$stmt -> execute();
 

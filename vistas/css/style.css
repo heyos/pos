@@ -57,3 +57,16 @@
 #ui-datepicker-div{
   z-index: 100000 !important;
 }
+
+.table-container {
+  height: 500px !important;
+  overflow-y: auto;
+}
+
+/* Estilo para la cabecera fija */
+.fixed-header {
+  position: sticky;
+  top: 0;
+  background-color: #f2f2f2; /* Ajusta según tus preferencias */
+  z-index: 1;
+}

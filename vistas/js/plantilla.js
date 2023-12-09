@@ -93,6 +93,11 @@ $('.slimscroll').slimscroll({
   height: '200px'
 });
 
+function slimscroll(height){
+    $('.slimscroll').slimscroll({
+      height: height+'px'
+    });
+}
 
 function blockPage(){
     

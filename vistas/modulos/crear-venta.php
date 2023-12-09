@@ -121,7 +121,7 @@ if($_SESSION["perfil"] == "Especial"){
                     <?php
 
                     $item = null;
-                    $valor = null;
+                    $valor = 'cod';
 
                     $ventas = ControladorVentas::ctrMostrarVentas($item, $valor);
 

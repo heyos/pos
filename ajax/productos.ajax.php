@@ -6,6 +6,8 @@ require_once "../modelos/productos.modelo.php";
 require_once "../controladores/categorias.controlador.php";
 require_once "../modelos/categorias.modelo.php";
 
+
+
 class AjaxProductos{
 
   /*=============================================
@@ -93,6 +95,25 @@ class AjaxProductos{
 
         break;
 
+      case 'data_producto':
+
+        if(array_key_exists('codigo',$this->params)){
+          //agregar desde codigo de barra
+          $item = "codigo";
+          $valor = $this->params['codigo'];
+          $orden = "codigo";
+
+        }else{
+          //agregar desde lista de productos
+          $item = "id";
+          $valor = $this->params['id'];
+          $orden = "id";
+        }                
+
+        $respuesta = ControladorProductos::getProducto($item, $valor,$orden);
+
+      break;
+
       case 'filterCompra':
 
         $lista = json_decode($this->params['lista'],true);
@@ -116,6 +137,32 @@ class AjaxProductos{
     echo json_encode($respuesta);
 
     
+
+  }
+
+  public function getBarcodeList(){
+    $params = $this->params;
+
+    $data = json_decode($params['data'],true);
+    ControladorProductos::barcodePdf($data);
+
+  }
+
+  public function getListProductos(){
+
+    $item = null;
+    $valor = null;
+    $orden = "id";
+
+    $productos = ControladorProductos::ctrMostrarProductos($item, $valor, $orden);
+    $status = count($productos) > 0 ? true : false;
+
+    echo json_encode(
+      array(
+        'status' => $status,
+        'data' => $productos
+      )
+    );
 
   }
 
@@ -178,7 +225,19 @@ if(isset($_POST["accion"])){
   $traerProductos = new AjaxProductos();
   $traerProductos -> params = $_POST;
   $traerProductos -> accion = $_POST["accion"];
-  $traerProductos -> addList();
+
+  switch ($_POST["accion"]) {
+    case 'barcode':
+      $traerProductos -> getBarcodeList();
+      break;
+    case 'data_productos':
+      $traerProductos -> getListProductos();
+      break;
+    default:
+      $traerProductos -> addList();
+      break;
+  }
+  
 
 }
 

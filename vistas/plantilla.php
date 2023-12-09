@@ -167,6 +167,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "reportes-compras" ||
         $_GET["ruta"] == "administrar-deudas" ||
         $_GET["ruta"] == "registrar-gastos" ||
+        $_GET["ruta"] == "crear-venta-rapida" ||
         $_GET["ruta"] == "proveedores"){
 
         echo "<input type='hidden' value='".$_GET["ruta"]."' id='ruta'>";
@@ -210,6 +211,7 @@ CUERPO DOCUMENTO
 <script src="<?php echo BASE_URL; ?>vistas/js/productos.js"></script>
 <script src="<?php echo BASE_URL; ?>vistas/js/clientes.js"></script>
 <script src="<?php echo BASE_URL; ?>vistas/js/ventas.js"></script>
+<script src="<?php echo BASE_URL; ?>vistas/js/venta-rapida.js"></script>
 <script src="<?php echo BASE_URL; ?>vistas/js/compras.js"></script>
 <script src="<?php echo BASE_URL; ?>vistas/js/reportes.js"></script>
 <script src="<?php echo BASE_URL; ?>vistas/js/proveedores.js"></script>

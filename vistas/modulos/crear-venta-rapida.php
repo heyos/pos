@@ -22,7 +22,7 @@ if($_SESSION["perfil"] == "Especial"){
     
     <h1>
       
-      Crear compra
+      Crear venta rapida
     
     </h1>
 
@@ -30,7 +30,7 @@ if($_SESSION["perfil"] == "Especial"){
       
       <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
       
-      <li class="active">Crear compra</li>
+      <li class="active">Crear venta rapida</li>
     
     </ol>
 
@@ -66,7 +66,7 @@ if($_SESSION["perfil"] == "Especial"){
                           
                           <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
 
-                          <input type="text" class="form-control nuevaFecha" id="fecha" name="fecha" value="<?php echo date("Y-m-d"); ?>" required>
+                          <input type="text" class="form-control nuevaFecha" id="fecha" name="nuevaFecha" value="<?php echo date("Y-m-d"); ?>" required>
 
                         </div>
 
@@ -92,8 +92,7 @@ if($_SESSION["perfil"] == "Especial"){
 
                           <?php
 
-                          $compras = ComprasController::codigo();
-                          $codigo = $compras['contenido'];
+                          $codigo = ControladorVentas::codigo();
                           $accion = "add";
 
                           echo '<input type="text" class="form-control" id="codigo" name="codigo" value="'.$codigo.'" readonly>';
@@ -109,7 +108,7 @@ if($_SESSION["perfil"] == "Especial"){
                   </div> 
 
                   <input type="hidden" name="accion" value="<?php echo $accion; ?>">
-                  <input type="hidden" name="usuario_id" value="<?php echo $_SESSION["id"]; ?>">
+                  
                   <!--=====================================
                   ENTRADA DEL CLIENTE
                   ======================================--> 
@@ -120,27 +119,26 @@ if($_SESSION["perfil"] == "Especial"){
                       
                       <span class="input-group-addon"><i class="fa fa-users"></i></span>
                       
-                      <select class="form-control" id="seleccionarProveedor" name="proveedor_id" required>
+                      <select class="form-control" id="seleccionarCliente" name="seleccionarCliente" required>
 
                       <?php
 
-                        $params = [
-                          'show' => 'any',
-                          'data' =>'all'
-                        ];
+                        $item = null;
+                        $valor = null;
 
-                        $proveedores = ProveedorController::ctrMostrarProveedor($params);
-                        foreach ($proveedores as $value) {
+                        $categorias = ControladorClientes::ctrMostrarClientes($item, $valor);
 
-                         echo '<option value="'.$value["id"].'">'.$value["razon_social"].'</option>';
+                         foreach ($categorias as $key => $value) {
 
-                        }
+                           echo '<option value="'.$value["id"].'">'.$value["nombre"].'</option>';
+
+                         }
 
                       ?>
 
                       </select>
                                           
-                      <span class="input-group-addon"><button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#modalAgregarProveedor" data-dismiss="modal">Agregar proveedor</button></span>
+                      <span class="input-group-addon"><button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#modalAgregarCliente" data-dismiss="modal">Agregar cliente</button></span>
                     
                     </div>
                   
@@ -158,17 +156,15 @@ if($_SESSION["perfil"] == "Especial"){
                   ======================================-->
                   <hr>
                   <div class="form-group row text-center">
-                    <div class="col-sm-5">
+                    <div class="col-sm-6">
                       <strong>Descripcion</strong>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                       <strong>Cantidad</strong>
                     </div>
-                    <div class="col-sm-2">
-                      <strong>P.U</strong>
-                    </div>
+                    
                     <div class="col-sm-3">
-                      <strong>P. Total</strong>
+                      <strong>Total</strong>
                     </div>
                   </div>
 
@@ -199,9 +195,8 @@ if($_SESSION["perfil"] == "Especial"){
                   <div class="form-horizontal row">
                       
                     <div class="col-sm-6">
-                      <select class="form-control" id="nuevoMetodoPago" name="metodo_pago" required>
-                        <option value="contado">Contado</option>
-                        <option value="credito">Credito</option>
+                      <select class="form-control" id="nuevoMetodoPago" name="nuevoMetodoPago" required>
+                        <option value="Efectivo" selected>Efectivo</option>
                       </select>    
                     </div>
 
@@ -212,8 +207,8 @@ if($_SESSION["perfil"] == "Especial"){
                       <div class="col-sm-8">
                         <div class="input-group">
                           <span class="input-group-addon"><i class="ion ion-social-usd"></i></span>
-                          <input type="text" class="form-control input-lg" id="nuevoTotalCompra"  total="" placeholder="00000" readonly>
-                          <input type="hidden" name="total" class="totalCompra" id="totalCompra">
+                          <input type="text" class="form-control input-sm" id="nuevoTotalVenta"  total="" placeholder="00000" readonly>
+                          <input type="hidden" name="totalVenta" class="totalVenta" id="totalVenta">
                         </div>
                       </div>
                     </div>
@@ -223,7 +218,7 @@ if($_SESSION["perfil"] == "Especial"){
                 </div>
 
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary btn-block">Guardar Compra</button>
+                  <button type="submit" class="btn btn-primary btn-block">Guardar</button>
                 </div>
 
               </div>
@@ -262,7 +257,7 @@ if($_SESSION["perfil"] == "Especial"){
 
           <div class="box-body">
             
-            <table class="table table-bordered table-striped dt-responsive tablaCompras">
+            <table class="table table-bordered table-striped dt-responsive tablaProductos_v">
               
                <thead>
 

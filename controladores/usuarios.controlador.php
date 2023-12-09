@@ -55,7 +55,7 @@ class ControladorUsuarios{
 						if($ultimoLogin == "ok"){
 
 							echo '<script>
-
+								sessionStorage.setItem("u",'.$valor2.');
 								window.location = "inicio";
 
 							</script>';

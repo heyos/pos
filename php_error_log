@@ -319,3 +319,11 @@ Stack trace:
 [12-Jul-2023 10:41:57 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
 [18-Jul-2023 14:33:16 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
 [18-Jul-2023 14:33:36 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 141
+[07-Dec-2023 09:03:47 Europe/Berlin] PHP Parse error:  syntax error, unexpected 'use' (T_USE) in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 521
+[07-Dec-2023 09:06:03 Europe/Berlin] PHP Parse error:  syntax error, unexpected 'use' (T_USE) in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 521
+[07-Dec-2023 11:33:22 America/Lima] PHP Fatal error:  Uncaught BarcodeBakery\Common\BCGArgumentException: The font path is incorrect. in C:\xampp\htdocs\hrcody-sistemas\pos\extensiones\barcode\vendor\packages\barcode-common\src\BCGFontFile.php:73
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(36): BarcodeBakery\Common\BCGFontFile->__construct('C:\\xampp\\htdocs...', 18)
+#1 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\extensiones\barcode\vendor\packages\barcode-common\src\BCGFontFile.php on line 73
+[07-Dec-2023 17:35:41 Europe/Berlin] PHP Parse error:  syntax error, unexpected 'use' (T_USE) in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 525

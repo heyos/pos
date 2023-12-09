@@ -45,6 +45,12 @@ if($_SESSION["perfil"] == "Vendedor"){
 
         </button>
 
+        <button class="btn btn-primary" id="barcodeList" data-toggle="modal" data-target="#modalProductos">
+          
+          Generar codigo de barras
+
+        </button>
+
       </div>
 
       <div class="box-body">
@@ -509,5 +515,75 @@ MODAL EDITAR PRODUCTO
 
 ?>      
 
+<div id="modalBarcode" class="modal fade" role="dialog">
+  
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Codigos de barra</h4>
+      </div>
+
+      <div class="modal-body">
+        <iframe id="iframe" src="" width="100%" height="400"></iframe>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
+      </div>     
+
+    </div>
+
+  </div>
+
+</div>
+
+<div id="modalProductos" class="modal fade" role="dialog">
+  
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Generar codigos de barra</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row" style="margin-bottom: 10px">
+          <label class="col-sm-2">Filtrar :</label>
+          <div class="col-sm-6">
+            <input type="text" id="filtro" class="form-control">
+            <input type="text" id="all_data" class="form-control">
+            <input type="text" id="data" class="form-control">
+          </div>
+          <div class="col-sm-4">
+            <button type="button" onclick="generarData()" class="btn btn-success">Imprimir Codigo de barras</button>
+          </div>
+        </div>
+        <div class="table-container">
+          <table class="table table-condensed table-bordered">
+            <thead class="fixed-header">
+              <tr>
+                <th>Codigo</th>
+                <th>Nombre</th>
+                <th>Precio Venta</th>
+                <th class="text-center">
+                  <input type="checkbox" id="all" onclick="seleccionarProductos(this)">
+                </th>
+              </tr>
+            </thead>
+            <tbody id="body_productos"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
 
 
