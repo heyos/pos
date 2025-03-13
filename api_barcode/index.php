@@ -13,23 +13,24 @@ $data = [];
 
 if(isset($_REQUEST['data'])){
 	
-	$colorFront = new BCGColor(0, 0, 0);
-	$colorBack = new BCGColor(255, 255, 255);
-
-	$font = new BCGFontFile(__DIR__ . '/../extensiones/barcode/vendor/font/Arial.ttf', 10);
-	
-	$code = new BCGcode128();
-	$code->setScale(8);
-	$code->setThickness(10); // modifica el alto
-	$code->setForegroundColor($colorFront); // color de las barras
-	$code->setBackgroundColor($colorBack); // color de fondo
-	$code->setFont($font);
-	
 	$data = json_decode($_REQUEST['data'],true);
 
 	$count_ok = 0;
 	
 	foreach ($data as $key => $item) {
+
+		$colorFront = new BCGColor(0, 0, 0);
+		$colorBack = new BCGColor(255, 255, 255);
+
+		$font = new BCGFontFile(__DIR__ . '/../extensiones/barcode/vendor/font/Arial.ttf', 10);
+
+		$code = new BCGcode128();
+		$code->setScale(8);
+		$code->setThickness(10); // modifica el alto
+		$code->setForegroundColor($colorFront); // color de las barras
+		$code->setBackgroundColor($colorBack); // color de fondo
+		$code->setFont($font);
+
 		$codigo = $item['codigo'];
 		$code->parse($codigo);
 		$barcode = $code;

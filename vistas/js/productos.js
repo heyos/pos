@@ -300,6 +300,7 @@ document.querySelector('#barcodeList').addEventListener("click",async () => {
   if(response.status){
     htmlProductos(response.data);
     $('#all_data').val(JSON.stringify(response.data));
+    $('#data').val('');
   }
 
   unBlockPage();
@@ -314,6 +315,8 @@ document.querySelector('#filtro').addEventListener("keyup",()=>{
 
   const filter = textoBuscado == "" ? data : data.filter(objeto => expresionRegular.test(objeto.descripcion));
   htmlProductos(filter);
+  let data_check = JSON.parse($('#data').val());
+  checkProductos(data_check)
 });
 
 $(".tablaProductos tbody").on("click", "button.btnBarcode", async function(){
@@ -339,6 +342,10 @@ $(".tablaProductos tbody").on("click", "button.btnBarcode", async function(){
   }
   
 
+});
+
+document.querySelector('#generarData').addEventListener('click',() => {
+  generarData();
 });
 
 async function getBarcode(arr){
@@ -442,14 +449,14 @@ function htmlProductos(arr){
   if(arr.length > 0){
     html = "";
     arr.forEach((item) => {
-      let obj = JSON.stringify(item);
+      
       html += `
         <tr>
           <td>${item.codigo}</td>
           <td>${item.descripcion}</td>
           <td>${item.precio_venta}</td>
           <td class="text-center">
-            <input type="checkbox" class="check" codigo="${obj.codigo}" descripcion="${obj.descripcion}" precio="${item.precio_venta}">
+            <input type="checkbox" class="check" onclick="seleccionar(this)" codigo="${item.codigo}" descripcion="${item.descripcion}" precio="${item.precio_venta}">
           </td>
         </tr>
       `;
@@ -460,5 +467,73 @@ function htmlProductos(arr){
   
 }
 
+async function generarData(){
+
+  let inputs = document.querySelectorAll('.check');
+  let arr = [];
+
+  let check_all = document.querySelector('#all');
+  if(check_all.checked){
+    arr = JSON.parse(document.querySelector('#all_data').value);
+  }else{
+    arr = document.querySelector('#data').value != '' ? JSON.parse(document.querySelector('#data').value) : [];
+  }
+  blockPage();
+  if(arr.length > 0){
+    let barcode = await getBarcode(arr);
+    
+    if(barcode.status){
+      arr = barcode.data;
+      getBarcodePdf(arr);
+    }
+  }else{
+    swal('Debe cargar almenos un producto.!','','warning');
+  }
+
+  unBlockPage();
+
+}
+
+function seleccionarProductos(input){
+
+  let all_data = document.querySelector('#all_data').value;
+  if(input.checked){
+    $('.check').prop('checked',true);
+    document.querySelector('#data').value = all_data;
+  }else{
+    $('.check').prop('checked',false);
+    document.querySelector('#data').value = '[]';
+  }
+}
+
+function seleccionar(input){
+  let input_data = document.querySelector('#data');
+  let data = input_data.value != '' ? JSON.parse(input_data.value) : [];
+  let codigo = input.getAttribute('codigo');
+  let descripcion = input.getAttribute('descripcion');
+  let precio = input.getAttribute('precio');
+
+  if(input.checked){
+    let find = data.find(item => item.codigo === codigo );
+    if(!find){
+      data.push({
+        descripcion: descripcion,
+        precio_venta: precio,
+        codigo: codigo
+      });
+    }
+  }else{
+    data = data.filter(item => item.codigo !== codigo);
+    document.querySelector('#all').checked = false;
+  }
+
+  input_data.value = JSON.stringify(data);
+}
+
+function checkProductos(data){
+  data.forEach(item => {
+    $(`input[codigo="${item.codigo}"]`).prop('checked',true);
+  });
+}
 
 }

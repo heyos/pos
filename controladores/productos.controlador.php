@@ -399,38 +399,68 @@ class ControladorProductos extends Controller{
 
 				$tabla = "productos";
 
-				$datos = array("id_categoria" => $_POST["editarCategoria"],
-							   "codigo" => $_POST["editarCodigo"],
-							   "descripcion" => $_POST["editarDescripcion"],
-							   "stock" => $_POST["editarStock"],
-							   "precio_compra" => $_POST["editarPrecioCompra"],
-							   "precio_venta" => $_POST["editarPrecioVenta"],
-							   "imagen" => $ruta,
-							   "id" => $_POST['editarId']
-							);
+				$args = array(
+					'tabla' => $tabla,
+					'where' => array(
+						['codigo',$_POST["editarCodigo"]],
+						['id','<>',$_POST["editarId"]]
+					)
+				);
 
-				$respuesta = ModeloProductos::mdlEditarProducto($tabla, $datos);
+				$res = self::itemDetail($args);
 
-				if($respuesta == "ok"){
+				if(!$res['respuesta']){
+					$datos = array("id_categoria" => $_POST["editarCategoria"],
+								   "codigo" => $_POST["editarCodigo"],
+								   "descripcion" => $_POST["editarDescripcion"],
+								   "stock" => $_POST["editarStock"],
+								   "precio_compra" => $_POST["editarPrecioCompra"],
+								   "precio_venta" => $_POST["editarPrecioVenta"],
+								   "imagen" => $ruta,
+								   "id" => $_POST['editarId']
+								);
 
+					$respuesta = ModeloProductos::mdlEditarProducto($tabla, $datos);
+
+					if($respuesta == "ok"){
+
+						echo'<script>
+
+							swal({
+								  type: "success",
+								  title: "El producto ha sido editado correctamente",
+								  showConfirmButton: true,
+								  confirmButtonText: "Cerrar"
+								  }).then(function(result){
+											if (result.value) {
+
+											window.location = "productos";
+
+											}
+										})
+
+							</script>';
+
+					}
+
+				}else{
 					echo'<script>
 
-						swal({
-							  type: "success",
-							  title: "El producto ha sido editado correctamente",
-							  showConfirmButton: true,
-							  confirmButtonText: "Cerrar"
-							  }).then(function(result){
-										if (result.value) {
+							swal({
+								  type: "warning",
+								  title: "El codigo ya se encuentra registrado",
+								  showConfirmButton: true,
+								  confirmButtonText: "Cerrar"
+								  }).then(function(result){
+											if (result.value) {
 
-										window.location = "productos";
+											window.location = "productos";
 
-										}
-									})
+											}
+										})
 
-						</script>';
-
-				}
+							</script>';
+				}					
 
 
 			}else{

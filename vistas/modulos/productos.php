@@ -363,7 +363,7 @@ MODAL EDITAR PRODUCTO
               
                 <span class="input-group-addon"><i class="fa fa-code"></i></span> 
 
-                <input type="text" class="form-control input-lg" id="editarCodigo" name="editarCodigo" readonly required>
+                <input type="text" class="form-control input-lg" id="editarCodigo" name="editarCodigo" required>
 
               </div>
 
@@ -515,7 +515,7 @@ MODAL EDITAR PRODUCTO
 
 ?>      
 
-<div id="modalBarcode" class="modal fade" role="dialog">
+<div id="modalBarcode" class="modal fade" role="dialog" style="z-index: 100000 !important;">
   
   <div class="modal-dialog">
 
@@ -556,11 +556,11 @@ MODAL EDITAR PRODUCTO
           <label class="col-sm-2">Filtrar :</label>
           <div class="col-sm-6">
             <input type="text" id="filtro" class="form-control">
-            <input type="text" id="all_data" class="form-control">
-            <input type="text" id="data" class="form-control">
+            <input type="hidden" id="all_data" class="form-control">
+            <input type="hidden" id="data" class="form-control">
           </div>
           <div class="col-sm-4">
-            <button type="button" onclick="generarData()" class="btn btn-success">Imprimir Codigo de barras</button>
+            <button type="button" id="generarData" class="btn btn-success">Imprimir Codigo de barras</button>
           </div>
         </div>
         <div class="table-container">

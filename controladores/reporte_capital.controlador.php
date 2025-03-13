@@ -16,13 +16,16 @@ class ReporteCapitalController extends Controller {
 
 		if($params){
 
-			$type = $params['type'];
+			if(array_key_exists('type',$params)){
+				$type = $params['type'];
 
-			if($type == 'detalle'){
-				$args = array(
-					['id',$params['id']]
-				);
+				if($type == 'detalle'){
+					$args = array(
+						['id',$params['id']]
+					);
+				}
 			}
+				
 		}
 
 		$where = array(
@@ -32,13 +35,11 @@ class ReporteCapitalController extends Controller {
 		$arrInicio = [];
 		$arrAcumulado = [];
 		$arrGastado = [];
-		$inicio = 0;
-		$acumulado = 0;
-		$gastado = 0;
-		$total = 0;
+		
 		$f_inicio = '';
 		$hoy = date('Y-m-d');
 		$f_fin = date('Y-m-d',strtotime('-1day',strtotime($hoy)));
+		//$f_fin = "2024-04-15";
 
 		$reporte = ReporteCapitalModel::firstOrAll($table,$where,'first');
 		$detalle = [];
@@ -71,6 +72,11 @@ class ReporteCapitalController extends Controller {
 		$response = false;
 
 		if(count($categorias) > 0){
+
+			$inicio = 0;
+			$acumulado = 0;
+			$gastado = 0;
+			$total = 0;
 
 			foreach ($categorias as $categoria) {
 
