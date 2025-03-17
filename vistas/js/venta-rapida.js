@@ -544,14 +544,12 @@ function actionAddProducto(formData){
       		$('.codigoProducto').val('');
 
       		let listaId = $('#listaId').val() != '' ? JSON.parse($('#listaId').val()) : [];
-
+			
       	    if(response.status){
 
-      	    	if(listaId.includes(response.idProducto)){
-
+      	    	if(listaId.includes(response.idProducto.toString())){
 					updateProductoLista(response.data);
-					
-				    return;
+					return;
 
 				}
       	    	

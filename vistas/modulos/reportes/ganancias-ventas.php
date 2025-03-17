@@ -11,8 +11,8 @@ if(isset($_GET["fechaInicial"])){
 
 }else{
 
-$fechaInicial = date("Y-m-d");
-$fechaFinal = date("Y-m-d");
+    $fechaInicial = date("Y-m-d");
+    $fechaFinal = date("Y-m-d");   
 
 }
 
@@ -51,7 +51,9 @@ GRÁFICO DE VENTAS
             </thead>
             <tbody>
                 <?php 
-                    ControladorVentas::ctrGananciaVentas($fechaInicial, $fechaFinal);
+                    $ventas = ControladorVentas::ctrGananciaVentas($fechaInicial, $fechaFinal);
+
+                    echo $ventas['content'];
                 ?>
                 
             </tbody>

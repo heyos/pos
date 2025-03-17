@@ -337,3 +337,5 @@ Stack trace:
 [28-Jul-2024 13:10:49 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 192
 [28-Jul-2024 13:11:50 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 192
 [03-Aug-2024 13:50:28 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 192
+[16-Mar-2025 20:59:30 America/Lima] PHP Warning:  Undefined variable $fechaInicial in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\reportes-compras\reporte-capital.php on line 62
+[16-Mar-2025 20:59:30 America/Lima] PHP Warning:  Undefined variable $fechaFinal in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\reportes-compras\reporte-capital.php on line 62

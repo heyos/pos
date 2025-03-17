@@ -776,6 +776,7 @@ class ControladorVentas extends Controller{
 
 		$respuesta = ModeloVentas::all($params);
 		$data = $respuesta['data'];
+		$saldo = 0;
 
 		if(count($data) > 0){
 			
@@ -882,7 +883,10 @@ class ControladorVentas extends Controller{
 		}
 
 
-		echo $salida;
+		return array(
+			'content' => $salida,
+			'saldo' => $saldo
+		);
 	}
 
 	public static function capitalAcumulado($fechaInicial, $fechaFinal,$all = false){
@@ -1002,5 +1006,10 @@ class ControladorVentas extends Controller{
 
         return $codigo;
     }
+
+	public static function getLastDayMonth($date){
+		list($year, $mon, $day) = explode('-', $date);
+		return date("Y-m-d", (mktime(0, 0, 0, $mon + 1, 1, $year) - 1));
+	}
 
 }

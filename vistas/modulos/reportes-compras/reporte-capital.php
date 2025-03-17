@@ -52,13 +52,32 @@ $mostrar = 'desde '.$desde.' hasta '.$hasta;
                 ?>
 
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>Total</td>
+                    <td colspan="4">
+                        <strong>Total</strong>
+                    </td>
                     <td><?php echo number_format($total,2); ?></td>
                 </tr>
-                
+                <?php
+                $fechaInicial = date("Y-m")."-01";
+                $fechaFinal = ControladorVentas::getLastDayMonth($fechaInicial);
+                $ventas = ControladorVentas::ctrGananciaVentas($fechaInicial, $fechaFinal);
+                $ganancia = $ventas['saldo'];
+                ?>
+                <tr>
+                    <td colspan="4">
+                        <strong>Ganancia [<?php echo $fechaInicial." hasta ".$fechaFinal; ?>]</strong>
+                    </td>
+                    <td><?php echo number_format($ganancia,2); ?></td>
+                </tr>
+                <?php
+                $efectivo = $total+$ganancia;
+                ?>
+                <tr>
+                    <td colspan="4">
+                        <strong>Efectivo en caja</strong>
+                    </td>
+                    <td><?php echo number_format($efectivo,2); ?></td>
+                </tr>
             </tbody>
             
         </table>
