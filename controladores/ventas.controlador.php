@@ -908,7 +908,7 @@ class ControladorVentas extends Controller{
 		}else{
 			$term = sprintf("fecha_pago BETWEEN '%s' AND '%s'",$fechaInicial,$fechaFinal);
 		}
-
+		
 		$params = array(
 			'table' => $tabla,
 			'columns' => '*',

@@ -43,9 +43,12 @@ class ReporteCapitalController extends Controller {
 
 		$reporte = ReporteCapitalModel::firstOrAll($table,$where,'first');
 		$detalle = [];
-
+		/*
+		echo "<pre>";
+		print_r($reporte);
+		echo "</pre>";
+		*/
 		if(!empty($reporte)){
-
 			$arrInicio = $reporte['capital'];
 			$detalle = json_decode($reporte['detalle'],true);
 			$f_inicio = $reporte['f_fin'];
@@ -59,6 +62,8 @@ class ReporteCapitalController extends Controller {
 				$arrAcumulado = ControladorVentas::capitalAcumulado($f_inicio, $f_fin);
 				$arrGastado = ComprasController::capitalGastado($f_inicio, $f_fin);
 			}
+
+			//echo $f_inicio." ".$f_fin." ".$type;
 
 		}else{
 			$f_inicio = $f_fin;

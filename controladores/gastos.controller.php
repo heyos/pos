@@ -22,7 +22,7 @@ class GastosController extends Controller {
         }else{
             $term = sprintf("fecha BETWEEN '%s' AND '%s'",$fechaInicial,$fechaFinal);
         }
-
+        
         $columns = '
             SUM(importe) importe_capital
         ';
