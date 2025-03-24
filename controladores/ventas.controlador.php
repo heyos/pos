@@ -827,18 +827,20 @@ class ControladorVentas extends Controller{
 
 			foreach ($arrayUniqueKey as $value) {
 
+				$gananciaXCategoria = array_sum(array_column($gananciaCategoria, $value));
+
 				$salida .='
 					<tr>
 						<td>'.$value.'</td>
 						<td align="right">'.array_sum(array_column($totalPrecioCompraCategoria, $value)).'</td>
 						<td align="right">'.array_sum(array_column($totalVendidoCategoria, $value)).'</td>
-						<td align="right">'.array_sum(array_column($gananciaCategoria, $value)).'</td>
+						<td align="right">'.number_format($gananciaXCategoria,1).'</td>
 					</tr>
 				';
 
 				$totalPC += array_sum(array_column($totalPrecioCompraCategoria, $value));
 				$totalVendido += array_sum(array_column($totalVendidoCategoria, $value));
-				$ganancia += array_sum(array_column($gananciaCategoria, $value));
+				$ganancia += round($gananciaXCategoria,1);
 				
 			}
 					
@@ -846,8 +848,8 @@ class ControladorVentas extends Controller{
 			$salida .='
 					<tr>
 						<td><strong>Total</strong></td>
-						<td align="right">'.$totalPC.'</td>
-						<td align="right">'.$totalVendido.'</td>
+						<td align="right">'.number_format($totalPC,1).'</td>
+						<td align="right">'.number_format($totalVendido,1).'</td>
 						<td align="right">'.number_format($ganancia,2).'</td>
 					</tr>
 			';
@@ -859,7 +861,7 @@ class ControladorVentas extends Controller{
 						<td><strong>Ganancia consumida</strong></td>
 						<td align="right"></td>
 						<td align="right"></td>
-						<td align="right">'.number_format($gastado,2).'</td>
+						<td align="right">'.number_format($gastado,1).'</td>
 					</tr>
 			';
 
@@ -870,7 +872,7 @@ class ControladorVentas extends Controller{
 						<td><strong>Saldo</strong></td>
 						<td align="right"></td>
 						<td align="right"></td>
-						<td align="right">'.number_format($saldo,2).'</td>
+						<td align="right">'.number_format($saldo,1).'</td>
 					</tr>
 			';
 

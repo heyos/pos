@@ -41,11 +41,11 @@ $mostrar = 'desde '.$desde.' hasta '.$hasta;
                                 <td>'.$data['inicio'].'</td>
                                 <td>'.$data['acumulado'].'</td>
                                 <td>'.$data['gastado'].'</td>
-                                <td>'.number_format($data['total'],2).'</td>
+                                <td>'.number_format($data['total'],1).'</td>
                             </tr>
                         ';
-
-                        $total += floatval($data['total']);
+                        //$tot = number_format($data['total'],1);
+                        $total += round(doubleval($data['total']),1);
                     }
 
                     
@@ -67,7 +67,7 @@ $mostrar = 'desde '.$desde.' hasta '.$hasta;
                     <td colspan="4">
                         <strong>Ganancia [<?php echo $fechaInicial." hasta ".$fechaFinal; ?>]</strong>
                     </td>
-                    <td><?php echo number_format($ganancia,2); ?></td>
+                    <td><?php echo number_format($ganancia,1); ?></td>
                 </tr>
                 <?php
                 $efectivo = $total+$ganancia;
@@ -76,7 +76,7 @@ $mostrar = 'desde '.$desde.' hasta '.$hasta;
                     <td colspan="4">
                         <strong>Efectivo en caja</strong>
                     </td>
-                    <td><?php echo number_format($efectivo,2); ?></td>
+                    <td><?php echo number_format($efectivo,1); ?></td>
                 </tr>
             </tbody>
             

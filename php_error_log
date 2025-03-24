@@ -339,3 +339,31 @@ Stack trace:
 [03-Aug-2024 13:50:28 America/Lima] PHP Warning:  getimagesize(): Filename cannot be empty in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\productos.controlador.php on line 192
 [16-Mar-2025 20:59:30 America/Lima] PHP Warning:  Undefined variable $fechaInicial in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\reportes-compras\reporte-capital.php on line 62
 [16-Mar-2025 20:59:30 America/Lima] PHP Warning:  Undefined variable $fechaFinal in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\reportes-compras\reporte-capital.php on line 62
+[23-Mar-2025 21:16:05 America/Lima] PHP Fatal error:  Uncaught TypeError: array_column(): Argument #1 ($array) must be of type array, float given in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php:830
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php(830): array_column(48.29, 'Libreria')
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\reportes\ganancias-ventas.php(54): ControladorVentas::ctrGananciaVentas('2025-03-01', '2025-03-31')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\reportes.php(100): include('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(177): include('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(32): ControladorPlantilla::ctrPlantilla()
+#6 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\controladores\ventas.controlador.php on line 830
+[24-Mar-2025 02:11:11 America/Lima] PHP Fatal error:  Uncaught TypeError: number_format(): Argument #1 ($num) must be of type float, string given in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\reportes-compras\reporte-capital.php:44
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\reportes-compras\reporte-capital.php(44): number_format('1,128.6', 1)
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\reportes-compras.php(90): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(177): include('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(32): ControladorPlantilla::ctrPlantilla()
+#5 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\reportes-compras\reporte-capital.php on line 44
+[24-Mar-2025 02:11:58 America/Lima] PHP Fatal error:  Uncaught TypeError: number_format(): Argument #1 ($num) must be of type float, string given in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\reportes-compras\reporte-capital.php:47
+Stack trace:
+#0 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\reportes-compras\reporte-capital.php(47): number_format('1,128.6', 1)
+#1 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\reportes-compras.php(90): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hrcody-sistemas\pos\vistas\plantilla.php(177): include('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\hrcody-sistemas\pos\controladores\plantilla.controlador.php(7): include('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\hrcody-sistemas\pos\index.php(32): ControladorPlantilla::ctrPlantilla()
+#5 {main}
+  thrown in C:\xampp\htdocs\hrcody-sistemas\pos\vistas\modulos\reportes-compras\reporte-capital.php on line 47

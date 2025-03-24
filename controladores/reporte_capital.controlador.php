@@ -93,9 +93,9 @@ class ReporteCapitalController extends Controller {
 				$total = $inicio + $acumulado - $gastado;
 				
 				$arrTotal[$name] = array(
-					'inicio' => number_format($inicio,2),
-					'acumulado' => number_format($acumulado,2),
-					'gastado' => number_format($gastado,2),
+					'inicio' => number_format($inicio,1),
+					'acumulado' => number_format($acumulado,1),
+					'gastado' => number_format($gastado,1),
 					'total' => $total
 				);
 			}
