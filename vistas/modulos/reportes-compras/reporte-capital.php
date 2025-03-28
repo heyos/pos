@@ -1,6 +1,6 @@
 <?php
 
-$response = ReporteCapitalController::showReporteCapital();
+$response = ReporteCapitalController::showReporteCapital(['viewReport' => true]);
 $desde = date('d/m/Y',strtotime($response['desde']));
 $hasta = date('d/m/Y',strtotime($response['hasta']));
 $mostrar = 'desde '.$desde.' hasta '.$hasta;

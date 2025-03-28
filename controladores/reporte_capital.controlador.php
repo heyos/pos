@@ -13,6 +13,7 @@ class ReporteCapitalController extends Controller {
 		);
 
 		$type = 'new';
+		$viewReport = false;
 
 		if($params){
 
@@ -24,6 +25,10 @@ class ReporteCapitalController extends Controller {
 						['id',$params['id']]
 					);
 				}
+			}
+
+			if(array_key_exists('viewReport',$params)){
+				$viewReport = $params['viewReport'];
 			}
 				
 		}
@@ -38,8 +43,8 @@ class ReporteCapitalController extends Controller {
 		
 		$f_inicio = '';
 		$hoy = date('Y-m-d');
-		$f_fin = date('Y-m-d',strtotime('-1day',strtotime($hoy)));
-		//$f_fin = "2024-04-15";
+		$f_fin = !$viewReport ? date('Y-m-d',strtotime('-1day',strtotime($hoy))) : $hoy;
+		//$f_fin = "2025-03-27";
 
 		$reporte = ReporteCapitalModel::firstOrAll($table,$where,'first');
 		$detalle = [];
