@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2025-04-09 03:47:41
+Date: 2025-04-09 03:59:27
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -154,7 +154,7 @@ CREATE TABLE `gastos` (
   `utilizado` enum('1','0') NOT NULL DEFAULT '0',
   `deleted` enum('0','1') NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- ----------------------------
 -- Records of gastos
@@ -236,6 +236,7 @@ INSERT INTO `gastos` VALUES ('76', 'codijisa', 'capital', null, '2025-03-31', '4
 INSERT INTO `gastos` VALUES ('77', 'compra de coca cola', 'capital', null, '2025-03-30', '60.7', '0', '0');
 INSERT INTO `gastos` VALUES ('78', 'pepsi', 'capital', null, '2025-04-02', '45.5', '0', '0');
 INSERT INTO `gastos` VALUES ('79', 'kr y agua', 'capital', null, '2025-04-04', '36.5', '0', '0');
+INSERT INTO `gastos` VALUES ('80', 'adelanto de ganancia', 'ganancia', null, '2025-04-08', '24', '0', '0');
 
 -- ----------------------------
 -- Table structure for `pago_deuda`
